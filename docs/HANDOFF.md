@@ -1,11 +1,11 @@
-s# Cross-Agent Handoff — SKILLAX AI Platform
+# Cross-Agent Handoff — SKILLAX AI Platform
 
 ## 1. Current Project Objective
 Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI Platform** for the SDC Aiversecity Hackathon (Domain 1), strictly respecting the No-Database invariant, deterministic career matching, Gemini CV extraction, and Replit deployment readiness.
 
 ## 2. Current Phase & Overall Completion Status
 - **Current Phase:** Phase 5 (Live Trend Evidence & What-if Simulator) — **COMPLETED**
-- **Overall Completion:** Core prototype tasks and TASK-028 completed; current feature changes are on `codex/live-trend-simulator`.
+- **Overall Completion:** Core prototype tasks and TASK-028 completed on `codex/live-trend-simulator`.
 
 ## 3. Latest Completed Tasks
 - **TASK-028**: Added live RSS normalization, attribution, and stale/error handling to Radar; decoupled research articles from career scores; added Moderate vs Rapid simulator comparison using existing ranking/gap/roadmap logic. TypeScript, 16/16 tests, and 18-route production build passed.
@@ -22,15 +22,15 @@ Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI
 - Complete workspace (`README.md`, `.replit`, `app/`, `lib/`, `components/`, `tests/`)
 
 ## 7. Last Verified Git Commit
-- Feature branch base: `697d726`; TASK-028 changes are currently uncommitted.
+- `0299b08` (`feat: add evidence-backed trends and career scenarios`).
 
 ## 8. Current Git Branch & Working-Tree Status
 - Branch: `codex/live-trend-simulator`
-- Status: TASK-028 implementation and documentation changes present; verification passed.
+- Status: Clean working tree after TASK-028 commit; verification passed.
 
 ## 9. Last Successful Build or Test Results
-- `npm run build`: Compiled successfully (19/19 static & dynamic routes, 0 type errors).
-- `npm test`: 8/8 unit tests passed in 14.6ms.
+- `npm run build`: Compiled successfully (18/18 routes; isolated copy used to protect running dev server output).
+- `npm test`: 16/16 unit tests passed; `npx tsc --noEmit` passed.
 
 ## 10. Known Bugs & Unresolved Blockers
 - None.
