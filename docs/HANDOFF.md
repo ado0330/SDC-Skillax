@@ -8,19 +8,18 @@ Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI
 - **Overall Completion:** ~10% (Project Memory & Architecture established; moving to Next.js project shell initialization).
 
 ## 3. Latest Completed Task
-- **TASK-009**: Implemented Trend Radar (`/radar`) featuring Research Activity (RSS feed & fallback) and Workforce Demand time-series trend analytics with statistical comparability checks.
+- **TASK-010**: Implemented Career Matches Directory (`/careers`) and Detail View (`/careers/[id]`) with ScoreRing, ScoreDecompositionBar, ProficiencyGapChart, and SDG badges.
 
 ## 4. Task Currently in Progress
-- None (TASK-009 completed; ready for TASK-010).
+- None (TASK-010 completed; ready for TASK-011).
 
 ## 5. Next Exact Task to Execute
-- **TASK-010**: Implement Career Matches Directory (`/careers`) and Detail View (`/careers/[id]`) with 4/5-part score ring, score decomposition bar chart, and proficiency gap comparison.
+- **TASK-011**: Implement 4-Phase Learning Roadmap (`/roadmap`) with estimated hours, learning resource links, and interactive milestone completion checkoffs.
 
 ## 6. Files & Modules Relevant to That Task
-- `app/careers/page.tsx`
-- `app/careers/[id]/page.tsx`
-- `components/ScoreRing.tsx`
-- `components/BarCharts.tsx`
+- `app/roadmap/page.tsx`
+- `components/ExportModal.tsx`
+- `lib/domain/roadmap.ts`
 
 ## 7. Last Verified Git Commit
 - `0ed7e40` (Staging TASK-002 commit next).

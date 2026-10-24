@@ -172,5 +172,23 @@ This document is an append-only journal of all completed development tasks, veri
 - **Commands & Verification:**
   - `npm run build` (Clean build of 8/8 routes)
   - `npm test` (8/8 unit tests passed)
-- **Git Commit:** Pending commit.
+- **Git Commit:** 6a6e875 ("feat(radar): implement Trend Radar with research RSS and workforce comparability engine")
 - **Next Recommended Task:** TASK-010: Implement Career Matches Directory (`/careers`) and Detail View (`/careers/[id]`) with 4/5-part score ring, score decomposition bar chart, and proficiency gap comparison.
+
+---
+
+### Entry 010 | 2026-10-24 10:55:00 +08:00
+- **Task ID:** TASK-010 (Career Matches Directory & Detailed Mathematical Audit)
+- **Status:** COMPLETED
+- **Description:** Implemented the Career Matches directory (`/careers`) and audit view (`/careers/[id]`) featuring animated ScoreRing, ScoreDecompositionBar, ProficiencyGapChart, UN SDG badges, and target career designation.
+- **What changed:**
+  - Implemented `components/ScoreRing.tsx` with animated circular SVG gradient progress and score typography.
+  - Implemented `components/BarCharts.tsx` providing `ScoreDecompositionBar` and `ProficiencyGapChart`.
+  - Implemented `components/SdgBadge.tsx` with official UN brand colors and WCAG luminance contrast text.
+  - Implemented `app/careers/page.tsx` ranking 10 catalogued benchmark occupations with filters, missing skill tags, study hours, and target role badges.
+  - Implemented `app/careers/[id]/page.tsx` providing full mathematical audit equation disclosure, gap dual-bars, O*NET links, automation exposure index, and target role setting.
+- **Commands & Verification:**
+  - `npm run build` (Clean build of 9/9 pages)
+  - `npm test` (8/8 domain tests passed)
+- **Git Commit:** Pending commit.
+- **Next Recommended Task:** TASK-011: Implement 4-Phase Learning Roadmap (`/roadmap`) with estimated hours, learning resource links, and interactive milestone completion checkoffs.

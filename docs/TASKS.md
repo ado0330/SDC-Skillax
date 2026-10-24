@@ -55,9 +55,9 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
   - *Files:* `app/radar/page.tsx`, `app/api/research/route.ts`, `lib/domain/workforce.ts`, `components/ManageDataModal.tsx`
   - *Acceptance:* Displays publication dates, sources, skill tags, and workforce time-series with comparability checks.
 
-- [ ] **TASK-010**: Implement Career Matches Directory (`/careers`) and Detail View (`/careers/[id]`) with 4/5-part score ring, score decomposition bar chart, and proficiency gap comparison.
-  - *Status:* TODO
-  - *Files:* `app/careers/page.tsx`, `app/careers/[id]/page.tsx`, `components/ScoreRing.tsx`, `components/BarCharts.tsx`
+- [x] **TASK-010**: Implement Career Matches Directory (`/careers`) and Detail View (`/careers/[id]`) with 4/5-part score ring, score decomposition bar chart, and proficiency gap comparison.
+  - *Status:* DONE
+  - *Files:* `app/careers/page.tsx`, `app/careers/[id]/page.tsx`, `components/ScoreRing.tsx`, `components/BarCharts.tsx`, `components/SdgBadge.tsx`
   - *Acceptance:* 10 roles ranked deterministically; clicking role displays full mathematical audit, gap dual-bars, and "Set as Target" action.
 
 - [ ] **TASK-011**: Implement 4-Phase Learning Roadmap (`/roadmap`) with estimated hours, learning resource links, and interactive milestone completion checkoffs.
