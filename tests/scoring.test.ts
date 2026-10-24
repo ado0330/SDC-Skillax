@@ -90,6 +90,20 @@ describe("Domain Intelligence Tests — SKILLAX AI", () => {
     assert.equal(aiInjected.level, 3, "Injected AI literacy should be Level 3");
   });
 
+  test("Moderate and Rapid comparisons reuse the same profile and produce reproducible scenario-only changes", () => {
+    const role = ROLES_BY_ID.get("business-analyst")!;
+    const moderateA = scoreCareerRole(role, sampleProfileSkills, sampleInterests, "moderate", 0, [], []);
+    const moderateB = scoreCareerRole(role, sampleProfileSkills, sampleInterests, "moderate", 0, [], []);
+    const rapid = scoreCareerRole(role, sampleProfileSkills, sampleInterests, "rapid", 0, [], []);
+
+    assert.deepEqual(moderateA, moderateB);
+    assert.equal(rapid.components.interestScore, moderateA.components.interestScore);
+    assert.equal(rapid.components.transferableScore, moderateA.components.transferableScore);
+    assert.notEqual(rapid.components.marketScore, moderateA.components.marketScore);
+    assert.notEqual(rapid.components.skillsScore, moderateA.components.skillsScore);
+    assert.match(rapid.auditExplanation, /Scenario Market Index/);
+  });
+
   test("Mathematical 4-Component Baseline & 5-Component Workforce Integration", () => {
     const role = ROLES_BY_ID.get("business-analyst")!;
     assert.ok(role);

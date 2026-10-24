@@ -32,7 +32,7 @@ Rather than relying on ungrounded generative LLM advice that hallucinates suitab
 | **Strict No-Database Rule** | **Zero database connections** (no SQL, Prisma, Drizzle, SQLite, or migrations). All state is kept ephemeral in RAM or stored client-side in browser `localStorage` (`skillax_workspace_v2`). Sessions can be purged atomically via Settings. |
 | **Deterministic Intelligence** | Career matching and scenario scores are pure mathematical functions in `lib/domain/`. Identical inputs yield identical rankings every single time with zero LLM hallucination. |
 | **Consented Ephemeral AI** | Google Gemini 2.5 Flash SDK (`@google/genai`) extracts structured profiles server-side. Memory buffers are zeroed immediately; raw CV files and text are **never written to disk**. Staged review allows human-in-the-loop editing. |
-| **Evidence Separation** | Scientific research signals (Hugging Face / MIT AI News) are tracked as proxies for scientific activity, strictly separated from empirical workforce time-series. |
+| **Evidence Separation** | Hugging Face and MIT News RSS items show publication activity only. They never affect career scores or stand in for vacancies, wages, or workforce demand. |
 | **Human-in-the-Loop Replanning** | Recalculations triggered by data updates stage proposals in `/updates` with status `Pending Review`. Saved roadmaps are never silently overwritten; completed milestone IDs are strictly preserved. |
 
 ---
@@ -71,8 +71,14 @@ $$\text{overallMatch} = \text{round}(0.90 \times \text{baselineScore} + 0.10 \ti
 ├── /methodology                → Algorithmic formula disclosures, evidence separation, O*NET mappings
 ├── /settings                   → Dark/Light themes, reduced motion, atomic workspace purge
 ├── /api/cv/analyze             → Stateless ephemeral Gemini CV extraction handler with keyword fallback
-└── /api/research               → Scientific research signal feed with 60-second caching
+└── /api/research               → Hugging Face Blog and MIT AI News RSS; server-side 60-second cache
 ```
+
+### Trend evidence and refresh behavior
+
+The Radar fetches the [Hugging Face Blog RSS](https://huggingface.co/blog/feed.xml) and [MIT AI News artificial intelligence RSS](https://news.mit.edu/rss/topic/artificial-intelligence2) on explicit user refresh. Each feed is attributed and linked to its original item; the interface shows publication date when supplied and otherwise labels it unavailable. The server caches successful results for 60 seconds. Evidence older than six hours is marked stale; a failed refresh preserves the user’s last stored items and says they may be stale. If no successful result exists, the route reports an error and the Radar stays usable with an empty state. There is no synthetic article fallback.
+
+Titles and short feed summaries are displayed with source links; no full article is republished. Related skills are conservative deterministic keyword matches. Article direction is always uncertain and cannot change career scores. MIT News describes its RSS as being for syndication and sets republication conditions in its [terms of use](https://news.mit.edu/terms-of-use); Hugging Face's [terms of service](https://huggingface.co/terms-of-service) govern use of its service content. This prototype links to original pages and uses only compact metadata/snippets. Feed providers may change formats or access terms.
 
 ---
 

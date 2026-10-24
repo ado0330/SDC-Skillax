@@ -37,6 +37,7 @@ SKILLAX AI is architected as a **modular, database-free, deterministic Single-Pa
 │   │   ├── gaps.ts            # Shortfall calculation and ordering
 │   │   ├── roadmap.ts         # 4-phase gap-based pathway generator
 │   │   ├── workforce.ts       # Comparability, trend thresholding, series linking
+│   │   ├── trends.ts          # RSS normalization, conservative skill mapping, deduplication
 │   │   └── types.ts           # Core domain entity types
 │   ├── schemas/               # Zod validation schemas
 │   │   ├── profile.ts         # User profile, skills, constraints
@@ -48,7 +49,7 @@ SKILLAX AI is architected as a **modular, database-free, deterministic Single-Pa
 │   │   ├── roles.ts           # 10 catalogued occupations with requirements & O*NET
 │   │   ├── sdgs.ts            # 17 UN SDGs with brand colors and definitions
 │   │   ├── learningResources.ts # Curated free public learning resources
-│   │   ├── fallbackSignals.ts # Seed research signals (Hugging Face / MIT)
+│   │   ├── fallbackSignals.ts # Empty by design; no synthetic articles presented as real
 │   │   ├── initialWorkforce.ts # Synthetic workforce baseline observations
 │   │   ├── syntheticWorkers.ts # 3 demo cohort profiles (Aina, Daniel, Kumar)
 │   │   └── sampleCvs.ts       # Synthetic CV presets for one-click intake
@@ -103,8 +104,6 @@ User Profile (Skills 0-5, Interests)
      +
 Scenario Settings (Slower / Moderate / Rapid, Boost)
      +
-Active Research Signals (HF / MIT mentions)
-     +
 Eligible Workforce Series (Time-series trend)
      │
      ▼
@@ -113,7 +112,7 @@ Eligible Workforce Series (Time-series trend)
      ├── Direct Skills Alignment (50%)
      ├── Transferable Category Alignment (20%)
      ├── Industry & Role Interest Fit (15%)
-     ├── Research Activity Index (15%)
+    ├── Scenario Market Index (15%; articles do not affect it)
      └── Optional Workforce Trend Indicator (10% scale)
      │
      ▼
@@ -123,7 +122,15 @@ Match Results [10 Occupations Ranked]
      └── Estimated Learning Hours
 ```
 
-### 4.2 Consented CV Extraction Flow
+### 4.2 Research trend evidence
+The server fetches Hugging Face Blog and MIT News AI RSS only on explicit refresh, with a 60-second in-memory cache and 5-second per-source timeout. Each item retains its source URL, optional publication date, and retrieval time. Duplicates are removed by normalized URL. Missing dates stay null; invalid entries without a safe title and HTTP(S) URL are dropped. Evidence older than six hours is marked stale. No server cache plus source failure returns an error with an empty signal list; the client preserves any previous locally stored items and says they may be stale. An old successful server cache is returned with stale status after a failed refresh. Synthetic article fallback is intentionally disabled. Skill associations are deterministic keyword matches, and publication evidence always has uncertain workforce direction.
+
+MIT News RSS is offered for syndication; its [terms of use](https://news.mit.edu/terms-of-use) specify conditions for republishing stories. Hugging Face content is subject to its [terms of service](https://huggingface.co/terms-of-service). The UI shows compact metadata and a short feed summary with attribution and a link to the source, not full articles or images. Review each provider's terms if reuse expands beyond this prototype.
+
+### 4.3 Scenario comparison
+The simulator compares Moderate and Rapid using the same profile, deterministic `rankCareerRoles` scores, skill gaps, and `generateLearningRoadmap` outputs. Rapid changes the AI literacy requirement by +1 (maximum level 5), or adds level 3 where absent, and applies the existing technical-share/exposure market adjustment. Research RSS items do not affect either score or roadmap. These outputs are scenario estimates, not forecasts.
+
+### 4.4 Consented CV Extraction Flow
 ```
 User Uploads Synthetic PDF / Pastes Text
      │

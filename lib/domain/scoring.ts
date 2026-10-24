@@ -45,7 +45,7 @@ export function scoreCareerRole(
   interests: string[],
   scenario: AIScenario = "moderate",
   simulationBoost: number = 0,
-  researchSignals: ResearchSignal[] = [],
+  _researchSignals: ResearchSignal[] = [],
   workforceObservations: WorkforceObservation[] = []
 ): {
   components: ComponentScores;
@@ -116,16 +116,7 @@ export function scoreCareerRole(
   }
   const interestScore = interestMatch ? 100 : 25;
 
-  // 5. Research Market Activity Index (marketScore - 15% weight)
-  let evidenceSum = 0;
-  for (const req of requirements) {
-    const matchingSignals = researchSignals.filter((sig) =>
-      sig.skillIds.includes(req.skillId)
-    );
-    evidenceSum += Math.min(5, matchingSignals.length);
-  }
-  const evidence = evidenceSum / requirements.length;
-
+  // 5. Scenario Market Index (marketScore - 15% weight)
   const technicalReqCount = requirements.filter((r) =>
     TECHNICAL_SKILLS.has(r.skillId)
   ).length;
@@ -138,8 +129,9 @@ export function scoreCareerRole(
   );
   const simulationAdjustment = simulationBoost * technicalShare * 0.4;
 
-  const rawMarket =
-    40 + evidence * 8 + scenarioEffect + simulationAdjustment;
+  // Research publications are not labor-market evidence. Keep the existing
+  // market component deterministic without allowing article volume to move it.
+  const rawMarket = 40 + scenarioEffect + simulationAdjustment;
   const marketScore = Number(clamp(0, 100, rawMarket).toFixed(1));
 
   // 6. Baseline Score (weighted sum of 4 core components)
@@ -193,7 +185,7 @@ export function scoreCareerRole(
       ? ` + (Workforce Demand: ${workforceScore} × 10% = ${(workforceScore * 0.1).toFixed(1)}) = ${overallMatch}%`
       : ` = ${overallMatch}% (No eligible comparable workforce series detected; baseline scoring applied).`;
 
-  const auditExplanation = `Deterministic Score Decomposition: Direct Skills (${skillsScore} × 50% = ${(skillsScore * 0.5).toFixed(1)}) + Transferable (${transferableScore} × 20% = ${(transferableScore * 0.2).toFixed(1)}) + Interest (${interestScore} × 15% = ${(interestScore * 0.15).toFixed(1)}) + Research Market (${marketScore} × 15% = ${(marketScore * 0.15).toFixed(1)}) -> Baseline: ${baselineScore}%${wfExplanation}`;
+  const auditExplanation = `Deterministic Score Decomposition: Direct Skills (${skillsScore} × 50% = ${(skillsScore * 0.5).toFixed(1)}) + Transferable (${transferableScore} × 20% = ${(transferableScore * 0.2).toFixed(1)}) + Interest (${interestScore} × 15% = ${(interestScore * 0.15).toFixed(1)}) + Scenario Market Index (${marketScore} × 15% = ${(marketScore * 0.15).toFixed(1)}) -> Baseline: ${baselineScore}%${wfExplanation}`;
 
   return {
     components: {

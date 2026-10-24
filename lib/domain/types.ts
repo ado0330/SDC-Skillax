@@ -65,12 +65,15 @@ export interface ResearchSignal {
   title: string;
   source: string;
   sourceUrl: string;
-  publishedAt: string;
+  publishedAt: string | null;
   retrievedAt: string;
   mode: "live" | "cached" | "synthetic";
   observation: string;
   skillIds: string[];
   direction: "Research activity";
+  trendDirection: "rising" | "falling" | "uncertain";
+  evidenceType: "external" | "synthetic" | "inference";
+  limitations: string;
 }
 
 export interface WorkforceObservation {

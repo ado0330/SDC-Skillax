@@ -152,3 +152,13 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
 
 - [x] **TASK-027**: Centralize Royal Blue primary button colors and visibility states. Light #1D4ED8 / hover #1E40AF; dark #2563EB / hover #1D4ED8; white text. Preserve dimensions and actions. Browser verified both themes, focus and disabled states; TypeScript passed. Safari unavailable on this Windows host.
   - *Status:* DONE
+
+---
+
+## Phase 5 — Live Trend Evidence & What-if Simulator
+
+- [x] **TASK-028**: Normalize live public research feeds in the existing Radar and make source failure, stale results, dates, attribution, skill mapping, and uncertainty explicit. Keep research evidence out of deterministic career scoring. Add a Moderate vs Rapid scenario comparison using existing ranking, gaps, and roadmap functions.
+  - *Status:* DONE
+  - *Files:* `app/api/research/route.ts`, `app/radar/page.tsx`, `app/scenarios/page.tsx`, `lib/domain/trends.ts`, `lib/domain/scoring.ts`, `lib/schemas/evidence.ts`, `lib/server/researchCache.ts`, `lib/workspace/WorkspaceContext.tsx`, tests, README and architecture/methodology docs.
+  - *Acceptance:* Source-backed items preserve optional publication dates and retrieval timestamps; URL deduplication and strict HTTP(S) attribution; uncertain research direction; explicit live/cached/stale/error states; no false synthetic fallback; explicit scenarios reuse current score/gap/roadmap logic; articles do not change career scores.
+  - *Verification:* `npx tsc --noEmit`; `npm test` (16/16); `npm run build` (18/18 routes). Build ran in an isolated temporary copy because the existing dev server was listening on port 3000; sandboxed font fetch initially failed, approved unsandboxed build passed.

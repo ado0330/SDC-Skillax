@@ -9,6 +9,7 @@ import { Panel } from "@/components/Panel";
 import { ScoreRing } from "@/components/ScoreRing";
 import { ROLES_CATALOG } from "@/lib/data/roles";
 import { rankCareerRoles } from "@/lib/domain/scoring";
+import { generateLearningRoadmap } from "@/lib/domain/roadmap";
 import { AIScenario } from "@/lib/domain/types";
 import {
   Sliders,
@@ -32,22 +33,10 @@ export default function ScenariosPage() {
     setSimulationBoost,
     researchSignals,
     workforceObservations,
+    completedMilestoneIds,
   } = useWorkspace();
 
   // Compute 3 scenario benchmarks across all 10 roles
-  const slowerMatches = useMemo(() => {
-    return rankCareerRoles(
-      ROLES_CATALOG,
-      profile.skills,
-      profile.interests,
-      profile.targetRoleId,
-      "slower",
-      0,
-      researchSignals,
-      workforceObservations
-    );
-  }, [profile.skills, profile.interests, profile.targetRoleId, researchSignals, workforceObservations]);
-
   const moderateMatches = useMemo(() => {
     return rankCareerRoles(
       ROLES_CATALOG,
@@ -74,19 +63,17 @@ export default function ScenariosPage() {
     );
   }, [profile.skills, profile.interests, profile.targetRoleId, researchSignals, workforceObservations]);
 
-  // Current active matches with boost
-  const activeMatches = useMemo(() => {
-    return rankCareerRoles(
-      ROLES_CATALOG,
-      profile.skills,
-      profile.interests,
-      profile.targetRoleId,
-      scenario,
-      simulationBoost,
-      researchSignals,
-      workforceObservations
-    );
-  }, [profile.skills, profile.interests, profile.targetRoleId, scenario, simulationBoost, researchSignals, workforceObservations]);
+  const comparisonRoleId = profile.targetRoleId || moderateMatches[0]?.role.id;
+  const moderateRoleMatch = moderateMatches.find((match) => match.role.id === comparisonRoleId);
+  const rapidRoleMatch = rapidMatches.find((match) => match.role.id === comparisonRoleId);
+  const moderateAiGap = moderateRoleMatch?.gaps.find((gap) => gap.skillId === "ai");
+  const rapidAiGap = rapidRoleMatch?.gaps.find((gap) => gap.skillId === "ai");
+  const moderateNextStep = moderateRoleMatch
+    ? generateLearningRoadmap(moderateRoleMatch.role, profile.skills, "moderate", new Set(completedMilestoneIds)).find((step) => !step.completed)
+    : undefined;
+  const rapidNextStep = rapidRoleMatch
+    ? generateLearningRoadmap(rapidRoleMatch.role, profile.skills, "rapid", new Set(completedMilestoneIds)).find((step) => !step.completed)
+    : undefined;
 
   const scenariosMeta = [
     {
@@ -96,7 +83,7 @@ export default function ScenariosPage() {
       description: "Gradual automation integration, constrained technical capital expenditure, and extended reliance on legacy organizational processes.",
       rules: [
         "AI literacy requirement reduced by 1 level on all roles (min 1)",
-        "Research market score lowered for technical skills",
+        "Scenario market adjustment: −10 × technical share + 0.05 × role exposure",
         "Roadmaps deprioritize AI and automation modules",
       ],
     },
@@ -107,7 +94,7 @@ export default function ScenariosPage() {
       description: "Steady digital adoption aligned with standard Malaysian national technology roadmaps and enterprise digitization programs.",
       rules: [
         "Standard catalogued role requirement thresholds",
-        "Neutral research market activity adjustments",
+        "No scenario adjustment to the market index",
         "Balanced gap sequencing across foundational and applied phases",
       ],
     },
@@ -118,7 +105,7 @@ export default function ScenariosPage() {
       description: "Aggressive generative AI rollout, enterprise agentic process integration, and widespread automated analytics workflows.",
       rules: [
         "AI literacy requirement increased by 1 (max 5) or injected at Level 3",
-        "Research market score boosted for high-exposure occupations",
+        "Scenario market adjustment: +20 × technical share − 0.10 × role exposure",
         "Roadmaps prioritize AI, ML, and automation gaps upfront",
       ],
     },
@@ -191,8 +178,8 @@ export default function ScenariosPage() {
 
         {/* Hypothetical Simulation Boost Slider (F-041) */}
         <Panel
-          title="Hypothetical Market Activity Boost (-100 to +100)"
-          subtitle="Simulate bidirectional research and demand acceleration on technical career tracks"
+          title="Hypothetical market adjustment (-100 to +100)"
+          subtitle="A user-controlled stress-test input; not observed demand"
           icon={<Gauge className="h-4 w-4" />}
         >
           <div className="space-y-4">
@@ -248,38 +235,47 @@ export default function ScenariosPage() {
           </div>
         </Panel>
 
-        {/* Cross-Scenario Score Comparison Table (F-040) */}
+        {/* What-if comparison reuses the deterministic career ranking and roadmap logic. */}
         <Panel
-          title="Cross-Scenario Comparative Audit Matrix"
-          subtitle="Side-by-side evaluation of all 10 catalogued occupations across Slower, Moderate, and Rapid scenarios"
+          title="Moderate vs Rapid adoption"
+          subtitle="Same profile and interests; scenario estimates, not employment predictions"
           icon={<Sliders className="h-4 w-4" />}
         >
+          {moderateRoleMatch && rapidRoleMatch && (
+            <div className="mb-4 grid gap-3 border-b border-card-border/60 pb-4 text-sm sm:grid-cols-2">
+              <div>
+                <p className="font-semibold text-foreground">{moderateRoleMatch.role.name}{profile.targetRoleId ? " · selected role" : " · current top match"}</p>
+                <p className="mt-1 text-muted-foreground">
+                  AI literacy requirement: Level {moderateAiGap?.requiredLevel ?? "not set"} → {rapidAiGap?.requiredLevel ?? "not set"}.
+                  {moderateAiGap && rapidAiGap ? ` Your level ${moderateAiGap.currentLevel}; gap ${moderateAiGap.gap} → ${rapidAiGap.gap}.` : " The role has no comparable AI literacy gap."}
+                </p>
+                <p className="mt-1 text-muted-foreground">
+                  Next roadmap step: Moderate {moderateNextStep?.title ?? "none"} · Rapid {rapidNextStep?.title ?? "none"}.
+                </p>
+              </div>
+              <p className="text-muted-foreground">
+                The Rapid scenario raises the AI literacy requirement by one level (or adds Level 3 where absent), and applies the existing technical-share and role-exposure market adjustment. Research articles do not alter scores.
+              </p>
+            </div>
+          )}
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm border-collapse">
               <thead>
                 <tr className="border-b border-card-border text-muted-foreground font-mono uppercase text-sm tracking-wider">
                   <th className="py-2.5 pr-4">Occupation Title</th>
                   <th className="py-2.5 px-3">Industry</th>
-                  <th className="py-2.5 px-3 text-center">Slower</th>
-                  <th className="py-2.5 px-3 text-center">Moderate</th>
-                  <th className="py-2.5 px-3 text-center">Rapid</th>
-                  <th className="py-2.5 px-3 text-center font-semibold text-foreground">Active ({scenario})</th>
-                  <th className="py-2.5 px-3 text-center">Sensitivity Delta</th>
+                  <th className="py-2.5 px-3 text-center">Moderate score / rank</th>
+                  <th className="py-2.5 px-3 text-center">Rapid score / rank</th>
+                  <th className="py-2.5 px-3 text-center">Change</th>
                   <th className="py-2.5 pl-4 text-right">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-card-border/60">
                 {ROLES_CATALOG.map((role) => {
-                  const slowScore =
-                    slowerMatches.find((m) => m.role.id === role.id)?.overallScore || 0;
-                  const modScore =
-                    moderateMatches.find((m) => m.role.id === role.id)?.overallScore || 0;
-                  const rapidScore =
-                    rapidMatches.find((m) => m.role.id === role.id)?.overallScore || 0;
-                  const currentScore =
-                    activeMatches.find((m) => m.role.id === role.id)?.overallScore || 0;
-
-                  const delta = rapidScore - slowScore;
+                  const moderateMatch = moderateMatches.find((match) => match.role.id === role.id)!;
+                  const rapidMatch = rapidMatches.find((match) => match.role.id === role.id)!;
+                  const delta = rapidMatch.overallScore - moderateMatch.overallScore;
+                  const rankDelta = moderateMatch.rank - rapidMatch.rank;
 
                   return (
                     <tr key={role.id} className="hover:bg-muted/30 transition-colors">
@@ -291,17 +287,11 @@ export default function ScenariosPage() {
                       <td className="py-3 px-3 text-muted-foreground">
                         {role.industry}
                       </td>
-                      <td className="py-3 px-3 text-center font-mono text-warning">
-                        {slowScore}%
-                      </td>
                       <td className="py-3 px-3 text-center font-mono text-primary">
-                        {modScore}%
+                        {moderateMatch.overallScore}% <span className="text-xs text-muted-foreground">#{moderateMatch.rank}</span>
                       </td>
                       <td className="py-3 px-3 text-center font-mono text-success">
-                        {rapidScore}%
-                      </td>
-                      <td className="py-3 px-3 text-center font-mono font-semibold text-foreground">
-                        {currentScore}%
+                        {rapidMatch.overallScore}% <span className="text-xs text-muted-foreground">#{rapidMatch.rank}</span>
                       </td>
                       <td className="py-3 px-3 text-center font-mono text-xs">
                         <span
@@ -313,7 +303,7 @@ export default function ScenariosPage() {
                               : "text-muted-foreground"
                           }
                         >
-                          {delta > 0 ? `+${delta}` : delta}%
+                          {delta > 0 ? `+${delta}` : delta} pts · {rankDelta > 0 ? `↑${rankDelta}` : rankDelta < 0 ? `↓${Math.abs(rankDelta)}` : "same rank"}
                         </span>
                       </td>
                       <td className="py-3 pl-4 text-right">

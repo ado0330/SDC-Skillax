@@ -26,3 +26,9 @@ export function formatDisplayDate(dateString: string): string {
     return dateString;
   }
 }
+
+export function formatDisplayTimestamp(dateString: string): string {
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return dateString;
+  return `${formatDisplayDate(dateString)} ${date.toISOString().slice(11, 16)} UTC`;
+}

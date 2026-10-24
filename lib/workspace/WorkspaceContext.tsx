@@ -23,6 +23,7 @@ import { INITIAL_WORKFORCE_OBSERVATIONS } from "../data/initialWorkforce";
 import { SAMPLE_CVS } from "../data/sampleCvs";
 import { rankCareerRoles } from "../domain/scoring";
 import { generateLearningRoadmap } from "../domain/roadmap";
+import { normalizeSignal } from "../domain/trends";
 
 const STORAGE_KEY = "skillax_workspace_v2";
 
@@ -124,7 +125,9 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
         if (data.profile) setProfile(data.profile);
         if (data.scenario) setScenarioState(data.scenario);
         if (typeof data.simulationBoost === "number") setSimulationBoostState(data.simulationBoost);
-        if (data.researchSignals) setResearchSignals(data.researchSignals);
+        if (Array.isArray(data.researchSignals)) {
+          setResearchSignals(data.researchSignals.map(normalizeSignal).filter((signal: ResearchSignal | null): signal is ResearchSignal => signal !== null));
+        }
         if (data.workforceObservations) setWorkforceObservations(data.workforceObservations);
         if (data.completedMilestoneIds) setCompletedMilestoneIds(data.completedMilestoneIds);
         if (data.savedRoadmap) setSavedRoadmap(data.savedRoadmap);

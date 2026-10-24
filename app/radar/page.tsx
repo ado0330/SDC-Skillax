@@ -5,7 +5,8 @@ import { useWorkspace } from "@/lib/workspace/useWorkspace";
 import { PageHeader } from "@/components/PageHeader";
 import { Panel } from "@/components/Panel";
 import { ManageDataModal } from "@/components/ManageDataModal";
-import { formatDisplayDate } from "@/lib/utils";
+import { formatDisplayDate, formatDisplayTimestamp } from "@/lib/utils";
+import { isSignalSetStale } from "@/lib/domain/trends";
 import { SKILLS_CATALOG } from "@/lib/data/skills";
 import {
   analyzeWorkforceSeries,
@@ -47,6 +48,11 @@ export default function RadarPage() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [refreshNotice, setRefreshNotice] = useState<string | null>(null);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const lastRetrievedAt = useMemo(() => {
+    const timestamps = researchSignals.map((signal) => Date.parse(signal.retrievedAt)).filter(Number.isFinite);
+    return timestamps.length ? new Date(Math.max(...timestamps)).toISOString() : null;
+  }, [researchSignals]);
+  const storedEvidenceIsStale = researchSignals.length > 0 && isSignalSetStale(lastRetrievedAt);
 
   // 1. Analyze Workforce Observations using pure domain logic
   const analyzedSeries = useMemo(() => {
@@ -99,17 +105,23 @@ export default function RadarPage() {
     try {
       const res = await fetch("/api/research");
       const data = await res.json();
-      if (data.signals) {
+      if (Array.isArray(data.signals) && ["live", "cached", "stale"].includes(data.status)) {
         setResearchSignals(data.signals);
       }
-      if (data.fromCache) {
-        setRefreshNotice("Refresh limited to once per minute; showing most recent retrieval.");
+      if (data.status === "live") {
+        setRefreshNotice(`Updated from public feeds${data.failedSources?.length ? `; ${data.failedSources.length} source unavailable` : ""}.`);
+      } else if (data.status === "cached") {
+        setRefreshNotice("Showing the most recent successful feed retrieval.");
+      } else if (data.status === "stale") {
+        setRefreshNotice("Feeds could not refresh. Showing stale external evidence from the last successful update.");
       } else {
-        setRefreshNotice("Live scientific research feeds synchronized successfully.");
+        setRefreshNotice(researchSignals.length
+          ? "Public feeds are unavailable. Existing evidence was kept and may be stale."
+          : "Public feeds are unavailable. Retry later; no new evidence was loaded.");
       }
-      setTimeout(() => setRefreshNotice(null), 4000);
+      if (data.status === "live" || data.status === "cached") setTimeout(() => setRefreshNotice(null), 6000);
     } catch {
-      setRefreshNotice("Feed unreachable. Displaying cached verified research evidence.");
+      setRefreshNotice("Could not reach the research service. Existing evidence is unchanged.");
     } finally {
       setIsRefreshing(false);
     }
@@ -153,7 +165,7 @@ export default function RadarPage() {
       <PageHeader
         eyebrow="Market Surveillance"
         title="Trend Radar & Market Intelligence"
-        description="Dual-track evidence monitoring technical research activity alongside statistical time-series workforce demand datasets."
+        description="Source-linked research activity and workforce demand evidence, kept separate."
       >
         {activeTab === "research" ? (
           <button
@@ -195,7 +207,7 @@ export default function RadarPage() {
           }`}
         >
           <Activity className="h-4 w-4" />
-          <span>Research Activity Feed ({researchSignals.length})</span>
+          <span>Research Activity ({researchSignals.length})</span>
         </button>
         <button
           onClick={() => setActiveTab("workforce")}
@@ -228,17 +240,22 @@ export default function RadarPage() {
               <ShieldAlert className="h-5 w-5 text-warning shrink-0 mt-0.5" />
               <div>
                 <h4 className="text-xs font-semibold uppercase tracking-wider text-warning">
-                  Separation of Evidence Invariant & Methodology Notice
+                  Research activity is not hiring demand
                 </h4>
                 <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
-                  Scientific research publications (Hugging Face Daily Papers and MIT AI News) measure technical community interest and algorithmic evolution. They are explicit proxies for technology velocity and <strong>must never be conflated with hiring demand, job vacancies, or wage growth</strong>.
+                  Publications show research activity. They do not establish job demand, vacancies, wages, or employment growth; trend direction stays uncertain.
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Sources: <a className="underline" href="https://huggingface.co/blog/feed.xml" target="_blank" rel="noreferrer">Hugging Face Blog RSS</a> · <a className="underline" href="https://news.mit.edu/rss/topic/artificial-intelligence2" target="_blank" rel="noreferrer">MIT AI News RSS</a>
+                  {lastRetrievedAt && <> · Last retrieved {formatDisplayTimestamp(lastRetrievedAt)}</>}
+                  {storedEvidenceIsStale && <span className="font-semibold text-warning"> · Stale; refresh to update</span>}
                 </p>
               </div>
             </div>
           </Panel>
 
           {/* Evidence Count per Skill Visualizer (F-026) */}
-          <Panel title="Research Mentions per Standard Skill" subtitle="Frequency of scientific citations across active signals">
+          <Panel title="Related skills" subtitle="Conservative keyword matches in the title and summary; not an employment trend">
             <div className="flex flex-wrap gap-2 pt-1">
               {SKILLS_CATALOG.map((skill) => {
                 const count = skillArticleCounts[skill.id] || 0;
@@ -294,6 +311,11 @@ export default function RadarPage() {
 
           {/* Signal Cards Feed */}
           <div className="space-y-4">
+            {filteredSignals.length === 0 && (
+              <Panel className="text-sm text-muted-foreground">
+                No public research items are available. Refresh to try the feeds again.
+              </Panel>
+            )}
             {filteredSignals.map((sig) => (
               <Panel key={sig.id} className="hover:border-card-border transition-colors">
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
@@ -304,11 +326,12 @@ export default function RadarPage() {
                       </span>
                       <span className="text-sm text-muted-foreground flex items-center gap-1 font-mono" suppressHydrationWarning>
                         <Calendar className="h-3 w-3" />
-                        {formatDisplayDate(sig.publishedAt)}
+                        {sig.publishedAt ? formatDisplayDate(sig.publishedAt) : "Publication date unavailable"}
                       </span>
-                      <span className="rounded bg-muted px-1.5 py-0.2 text-xs uppercase font-mono text-muted-foreground">
-                        {sig.mode}
+                      <span className="rounded bg-muted px-1.5 py-0.2 text-xs font-mono text-muted-foreground">
+                        {sig.evidenceType === "external" ? "External research" : "Synthetic demo"}
                       </span>
+                      <span className="rounded bg-muted px-1.5 py-0.2 text-xs font-mono text-muted-foreground">Direction uncertain</span>
                     </div>
 
                     <a
@@ -321,16 +344,15 @@ export default function RadarPage() {
                       <ExternalLink className="h-3.5 w-3.5 opacity-60 group-hover:opacity-100" />
                     </a>
 
-                    <p className="text-sm text-muted-foreground leading-relaxed pt-1">
-                      {sig.observation}
-                    </p>
+                    {sig.observation && <p className="text-sm text-muted-foreground leading-relaxed pt-1">{sig.observation}</p>}
+                    <p className="text-xs text-muted-foreground">Retrieved {formatDisplayTimestamp(sig.retrievedAt)}. {sig.limitations}</p>
                   </div>
                 </div>
 
                 {/* Skill Badges Footer */}
                 <div className="mt-3.5 flex flex-wrap items-center gap-1.5 border-t border-card-border/60 pt-3">
                   <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mr-1">
-                    Related Skills:
+                    Inferred skill matches:
                   </span>
                   {sig.skillIds.map((sid) => {
                     const skill = SKILLS_CATALOG.find((s) => s.id === sid);
@@ -343,6 +365,7 @@ export default function RadarPage() {
                       </span>
                     );
                   })}
+                  {sig.skillIds.length === 0 && <span className="text-sm text-muted-foreground">No direct skill match</span>}
                 </div>
               </Panel>
             ))}

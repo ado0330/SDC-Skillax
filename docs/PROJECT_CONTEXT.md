@@ -11,7 +11,7 @@ Traditional AI career advisory systems often suffer from:
 SKILLAX AI solves this with:
 - **Purely deterministic mathematical career matching** across 10 benchmark O*NET occupations.
 - **Consented, ephemeral Gemini AI CV extraction** with user verification gates and offline synthetic fallbacks.
-- **Strictly separated evidence paths:** Public technical research feeds (Hugging Face & MIT AI News) vs. time-series workforce demand data with statistical comparability rules.
+- **Strictly separated evidence paths:** Public technical research feeds (Hugging Face & MIT AI News) are publication activity only and never affect career scores; workforce demand uses time-series data with statistical comparability rules.
 - **Gap-based 4-phase actionable roadmaps** linked to free, public learning hubs with preserved completion states.
 - **Scenario sensitivity testing** across Slower, Moderate, and Rapid AI adoption pathways plus hypothetical simulation adjustments.
 - **Full alignment to all 17 United Nations Sustainable Development Goals (SDGs)**.
@@ -28,8 +28,8 @@ SKILLAX AI solves this with:
 
 ## 3. Mandatory Scope & Core Journeys (6 Mandatory Domain 1 Capabilities)
 1. **Profile Capture:** Manual proficiency rating across 19 standard skills + consented Gemini CV extraction + offline sample CVs.
-2. **Identifiable Evidence:** Live RSS research signals (Hugging Face / MIT) & time-series workforce demand with source/date attribution.
-3. **Explainable Matching:** 4- or 5-part mathematical formula decomposing direct skills (50%), transferable alignment (20%), interest fit (15%), research activity (15%), and workforce demand (10%).
+2. **Identifiable Evidence:** Live RSS research signals (Hugging Face / MIT) & time-series workforce demand with source/date attribution; research is not demand evidence.
+3. **Explainable Matching:** 4- or 5-part mathematical formula decomposing direct skills (50%), transferable alignment (20%), interest fit (15%), scenario market index (15%), and workforce demand (10%). Research articles do not affect scoring.
 4. **Reskilling Pathway:** Ordered 4-phase learning pathway with estimated effort hours, milestone checkoffs, and PDF/JSON export.
 5. **SDG Footprint:** Deep mapping of all 10 occupations and 19 skills to UN SDGs 1–17.
 6. **Scenario Testing:** Dynamic re-scoring across Slower, Moderate, and Rapid AI adoption with sensitivity boost slider (-100 to +100).

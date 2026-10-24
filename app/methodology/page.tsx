@@ -55,7 +55,7 @@ export default function MethodologyPage() {
               baselineScore = round(0.50 × skillsScore + 0.20 × transferableScore + 0.15 × interestScore + 0.15 × marketScore)
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed pt-1">
-              Where <strong>skillsScore</strong> evaluates proficiency match against role requirements (50%), <strong>transferableScore</strong> measures cross-functional core competencies (20%), <strong>interestScore</strong> evaluates candidate sector preference (15%), and <strong>marketScore</strong> incorporates scientific research publication mentions (15%).
+              Where <strong>skillsScore</strong> evaluates proficiency match against role requirements (50%), <strong>transferableScore</strong> measures cross-functional core competencies (20%), <strong>interestScore</strong> evaluates candidate sector preference (15%), and <strong>marketScore</strong> applies the selected scenario adjustment to a neutral baseline (15%). Research articles do not change career scores.
             </p>
           </div>
 
@@ -83,7 +83,7 @@ export default function MethodologyPage() {
                 <strong>Rapid Adoption:</strong> AI requirements increase by +1 level (or injected at Level 3 for non-AI roles). Market score receives <code className="text-foreground">+20 × technicalShare - 0.10 × exposure</code>.
               </p>
               <p>
-                <strong>Simulation Boost:</strong> Manual slider from -100 to +100 points modifies <code className="text-foreground">marketScore = clamp(marketScore + boost, 0, 100)</code>.
+                <strong>Simulation Boost:</strong> Manual slider from -100 to +100 applies <code className="text-foreground">boost × technicalShare × 0.4</code> before market-score clamping. It is a user-set stress-test input, not an observed indicator.
               </p>
             </div>
           </div>
@@ -113,7 +113,7 @@ export default function MethodologyPage() {
               <span>Scientific Research Signals</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Curated from daily Hugging Face AI papers and MIT AI News RSS feeds. These signals are proxies for <strong>academic and applied research activity</strong>. They are <strong>never conflated</strong> with job vacancies, active hiring figures, or wage statistics.
+              Retrieved from the <a className="underline" href="https://huggingface.co/blog/feed.xml">Hugging Face Blog RSS</a> and <a className="underline" href="https://news.mit.edu/rss/topic/artificial-intelligence2">MIT AI News RSS</a>. These items indicate publication activity only. Deterministic text matches suggest related skills; every item has uncertain labor-market direction and does not alter career scores.
             </p>
           </div>
 

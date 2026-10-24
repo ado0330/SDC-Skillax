@@ -4,28 +4,29 @@ s# Cross-Agent Handoff — SKILLAX AI Platform
 Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI Platform** for the SDC Aiversecity Hackathon (Domain 1), strictly respecting the No-Database invariant, deterministic career matching, Gemini CV extraction, and Replit deployment readiness.
 
 ## 2. Current Phase & Overall Completion Status
-- **Current Phase:** Phase 3 (Hardening, Verification & Replit Readiness) — **COMPLETED**
-- **Overall Completion:** **100%** (All 22 tasks completed, verified, and committed).
+- **Current Phase:** Phase 5 (Live Trend Evidence & What-if Simulator) — **COMPLETED**
+- **Overall Completion:** Core prototype tasks and TASK-028 completed; current feature changes are on `codex/live-trend-simulator`.
 
 ## 3. Latest Completed Tasks
+- **TASK-028**: Added live RSS normalization, attribution, and stale/error handling to Radar; decoupled research articles from career scores; added Moderate vs Rapid simulator comparison using existing ranking/gap/roadmap logic. TypeScript, 16/16 tests, and 18-route production build passed.
 - **TASK-021**: Executed full end-to-end automated verification; 19/19 routes generated with zero errors, 8/8 domain tests passing in 13.8ms.
 - **TASK-022**: Configured `.replit` deployment manifest and authored comprehensive, publication-grade `README.md`.
 
 ## 4. Task Currently in Progress
-- None (All 22 tasks completed and verified).
+- None. Feature implementation and verification are complete; changes are on `codex/live-trend-simulator`.
 
 ## 5. Next Exact Task to Execute
-- The prototype is ready for live public demonstration, hackathon evaluator walkthroughs, or deployment to Replit/Vercel.
+- Review TASK-028 diff and feature branch before any merge or deployment.
 
 ## 6. Files & Modules Relevant
 - Complete workspace (`README.md`, `.replit`, `app/`, `lib/`, `components/`, `tests/`)
 
 ## 7. Last Verified Git Commit
-- `3852db6` ("feat(ai): configure CV extraction model to gemini-3.5-flash-lite").
+- Feature branch base: `697d726`; TASK-028 changes are currently uncommitted.
 
 ## 8. Current Git Branch & Working-Tree Status
-- Branch: `main`
-- Status: 19/19 routes compiling cleanly, 8/8 tests passing, clean working tree.
+- Branch: `codex/live-trend-simulator`
+- Status: TASK-028 implementation and documentation changes present; verification passed.
 
 ## 9. Last Successful Build or Test Results
 - `npm run build`: Compiled successfully (19/19 static & dynamic routes, 0 type errors).
