@@ -547,4 +547,4 @@ This document is an append-only journal of all completed development tasks, veri
 - **Status:** COMPLETED
 - **Description:** Extended the existing Scenario Lab comparison to make role-specific skill changes and suitable Radar evidence visible together.
 - **Changes:** The selected-role comparison now lists all scenario-changed requirements/gaps and next roadmap steps. It links up to three external research items whose deterministic skill tags overlap that role's requirements, and states those items are context only. Existing career scores are unchanged by research.
-- **Verification:** `npx tsc --noEmit` and 19/19 tests passed. Build pending after this refinement.
+- **Verification:** `npx tsc --noEmit`, 19/19 tests, and isolated `npm run build` (18/18 routes) passed.
