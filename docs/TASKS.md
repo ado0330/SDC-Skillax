@@ -118,12 +118,12 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
 
 ## Phase 3 — Hardening, Verification & Replit Readiness
 
-- [ ] **TASK-021**: Run end-to-end typecheck, build validation, and automated unit tests.
-  - *Status:* TODO
+- [x] **TASK-021**: Run end-to-end typecheck, build validation, and automated unit tests.
+  - *Status:* DONE
   - *Files:* Workspace
-  - *Acceptance:* `npm run build` succeeds with zero errors; all tests pass.
+  - *Acceptance:* `npm run build` succeeds with zero errors (19/19 routes); all tests pass (8/8 domain tests in 13.8ms).
 
-- [ ] **TASK-022**: Prepare Replit deployment configuration (`.replit`, `replit.nix` or standard Node workflow) and synchronize canonical Git commits.
-  - *Status:* TODO
+- [x] **TASK-022**: Prepare Replit deployment configuration (`.replit`, `replit.nix` or standard Node workflow) and synchronize canonical Git commits.
+  - *Status:* DONE
   - *Files:* `.replit`, `README.md`, `docs/HANDOFF.md`
   - *Acceptance:* Ready for one-click Replit import and public demonstration.

@@ -370,8 +370,40 @@ This document is an append-only journal of all completed development tasks, veri
 - **Commands & Verification:**
   - `npm run build` (Clean build of 19/19 pages)
   - `npm test` (8/8 domain tests passed)
-- **Git Commit:** Pending commit.
+- **Git Commit:** 10dd574 ("feat(welcome): implement Welcome Landing Page with architecture cards and evaluator tour")
 - **Next Recommended Task:** TASK-021: Run end-to-end typecheck, build validation, and automated unit tests.
+
+---
+
+### Entry 021 | 2026-10-24 11:16:00 +08:00
+- **Task ID:** TASK-021 (End-to-End Build & Test Hardening)
+- **Status:** COMPLETED
+- **Description:** Performed complete end-to-end automated verification of the entire application across TypeScript strict typechecking, static page compilation, and unit test suites.
+- **What changed:**
+  - Verified 19/19 routes compile cleanly with zero errors via `npm run build`.
+  - Verified 8/8 domain intelligence unit tests pass in 13.8ms via `npm test`.
+- **Commands & Verification:**
+  - `npm run build` (Clean build of 19 static and dynamic routes)
+  - `npm test` (8/8 domain tests passed)
+- **Git Commit:** Pending commit.
+- **Next Recommended Task:** TASK-022: Prepare Replit deployment configuration and synchronize canonical Git commits.
+
+---
+
+### Entry 022 | 2026-10-24 11:17:00 +08:00
+- **Task ID:** TASK-022 (Replit Deployment Readiness & Documentation)
+- **Status:** COMPLETED
+- **Description:** Created `.replit` deployment configuration and authored a comprehensive, production-grade `README.md` detailing the project mission, mathematical formulas, route map, setup instructions, and evaluator tour.
+- **What changed:**
+  - Created `.replit` specifying start commands, port 3000 mapping, and build scripts for one-click Replit hosting.
+  - Authored comprehensive `README.md` with badges, architecture invariant table, mathematical formulas, route guide, and fast-track evaluator tour.
+  - Finalized `docs/TASKS.md`, `docs/PROGRESS_LOG.md`, and `docs/HANDOFF.md`.
+- **Commands & Verification:**
+  - `npm run build` (19/19 routes)
+  - `npm test` (8/8 unit tests)
+- **Git Commit:** Pending commit.
+- **Next Recommended Task:** All 22 tasks in the implementation plan are completed and verified!
+
 
 
 
