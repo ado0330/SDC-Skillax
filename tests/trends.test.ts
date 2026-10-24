@@ -1,6 +1,6 @@
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
-import { deduplicateSignals, findResearchSignalsForSkills, isSignalSetStale, mapSkillsFromEvidence, parseRssFeed } from "../lib/domain/trends";
+import { deduplicateSignals, findResearchSignalsForSkills, isSignalSetStale, mapSkillsFromEvidence, normalizeCrossrefWorks, parseRssFeed } from "../lib/domain/trends";
 import { GET } from "../app/api/research/route";
 import { resetResearchCacheForTests, writeResearchCache } from "../lib/server/researchCache";
 import { ResearchSignal } from "../lib/domain/types";
@@ -32,6 +32,20 @@ describe("Trend evidence normalization", () => {
       "Example", "2026-10-24T00:00:00.000Z"
     );
     assert.match(signal.observation, /without an excerpt/);
+  });
+
+  test("normalizes Crossref metadata for undercovered skill areas without exposing abstracts", () => {
+    const results = normalizeCrossrefWorks({ message: { items: [
+      { DOI: "10.1234/health.1", URL: "https://doi.org/10.1234/health.1", title: ["Health data analytics for industrial IoT project management"], published: { "date-parts": [[2025, 4, 12]] }, abstract: "Do not display this publisher text." },
+      { DOI: "10.1234/old.1", URL: "https://doi.org/10.1234/old.1", title: ["Data analytics"], published: { "date-parts": [[2020]] } },
+      { DOI: "10.1234/unrelated.1", URL: "https://doi.org/10.1234/unrelated.1", title: ["A general history of architecture"] },
+      { DOI: "10.1234/bad.1", URL: "javascript:alert(1)", title: ["Health data"] },
+    ] } }, "2026-10-24T00:00:00.000Z");
+    assert.equal(results.length, 2);
+    assert.deepEqual(results[0].skillIds, ["analysis", "iot", "health", "organization"]);
+    assert.equal(results[0].publishedAt, "2025-04-12T00:00:00.000Z");
+    assert.equal(results[1].publishedAt, null, "year-only metadata must not invent a month/day");
+    assert.doesNotMatch(results[0].observation, /publisher text/);
   });
 
   test("normalizes every valid item in a feed so the activity count reflects its source", () => {
@@ -84,7 +98,7 @@ describe("Trend evidence normalization", () => {
       assert.equal(body.success, false);
       assert.equal(body.status, "error");
       assert.deepEqual(body.signals, []);
-      assert.equal(body.failedSources.length, 2);
+      assert.equal(body.failedSources.length, 3);
     } finally {
       globalThis.fetch = originalFetch;
       resetResearchCacheForTests();
@@ -96,17 +110,23 @@ describe("Trend evidence normalization", () => {
     const originalFetch = globalThis.fetch;
     let calls = 0;
     const feed = `<rss><channel><item><title>Python methods</title><link>https://source.example/python</link><pubDate>Mon, 05 Oct 2026 12:00:00 GMT</pubDate><description>Python research.</description></item></channel></rss>`;
-    globalThis.fetch = (async () => {
+    globalThis.fetch = (async (input) => {
       calls += 1;
+      if (String(input).includes("api.crossref.org")) {
+        return new Response(JSON.stringify({ message: { items: [{
+          DOI: "10.1234/health-data", URL: "https://doi.org/10.1234/health-data",
+          title: ["Health data analytics"], published: { "date-parts": [[2026, 5, 1]] },
+        }] } }), { status: 200, headers: { "Content-Type": "application/json" } });
+      }
       return new Response(feed, { status: 200 });
     }) as typeof fetch;
     try {
       const first = await (await GET()).json();
       const second = await (await GET()).json();
       assert.equal(first.status, "live");
-      assert.equal(first.signals.length, 1);
+      assert.equal(first.signals.length, 2);
       assert.equal(second.status, "cached");
-      assert.equal(calls, 2);
+      assert.equal(calls, 3);
     } finally {
       globalThis.fetch = originalFetch;
       resetResearchCacheForTests();

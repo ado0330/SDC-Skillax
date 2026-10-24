@@ -49,7 +49,7 @@ export function ScoreDecompositionBar({
       points: Number((components.marketScore * 0.15 * baselineScale).toFixed(1)),
       color: "bg-chart-4",
       textColor: "text-warning",
-      description: "Scientific publication mentions (Hugging Face / MIT AI News).",
+      description: "Scenario market adjustment; research publications do not change this score.",
     },
   ];
 

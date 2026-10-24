@@ -8,7 +8,7 @@ Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI
 - **Overall Completion:** Core prototype tasks and TASK-028 completed on `codex/live-trend-simulator`.
 
 ## 3. Latest Completed Tasks
-- **TASK-028**: Added live RSS normalization, attribution, stale/error handling, role-linked contextual evidence, and Moderate vs Rapid comparison with changed skill gaps and roadmap steps. Research evidence remains outside scoring. TypeScript, 19/19 tests, and 18-route production build passed.
+- **TASK-028**: Added live RSS and Crossref metadata normalization, attribution, stale/error handling, role-linked contextual evidence, and Moderate vs Rapid comparison with changed skill gaps and roadmap steps. Research evidence remains outside scoring. TypeScript, 20/20 tests, and 18-route production build passed.
 - **TASK-021**: Executed full end-to-end automated verification; 19/19 routes generated with zero errors, 8/8 domain tests passing in 13.8ms.
 - **TASK-022**: Configured `.replit` deployment manifest and authored comprehensive, publication-grade `README.md`.
 
@@ -22,15 +22,15 @@ Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI
 - Complete workspace (`README.md`, `.replit`, `app/`, `lib/`, `components/`, `tests/`)
 
 ## 7. Last Verified Git Commit
-- `0299b08` (`feat: add evidence-backed trends and career scenarios`).
+- Current TASK-028 follow-up commit (see `git log` on `codex/live-trend-simulator`).
 
 ## 8. Current Git Branch & Working-Tree Status
 - Branch: `codex/live-trend-simulator`
-- Status: Clean working tree after TASK-028 commit; verification passed.
+- Status: Feature changes are on `codex/live-trend-simulator`; verification passed.
 
 ## 9. Last Successful Build or Test Results
 - `npm run build`: Compiled successfully (18/18 routes; isolated copy used to protect running dev server output).
-- `npm test`: 19/19 unit tests passed; `npx tsc --noEmit` passed.
+- `npm test`: 20/20 unit tests passed; `npx tsc --noEmit` passed.
 
 ## 10. Known Bugs & Unresolved Blockers
 - None.

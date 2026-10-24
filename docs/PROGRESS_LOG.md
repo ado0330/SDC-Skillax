@@ -555,3 +555,11 @@ This document is an append-only journal of all completed development tasks, veri
 - **Description:** Removed the four-item-per-feed cap that reduced the Radar's Research Activity count to at most eight.
 - **Changes:** RSS normalization again retains every valid, deduplicated feed item. Radar paginates results 20 at a time and reports the matching count and full total, keeping rendering compact without hiding source items.
 - **Verification:** `npx tsc --noEmit`, `npm test` (19/19), `git diff --check`, and isolated `npm run build` (18/18 routes) passed.
+
+### Entry 035 | 2026-10-24 (Add Cross-Discipline Research Metadata)
+- **Task ID:** TASK-028 follow-up
+- **Status:** COMPLETED
+- **Description:** Added a broad Crossref scholarly metadata query to supply external research activity beyond AI-specific publishers.
+- **Changes:** The query covers health data/informatics, industrial IoT, project management, data analytics, agriculture, maintenance, cloud, and cybersecurity. Only matching titles and bibliographic fields are requested; abstracts are excluded. Expanded deterministic title terms for health, IoT, project coordination, data analysis, and maintenance. Added source attribution in Radar and methodology, and clarified that research activity does not affect career scores.
+- **Verification:** Live Crossref query returned HTTP 200 and relevant titles; `npx tsc --noEmit`, `npm test` (20/20), and isolated `npm run build` (18/18 routes) passed.
+- **Limitations:** Coverage is determined by publication metadata title matches; a zero count still means no matched titles in the current results, not absence of real-world activity. Crossref metadata publication activity is not hiring demand.

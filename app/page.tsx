@@ -591,7 +591,7 @@ export default function DashboardPage() {
                 </h3>
               </div>
               <span className="text-xs uppercase font-mono px-2 py-0.5 rounded bg-muted text-muted-foreground">
-                Hugging Face / MIT AI
+                HF / MIT / Crossref
               </span>
             </div>
 

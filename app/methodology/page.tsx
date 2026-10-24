@@ -113,7 +113,7 @@ export default function MethodologyPage() {
               <span>Scientific Research Signals</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Retrieved from the <a className="underline" href="https://huggingface.co/blog/feed.xml">Hugging Face Blog RSS</a> and <a className="underline" href="https://news.mit.edu/rss/topic/artificial-intelligence2">MIT AI News RSS</a>. These items indicate publication activity only. Deterministic text matches suggest related skills; every item has uncertain labor-market direction and does not alter career scores.
+              Retrieved from the <a className="underline" href="https://huggingface.co/blog/feed.xml">Hugging Face Blog RSS</a>, <a className="underline" href="https://news.mit.edu/rss/topic/artificial-intelligence2">MIT AI News RSS</a>, and the public <a className="underline" href="https://api.crossref.org/works">Crossref works API</a>. Crossref queries cover health data, industrial IoT, project management, and data analytics; only bibliographic metadata is requested, not abstracts. These items indicate publication activity only. Deterministic title keyword matches suggest related skills; every item has uncertain labor-market direction and does not alter career scores.
             </p>
           </div>
 

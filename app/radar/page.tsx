@@ -255,7 +255,7 @@ export default function RadarPage() {
                   Publications show research activity. They do not establish job demand, vacancies, wages, or employment growth; trend direction stays uncertain.
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Sources: <a className="underline" href="https://huggingface.co/blog/feed.xml" target="_blank" rel="noreferrer">Hugging Face Blog RSS</a> · <a className="underline" href="https://news.mit.edu/rss/topic/artificial-intelligence2" target="_blank" rel="noreferrer">MIT AI News RSS</a>
+                  Sources: <a className="underline" href="https://huggingface.co/blog/feed.xml" target="_blank" rel="noreferrer">Hugging Face Blog RSS</a> · <a className="underline" href="https://news.mit.edu/rss/topic/artificial-intelligence2" target="_blank" rel="noreferrer">MIT AI News RSS</a> · <a className="underline" href="https://api.crossref.org/works" target="_blank" rel="noreferrer">Crossref scholarly metadata</a>
                   {lastRetrievedAt && <> · Last retrieved {formatDisplayTimestamp(lastRetrievedAt)}</>}
                   {storedEvidenceIsStale && <span className="font-semibold text-warning"> · Stale; refresh to update</span>}
                 </p>

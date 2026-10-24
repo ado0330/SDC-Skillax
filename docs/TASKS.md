@@ -157,8 +157,8 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
 
 ## Phase 5 — Live Trend Evidence & What-if Simulator
 
-- [x] **TASK-028**: Normalize live public research feeds in the existing Radar and make source failure, stale results, dates, attribution, skill mapping, and uncertainty explicit. Keep research evidence out of deterministic career scoring. Add a Moderate vs Rapid scenario comparison using existing ranking, gaps, and roadmap functions.
+- [x] **TASK-028**: Normalize live public research sources in the existing Radar and make source failure, stale results, dates, attribution, skill mapping, and uncertainty explicit. Keep research evidence out of deterministic career scoring. Add a Moderate vs Rapid scenario comparison using existing ranking, gaps, and roadmap functions.
   - *Status:* DONE
-  - *Files:* `app/api/research/route.ts`, `app/radar/page.tsx`, `app/scenarios/page.tsx`, `lib/domain/trends.ts`, `lib/domain/scoring.ts`, `lib/schemas/evidence.ts`, `lib/server/researchCache.ts`, `lib/workspace/WorkspaceContext.tsx`, tests, README and architecture/methodology docs.
+  - *Files:* `app/api/research/route.ts`, `app/radar/page.tsx`, `app/scenarios/page.tsx`, `app/methodology/page.tsx`, `lib/domain/trends.ts`, `lib/domain/scoring.ts`, `lib/schemas/evidence.ts`, `lib/server/researchCache.ts`, `lib/workspace/WorkspaceContext.tsx`, tests, README and architecture/methodology docs.
   - *Acceptance:* Source-backed items preserve optional publication dates and retrieval timestamps; URL deduplication and strict HTTP(S) attribution; uncertain research direction; explicit live/cached/stale/error states; no false synthetic fallback; explicit scenarios reuse current score/gap/roadmap logic; role-matched evidence links are contextual only and articles do not change scores.
-  - *Verification:* `npx tsc --noEmit`; `npm test` (19/19); `npm run build` (18/18 routes). Build ran in an isolated temporary copy because the existing dev server was listening on port 3000; sandboxed font fetch initially failed, approved unsandboxed build passed.
+  - *Verification:* `npx tsc --noEmit`; `npm test` (20/20); `npm run build` (18/18 routes). Build ran in an isolated temporary copy because the existing dev server was listening on port 3000; sandboxed font fetch initially failed, approved unsandboxed build passed.
