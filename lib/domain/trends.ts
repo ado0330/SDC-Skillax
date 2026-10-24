@@ -48,8 +48,8 @@ function xmlValue(block: string, tag: string): string | null {
   return match ? decodeXml(match[1]) : null;
 }
 
-export function parseRssFeed(xml: string, source: string, retrievedAt: string): ResearchSignal[] {
-  const entries = [...xml.matchAll(/<(item|entry)\b[^>]*>([\s\S]*?)<\/\1>/gi)];
+export function parseRssFeed(xml: string, source: string, retrievedAt: string, maxItems = 4): ResearchSignal[] {
+  const entries = [...xml.matchAll(/<(item|entry)\b[^>]*>([\s\S]*?)<\/\1>/gi)].slice(0, maxItems);
   const signals: ResearchSignal[] = [];
   for (const [, , block] of entries) {
     const title = xmlValue(block, "title");
@@ -65,7 +65,11 @@ export function parseRssFeed(xml: string, source: string, retrievedAt: string): 
     signals.push({
       id: `rss-${(hash >>> 0).toString(16)}`, title, source, sourceUrl: sourceUrl.trim(),
       publishedAt: Number.isFinite(dateValue) ? new Date(dateValue).toISOString() : null,
-      retrievedAt, mode: "live", observation: summary.slice(0, 360),
+      retrievedAt,
+      mode: "live",
+      observation: summary
+        ? summary.slice(0, 360)
+        : "This RSS feed provides a headline and source link without an excerpt.",
       skillIds: mapSkillsFromEvidence(title, summary), direction: "Research activity",
       trendDirection: "uncertain", evidenceType: "external",
       limitations: "Research coverage is not evidence of job demand, wages, or employment growth. Skill tags are deterministic text matches; trend direction remains uncertain.",

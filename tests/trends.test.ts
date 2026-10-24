@@ -26,6 +26,22 @@ describe("Trend evidence normalization", () => {
     assert.equal(results[0].evidenceType, "external");
   });
 
+  test("labels sources that publish a headline without an excerpt", () => {
+    const [signal] = parseRssFeed(
+      `<rss><channel><item><title>Headline only</title><link>https://source.example/headline</link></item></channel></rss>`,
+      "Example", "2026-10-24T00:00:00.000Z"
+    );
+    assert.match(signal.observation, /without an excerpt/);
+  });
+
+  test("limits each source feed to the configured compact item count", () => {
+    const items = Array.from({ length: 7 }, (_, index) =>
+      `<item><title>Item ${index}</title><link>https://source.example/${index}</link></item>`
+    ).join("");
+    const results = parseRssFeed(`<rss><channel>${items}</channel></rss>`, "Example", "2026-10-24T00:00:00.000Z", 4);
+    assert.equal(results.length, 4);
+  });
+
   test("deduplicates canonical URLs and refuses to map unrelated text to AI", () => {
     const common = {
       id: "one", title: "An unrelated topic", source: "Publisher",

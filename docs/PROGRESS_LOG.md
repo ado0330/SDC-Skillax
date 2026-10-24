@@ -534,3 +534,10 @@ This document is an append-only journal of all completed development tasks, veri
 - **Scenario behavior:** Moderate and Rapid results use the same profile, existing `rankCareerRoles`, profile gaps, and `generateLearningRoadmap`. Rapid uses the existing AI requirement and technical-share/exposure market modifiers. Scenario results remain estimates.
 - **Verification:** `npx tsc --noEmit` passed; `npm test` passed 16/16; `npm run build` compiled and generated all 18 routes. The production build ran from an isolated copy to avoid writing into `.next` while the existing dev server was listening on port 3000.
 - **Known limits:** RSS publication frequency is a research signal only; direction remains uncertain. Feed summaries and formats are provider-controlled. No employment source was added because the existing research feeds are unsuitable as labor-demand evidence; workforce demand remains in the separate statistical-data workflow.
+
+### Entry 032 | 2026-10-24 (RSS Evidence Presentation Audit)
+- **Task ID:** TASK-028 follow-up
+- **Status:** COMPLETED
+- **Description:** Rechecked the live Hugging Face and MIT RSS payload formats against the Radar evidence criteria.
+- **Changes:** Capped feed display at four items per source to retain the existing compact feed density. Hugging Face Blog currently supplies headlines/links without excerpts, so the normalized item now labels that absence instead of leaving an empty summary or inventing one.
+- **Verification:** RSS parser tests cover missing excerpt and per-source item cap. `npx tsc --noEmit`, 18/18 tests, and 18-route production build passed.
