@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useWorkspace } from "@/lib/workspace/useWorkspace";
 import { cn } from "@/lib/utils";
@@ -113,9 +114,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {/* Brand Header */}
         <div className="flex items-center justify-between px-2">
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-action font-semibold text-white shadow-sm">
-              SX
-            </div>
+            <Image
+              src="/skillax-logo.png"
+              alt="SKILLAX AI logo"
+              width={44}
+              height={44}
+              className="h-11 w-11 shrink-0 rounded-lg object-contain"
+              priority
+            />
             <div>
               <span className="text-base font-semibold tracking-tight text-foreground">
                 SKILLAX<span className="text-accent-cyan font-mono text-xs ml-1">AI</span>

@@ -7,3 +7,5 @@ Validation: `npx tsc --noEmit`, `npm run build` (19 generated routes), and `npm 
 No required implementation task remains. Live Gemini/file-upload, external feed refresh, reset, print and JSON download contents were not browser-tested. The pre-existing `.env.example` deletion belongs to the user and is not part of this work. No API keys or raw CV data were written by this task.
 
 For future UI edits, update the shared tokens and controls first; retain the application structure and deterministic business logic. On this host, use port 4317 because port 3000 has unrelated listeners. Stop the production preview before rebuilding, then restart with `node node_modules/next/dist/bin/next start -H 127.0.0.1 -p 4317`.
+
+Latest update: TASK-024 replaces the SX sidebar mark with the user's supplied logo (`public/skillax-logo.png`) through Next Image in `components/AppShell.tsx`. Shared desktop/mobile branding uses the original image unchanged. TypeScript passed.

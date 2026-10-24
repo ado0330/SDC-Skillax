@@ -489,3 +489,8 @@ This document is an append-only journal of all completed development tasks, veri
 - **Details:** `docs/UI_REDESIGN.md` records files, tokens, contrast ratios and verification limits.
 - **Preview:** Production server at `http://127.0.0.1:4317` to avoid unrelated listeners on port 3000.
 - **User changes:** Existing `.env.example` deletion excluded from this task.
+
+### Entry 028 | 2026-10-24 +08:00
+- **Task:** TASK-024 — User-supplied logo replacement.
+- **Changes:** Added `public/skillax-logo.png`; used Next Image in the shared AppShell branding with accessible alt text and a 44px square display. Navigation and wordmark preserved.
+- **Verification:** `npx tsc --noEmit` passed.

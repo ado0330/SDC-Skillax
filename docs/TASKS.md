@@ -133,3 +133,5 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
 - [x] **TASK-023**: Refine all existing pages and shared controls with accessible slate/blue tokens, readable Inter typography, consistent buttons, card borders, chart presentation and responsive internal wrapping/scrolling. Preserve all product structure, calculations and integrations.
   - *Status:* DONE
   - *Verification:* TypeScript, production build, 8/8 existing tests; all 15 views reviewed at desktop/mobile/tablet widths. See `docs/UI_REDESIGN.md`.
+
+- [x] **TASK-024**: Replace the sidebar SX mark with the user-supplied SKILLAX logo, shared by desktop and mobile navigation. TypeScript passed; supplied raster retained unchanged in `public/skillax-logo.png`.
