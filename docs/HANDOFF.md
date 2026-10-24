@@ -8,19 +8,19 @@ Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI
 - **Overall Completion:** ~10% (Project Memory & Architecture established; moving to Next.js project shell initialization).
 
 ## 3. Latest Completed Task
-- **TASK-008**: Implemented Consented CV Extraction API (`/api/cv/analyze`) & Review Modal (`CvUploadModal.tsx`) with Gemini `@google/genai` integration, offline synthetic presets, keyword fallback, and human-in-the-loop review.
+- **TASK-009**: Implemented Trend Radar (`/radar`) featuring Research Activity (RSS feed & fallback) and Workforce Demand time-series trend analytics with statistical comparability checks.
 
 ## 4. Task Currently in Progress
-- None (TASK-008 completed; ready for TASK-009).
+- None (TASK-009 completed; ready for TASK-010).
 
 ## 5. Next Exact Task to Execute
-- **TASK-009**: Implement Trend Radar (`/radar`) featuring Research Activity (live Hugging Face/MIT RSS signals + fallback) and Workforce Demand trend analytics.
+- **TASK-010**: Implement Career Matches Directory (`/careers`) and Detail View (`/careers/[id]`) with 4/5-part score ring, score decomposition bar chart, and proficiency gap comparison.
 
 ## 6. Files & Modules Relevant to That Task
-- `app/radar/page.tsx`
-- `app/api/research/route.ts`
-- `lib/domain/workforce.ts`
-- `components/ManageDataModal.tsx`
+- `app/careers/page.tsx`
+- `app/careers/[id]/page.tsx`
+- `components/ScoreRing.tsx`
+- `components/BarCharts.tsx`
 
 ## 7. Last Verified Git Commit
 - `0ed7e40` (Staging TASK-002 commit next).

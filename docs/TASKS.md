@@ -50,9 +50,9 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
   - *Files:* `app/api/cv/analyze/route.ts`, `lib/ai/geminiClient.ts`, `lib/ai/cvExtractor.ts`, `lib/ai/keywordExtractor.ts`, `components/CvUploadModal.tsx`, `lib/data/sampleCvs.ts`, `app/profile/page.tsx`
   - *Acceptance:* User can upload PDF or paste text, or click "Sample CV", view staged suggestions, and merge into draft with explicit approval. Zero disk persistence.
 
-- [ ] **TASK-009**: Implement Trend Radar (`/radar`) featuring Research Activity (live Hugging Face/MIT RSS signals + fallback) and Workforce Demand trend analytics.
-  - *Status:* TODO
-  - *Files:* `app/radar/page.tsx`, `app/api/research/route.ts`, `lib/domain/workforce.ts`
+- [x] **TASK-009**: Implement Trend Radar (`/radar`) featuring Research Activity (live Hugging Face/MIT RSS signals + fallback) and Workforce Demand trend analytics.
+  - *Status:* DONE
+  - *Files:* `app/radar/page.tsx`, `app/api/research/route.ts`, `lib/domain/workforce.ts`, `components/ManageDataModal.tsx`
   - *Acceptance:* Displays publication dates, sources, skill tags, and workforce time-series with comparability checks.
 
 - [ ] **TASK-010**: Implement Career Matches Directory (`/careers`) and Detail View (`/careers/[id]`) with 4/5-part score ring, score decomposition bar chart, and proficiency gap comparison.

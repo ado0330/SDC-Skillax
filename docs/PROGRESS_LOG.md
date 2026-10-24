@@ -156,5 +156,21 @@ This document is an append-only journal of all completed development tasks, veri
 - **Commands & Verification:**
   - `npm run build` (Clean compile of 6 pages including dynamic API route `/api/cv/analyze`)
   - `npm test` (8/8 unit tests passed in 15.5ms)
-- **Git Commit:** Pending commit.
+- **Git Commit:** 86d1146 ("feat(ai): implement consented CV extraction API, keyword fallback, and staged review modal")
 - **Next Recommended Task:** TASK-009: Implement Trend Radar (`/radar`) featuring Research Activity (live Hugging Face/MIT RSS signals + fallback) and Workforce Demand trend analytics.
+
+---
+
+### Entry 009 | 2026-10-24 10:53:00 +08:00
+- **Task ID:** TASK-009 (Trend Radar & Workforce Demand Analytics)
+- **Status:** COMPLETED
+- **Description:** Implemented the Trend Radar interface (`/radar`) with dual-track surveillance: Research Activity tab (F-023 to F-026) and Workforce Demand tab (F-027 to F-031), live feed API route `/api/research`, and custom CSV/JSON dataset ingestion modal.
+- **What changed:**
+  - Implemented `app/api/research/route.ts` with 60-second caching, live RSS attempts, and verified fallback.
+  - Implemented `components/ManageDataModal.tsx` validating CSV/JSON imports with sample template.
+  - Implemented `app/radar/page.tsx` featuring tabbed views, research provenance disclaimers, skill citation counts, directional trend badges (Rising > +5%, Declining < -5%, Stable), and observation timelines.
+- **Commands & Verification:**
+  - `npm run build` (Clean build of 8/8 routes)
+  - `npm test` (8/8 unit tests passed)
+- **Git Commit:** Pending commit.
+- **Next Recommended Task:** TASK-010: Implement Career Matches Directory (`/careers`) and Detail View (`/careers/[id]`) with 4/5-part score ring, score decomposition bar chart, and proficiency gap comparison.
