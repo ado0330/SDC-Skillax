@@ -8,19 +8,18 @@ Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI
 - **Overall Completion:** ~10% (Project Memory & Architecture established; moving to Next.js project shell initialization).
 
 ## 3. Latest Completed Task
-- **TASK-005**: Implemented client-side Workspace State Provider (`lib/workspace/WorkspaceContext.tsx` & `useWorkspace.ts`) with demonstration persistence (`localStorage`) and no-database isolation.
+- **TASK-006**: Built AppShell global navigation layout (desktop sidebar, mobile drawer, topbar with live scenario badge, sync indicator, replanning chip, theme toggle, Panel, PageHeader). Verified with clean build.
 
 ## 4. Task Currently in Progress
-- None (TASK-005 completed; ready for TASK-006).
+- None (TASK-006 completed; ready for TASK-007).
 
 ## 5. Next Exact Task to Execute
-- **TASK-006**: Build AppShell global navigation layout (desktop sidebar, mobile drawer, topbar with live scenario badge, sync indicator, replanning chip, theme toggle).
+- **TASK-007**: Implement Profile Editor (`/profile`) with 19 skill sliders (0–5), category counters, interest tags, demographic details, and profile routing guard (F-002).
 
 ## 6. Files & Modules Relevant to That Task
-- `components/AppShell.tsx`
-- `components/PageHeader.tsx`
-- `components/Panel.tsx`
-- `app/layout.tsx`
+- `app/profile/page.tsx`
+- `components/LevelDots.tsx`
+- `components/ProfileGate.tsx`
 
 ## 7. Last Verified Git Commit
 - `0ed7e40` (Staging TASK-002 commit next).

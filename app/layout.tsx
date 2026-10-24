@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-
 import { WorkspaceProvider } from "@/lib/workspace/WorkspaceContext";
+import { AppShell } from "@/components/AppShell";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +20,9 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={`${inter.className} min-h-screen bg-background text-foreground antialiased`}>
         <WorkspaceProvider>
-          {children}
+          <AppShell>
+            {children}
+          </AppShell>
         </WorkspaceProvider>
       </body>
     </html>

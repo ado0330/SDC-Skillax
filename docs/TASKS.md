@@ -35,8 +35,8 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
   - *Files:* `lib/workspace/WorkspaceContext.tsx`, `lib/workspace/useWorkspace.ts`, `lib/schemas/profile.ts`, `app/layout.tsx`
   - *Acceptance:* Profile, skills, active scenario, simulation boost, roadmap, and milestone completion state cleanly synchronizes and resets.
 
-- [ ] **TASK-006**: Build AppShell global navigation layout (desktop sidebar, mobile drawer, topbar with live scenario badge, sync indicator, replanning chip, theme toggle).
-  - *Status:* TODO
+- [x] **TASK-006**: Build AppShell global navigation layout (desktop sidebar, mobile drawer, topbar with live scenario badge, sync indicator, replanning chip, theme toggle).
+  - *Status:* DONE
   - *Files:* `components/AppShell.tsx`, `components/PageHeader.tsx`, `components/Panel.tsx`, `app/layout.tsx`
   - *Acceptance:* Responsive layout adheres to "Career OS" theme tokens, smoothly renders on desktop & mobile.
 

@@ -104,5 +104,21 @@ This document is an append-only journal of all completed development tasks, veri
 - **Commands & Verification:**
   - `npm run build` (Clean build)
   - `npm test` (7/7 tests passed)
-- **Git Commit:** Pending commit.
+- **Git Commit:** 1e9ba1c ("feat(workspace): implement client-side WorkspaceContext with demo persistence and no-database isolation")
 - **Next Recommended Task:** TASK-006: Build AppShell global navigation layout (desktop sidebar, mobile drawer, topbar with live scenario badge, sync indicator, replanning chip, theme toggle).
+
+---
+
+### Entry 006 | 2026-10-24 10:46:00 +08:00
+- **Task ID:** TASK-006 (AppShell Global Navigation Layout)
+- **Status:** COMPLETED
+- **Description:** Implemented global AppShell layout, desktop fixed sidebar, mobile slide-over drawer, sticky header with scenario indicator pill, demo session sync dot, replanning alert chip, theme toggle, and standardized Panel and PageHeader components.
+- **What changed:**
+  - Created `components/Panel.tsx` with rounded styling, hairline card borders, and glow accents.
+  - Created `components/PageHeader.tsx` with category eyebrow, animated indicator dot, and action slots.
+  - Created `components/AppShell.tsx` with full 4-group navigation links, profile chip, scenario badge, replanning alert chip, and mobile drawer.
+  - Integrated `AppShell` into `app/layout.tsx`.
+- **Commands & Verification:**
+  - `npm run build` (Static page build succeeded with zero errors)
+- **Git Commit:** Pending commit.
+- **Next Recommended Task:** TASK-007: Implement Profile Editor (`/profile`) with 19 skill sliders (0–5), category counters, interest tags, demographic details, and profile routing guard (F-002).
