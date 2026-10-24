@@ -28,8 +28,8 @@
 | GitHub Repository | [https://github.com/ado0330/SDC-Skillax](https://github.com/ado0330/SDC-Skillax) |
 | Live Demo | https://skillaxai.replit.app |
 | RunPod Endpoint | Not used; the project does not use a GPU workload, so RunPod was not needed. |
-| Slide Deck | https://canva.link/q52012iorj46vlp|
-| Demo Video | In preparation; link will be added when ready. |
+| Slide Deck | https://drive.google.com/file/d/1U-VG6lmdYK92JnCCAD5cjefa9p3d205G/view?usp=sharing |
+| Demo Video | https://youtu.be/yY6k2AoyiRk?si=sys0_k6u-l-j6hi_ |
 
 ---
 
