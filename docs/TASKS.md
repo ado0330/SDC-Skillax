@@ -11,8 +11,8 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
   - *Files:* `AGENTS.md`, `docs/*`
   - *Acceptance:* Complete memory structure exists, Git repo initialized.
 
-- [ ] **TASK-002**: Initialize Next.js project shell with TypeScript, Tailwind CSS, Lucide icons, and Zod dependencies.
-  - *Status:* TODO
+- [x] **TASK-002**: Initialize Next.js project shell with TypeScript, Tailwind CSS, Lucide icons, and Zod dependencies.
+  - *Status:* DONE
   - *Files:* `package.json`, `tsconfig.json`, `tailwind.config.ts`, `postcss.config.js`, `app/layout.tsx`, `app/globals.css`
   - *Acceptance:* Next.js project builds cleanly and runs locally on port 3000.
 

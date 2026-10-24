@@ -8,45 +8,46 @@ Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI
 - **Overall Completion:** ~10% (Project Memory & Architecture established; moving to Next.js project shell initialization).
 
 ## 3. Latest Completed Task
-- **TASK-001**: Established complete persistent project-memory documentation (`AGENTS.md`, `docs/PROJECT_CONTEXT.md`, `docs/ARCHITECTURE.md`, `docs/TASKS.md`, `docs/PROGRESS_LOG.md`, `docs/DECISIONS.md`, `docs/HANDOFF.md`) and initialized local Git repository on `main`.
+- **TASK-002**: Initialized Next.js project shell with TypeScript, Tailwind CSS, Lucide icons, and Zod dependencies. Production build verified clean (`npm run build`).
 
 ## 4. Task Currently in Progress
-- None (TASK-001 completed; ready for TASK-002).
+- None (TASK-002 completed; ready for TASK-003).
 
 ## 5. Next Exact Task to Execute
-- **TASK-002**: Initialize the Next.js project shell with TypeScript, Tailwind CSS, Lucide icons, and Zod dependencies.
+- **TASK-003**: Implement core domain static catalogs (19 skills, 10 occupations, 17 SDGs, learning resources, fallback research signals, initial workforce data, synthetic cohorts).
 
 ## 6. Files & Modules Relevant to That Task
-- `package.json`
-- `tsconfig.json`
-- `tailwind.config.ts`
-- `postcss.config.js`
-- `app/layout.tsx`
-- `app/globals.css`
-- `app/page.tsx`
+- `lib/data/skills.ts`
+- `lib/data/roles.ts`
+- `lib/data/sdgs.ts`
+- `lib/data/learningResources.ts`
+- `lib/data/fallbackSignals.ts`
+- `lib/data/initialWorkforce.ts`
+- `lib/data/syntheticWorkers.ts`
+- `lib/data/sampleCvs.ts`
 
 ## 7. Last Verified Git Commit
-- Initialized repository on `main`; initial commit staging memory files.
+- `0ed7e40` (Staging TASK-002 commit next).
 
 ## 8. Current Git Branch & Working-Tree Status
 - Branch: `main`
-- Status: Clean initialized repo with documentation staged for initial commit.
+- Status: Next.js shell files created, verified build.
 
 ## 9. Last Successful Build or Test Results
-- Environment check verified Node `v26.10.0` and npm `11.19.1`.
+- `npm run build`: Compiled successfully (4/4 static pages generated, 0 type errors).
 
 ## 10. Known Bugs & Unresolved Blockers
 - None.
 
 ## 11. Required Environment Variables
-- `GEMINI_API_KEY`: Server-side API key for Google Gemini 2.5 Flash CV extraction (optional in demo mode due to offline fallback).
+- `GEMINI_API_KEY`: Server-side API key for Google Gemini (optional for demo due to offline fallback).
 
 ## 12. Replit Synchronization & Deployment Status
-- Local Git initialized; ready for GitHub connection and Replit import upon application foundation completion.
+- Canonical local repo building cleanly.
 
 ---
 
 ## Ready-to-Copy Instruction for Next Agent
 ```text
-Continue SKILLAX AI prototype development by executing TASK-002 in docs/TASKS.md: Initialize the Next.js project shell with TypeScript, Tailwind CSS, Lucide React, and Zod. Run build verification, update docs/PROGRESS_LOG.md, and commit changes to git.
+Continue SKILLAX AI prototype development by executing TASK-003 in docs/TASKS.md: Implement core domain static catalogs (19 skills, 10 occupations, 17 SDGs, learning resources, fallback research signals, initial workforce data, synthetic cohorts). Verify data matches reverse engineering spec, update docs/PROGRESS_LOG.md, and commit changes to git.
 ```
