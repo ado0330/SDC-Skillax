@@ -60,9 +60,9 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
   - *Files:* `app/careers/page.tsx`, `app/careers/[id]/page.tsx`, `components/ScoreRing.tsx`, `components/BarCharts.tsx`, `components/SdgBadge.tsx`
   - *Acceptance:* 10 roles ranked deterministically; clicking role displays full mathematical audit, gap dual-bars, and "Set as Target" action.
 
-- [ ] **TASK-011**: Implement 4-Phase Learning Roadmap (`/roadmap`) with estimated hours, learning resource links, and interactive milestone completion checkoffs.
-  - *Status:* TODO
-  - *Files:* `app/roadmap/page.tsx`
+- [x] **TASK-011**: Implement 4-Phase Learning Roadmap (`/roadmap`) with estimated hours, learning resource links, and interactive milestone completion checkoffs.
+  - *Status:* DONE
+  - *Files:* `app/roadmap/page.tsx`, `components/ExportModal.tsx`, `lib/domain/roadmap.ts`
   - *Acceptance:* Generates Phase 1 (Foundational), Phase 2 (Technical), Phase 3 (Capstone), Phase 4 (Portfolio); preserves completed milestones across regeneration.
 
 - [ ] **TASK-012**: Implement Scenario Lab (`/scenarios`) with Slower, Moderate, Rapid AI adoption toggles, simulation boost slider (-100 to +100), and live score comparison chart.

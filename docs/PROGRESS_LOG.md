@@ -190,5 +190,20 @@ This document is an append-only journal of all completed development tasks, veri
 - **Commands & Verification:**
   - `npm run build` (Clean build of 9/9 pages)
   - `npm test` (8/8 domain tests passed)
-- **Git Commit:** Pending commit.
+- **Git Commit:** b8f90e5 ("feat(careers): implement Career Matches directory and detailed mathematical audit page")
 - **Next Recommended Task:** TASK-011: Implement 4-Phase Learning Roadmap (`/roadmap`) with estimated hours, learning resource links, and interactive milestone completion checkoffs.
+
+---
+
+### Entry 011 | 2026-10-24 10:56:00 +08:00
+- **Task ID:** TASK-011 (4-Phase Learning Roadmap & Export Modal)
+- **Status:** COMPLETED
+- **Description:** Implemented the structured 4-phase learning pathway at `/roadmap` (F-042, F-043, F-044) with interactive completion checkoffs, study hours summation, duration pacing projections, target career switching, regeneration with completion state preservation, and export dialog for JSON download and print/PDF view.
+- **What changed:**
+  - Implemented `components/ExportModal.tsx` for structured JSON export, clipboard copy, and print-ready PDF view.
+  - Implemented `app/roadmap/page.tsx` displaying the 4-phase curriculum (Phase 1 Foundational, Phase 2 Applied, Phase 3 Capstone, Phase 4 Portfolio), target career switcher, study effort analytics, and interactive completion checkoffs.
+- **Commands & Verification:**
+  - `npm run build` (Clean build of 10/10 pages)
+  - `npm test` (8/8 domain tests passed)
+- **Git Commit:** Pending commit.
+- **Next Recommended Task:** TASK-012: Implement Scenario Lab (`/scenarios`) with Slower, Moderate, Rapid AI adoption toggles, simulation boost slider (-100 to +100), and live score comparison chart.

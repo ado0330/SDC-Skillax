@@ -8,18 +8,18 @@ Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI
 - **Overall Completion:** ~10% (Project Memory & Architecture established; moving to Next.js project shell initialization).
 
 ## 3. Latest Completed Task
-- **TASK-010**: Implemented Career Matches Directory (`/careers`) and Detail View (`/careers/[id]`) with ScoreRing, ScoreDecompositionBar, ProficiencyGapChart, and SDG badges.
+- **TASK-011**: Implemented 4-Phase Learning Roadmap (`/roadmap`) with estimated hours, learning resource links, interactive milestone completion checkoffs, and export modal (JSON/Print).
 
 ## 4. Task Currently in Progress
-- None (TASK-010 completed; ready for TASK-011).
+- None (TASK-011 completed; ready for TASK-012).
 
 ## 5. Next Exact Task to Execute
-- **TASK-011**: Implement 4-Phase Learning Roadmap (`/roadmap`) with estimated hours, learning resource links, and interactive milestone completion checkoffs.
+- **TASK-012**: Implement Scenario Lab (`/scenarios`) with Slower, Moderate, Rapid AI adoption toggles, simulation boost slider (-100 to +100), and live score comparison chart.
 
 ## 6. Files & Modules Relevant to That Task
-- `app/roadmap/page.tsx`
-- `components/ExportModal.tsx`
-- `lib/domain/roadmap.ts`
+- `app/scenarios/page.tsx`
+- `lib/domain/scenarios.ts`
+- `lib/domain/scoring.ts`
 
 ## 7. Last Verified Git Commit
 - `0ed7e40` (Staging TASK-002 commit next).
