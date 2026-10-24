@@ -451,8 +451,24 @@ This document is an append-only journal of all completed development tasks, veri
 - **Commands & Verification:**
   - `curl -s -o /dev/null -w "%{http_code}\n" http://localhost:3000/` (200 OK)
   - `curl -s -o /dev/null -w "%{http_code}\n" http://localhost:3000/profile` (200 OK)
-- **Git Commit:** Pending.
+- **Git Commit:** 0db3b05 ("docs: record maintenance entry 025 for dev server cache reset")
 - **Next Recommended Task:** All routes fully operational in dev mode.
+
+---
+
+### Entry 026 | 2026-10-24 12:35:00 +08:00
+- **Task ID:** MAINTENANCE (React Hydration Mismatch Resolution on Radar Page)
+- **Status:** COMPLETED
+- **Description:** Resolved React hydration error on `/radar` caused by `toLocaleDateString("en-MY")` generating `"18 Sept 2026"` in Node.js server environment and `"18 Sep 2026"` in the client browser. Created a deterministic UTC formatter and applied `suppressHydrationWarning`.
+- **What changed:**
+  - Added `formatDisplayDate(dateString: string)` in `lib/utils.ts` using explicit UTC and standardized month abbreviations (`Sep`).
+  - Updated `app/radar/page.tsx` to use `formatDisplayDate` and added `suppressHydrationWarning` on the date element.
+  - Verified `curl http://localhost:3000/radar` renders `"18 Sep 2026"` identically on server and client with zero console hydration warnings.
+- **Commands & Verification:**
+  - `npm test` (8/8 domain tests passing in 15.0ms)
+  - `curl -s -o /dev/null -w "%{http_code}\n" http://localhost:3000/radar` (200 OK)
+- **Git Commit:** 7684ac5 ("fix(radar): eliminate date hydration mismatch with deterministic formatDisplayDate")
+- **Next Recommended Task:** Ready for live demo and testing.
 
 
 
