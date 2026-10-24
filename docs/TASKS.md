@@ -104,8 +104,8 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
   - *Files:* `app/employer/page.tsx`
   - *Acceptance:* Aggregate planning view clearly disclaims individual candidate screening.
 
-- [ ] **TASK-019**: Implement Methodology & Transparency (`/methodology`) and Settings (`/settings`) with workspace reset dialog.
-  - *Status:* TODO
+- [x] **TASK-019**: Implement Methodology & Transparency (`/methodology`) and Settings (`/settings`) with workspace reset dialog.
+  - *Status:* DONE
   - *Files:* `app/methodology/page.tsx`, `app/settings/page.tsx`, `components/ResetModal.tsx`
   - *Acceptance:* Formula disclosures, source catalogs, theme options, and atomic reset functionality.
 

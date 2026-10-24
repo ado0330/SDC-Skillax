@@ -335,8 +335,25 @@ This document is an append-only journal of all completed development tasks, veri
 - **Commands & Verification:**
   - `npm run build` (Clean build of 16/16 pages)
   - `npm test` (8/8 domain tests passed)
-- **Git Commit:** Pending commit.
+- **Git Commit:** c3201f3 ("feat(employer): implement Enterprise Workforce Planning with capability benchmarks and coverage matrix")
 - **Next Recommended Task:** TASK-019: Implement Methodology & Transparency (`/methodology`) and Settings (`/settings`) with workspace reset dialog.
+
+---
+
+### Entry 019 | 2026-10-24 11:14:00 +08:00
+- **Task ID:** TASK-019 (Methodology Disclosures & Settings with Reset Dialog)
+- **Status:** COMPLETED
+- **Description:** Implemented the public Methodology & Scientific Transparency page (`/methodology`), user Settings dashboard (`/settings`), and atomic ResetModal (`components/ResetModal.tsx`) enforcing algorithmic open-box standards and client-side data sovereignty.
+- **What changed:**
+  - Implemented `components/ResetModal.tsx`: Warning dialog disclosing zero-database guarantees and executing atomic session state purges on user confirmation.
+  - Implemented `app/methodology/page.tsx`: Full mathematical formula disclosures (4-component baseline, 5-component workforce demand, scenario adjustments, boost slider), rigorous separation criteria for scientific research proxies vs empirical workforce time-series, full 10-role O*NET benchmark mappings, and privacy architectural invariant.
+  - Implemented `app/settings/page.tsx`: Theme toggles (Dark/Light), reduced motion accessibility toggle, learning profile pacing slider, target career designation switcher, storage byte footprint monitor, and atomic workspace reset card.
+- **Commands & Verification:**
+  - `npm run build` (Clean build of 18/18 pages)
+  - `npm test` (8/8 domain tests passed)
+- **Git Commit:** Pending commit.
+- **Next Recommended Task:** TASK-020: Implement Welcome Landing page (`/welcome`) and Export Plan dialog.
+
 
 
 

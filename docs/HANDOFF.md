@@ -5,33 +5,32 @@ Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI
 
 ## 2. Current Phase & Overall Completion Status
 - **Current Phase:** Phase 2 (Supporting Workflows & Full Experience)
-- **Overall Completion:** ~85% (16/16 routes building cleanly, 8/8 unit tests passing).
+- **Overall Completion:** ~90% (18/18 routes building cleanly, 8/8 unit tests passing).
 
 ## 3. Latest Completed Task
-- **TASK-018**: Implemented Enterprise Workforce View (`/employer`) with statutory non-screening disclaimers, cohort capability benchmarks, synthetic worker profiles, and 10-role requirement coverage matrix.
+- **TASK-019**: Implemented Methodology & Transparency (`/methodology`), Settings (`/settings`), and atomic ResetModal (`components/ResetModal.tsx`) with full mathematical formula disclosures, O*NET mappings, and zero-database invariant verification.
 
 ## 4. Task Currently in Progress
-- None (TASK-018 completed; ready for TASK-019).
+- None (TASK-019 completed; ready for TASK-020).
 
 ## 5. Next Exact Task to Execute
-- **TASK-019**: Implement Methodology & Transparency (`/methodology`) and Settings (`/settings`) with workspace reset dialog.
+- **TASK-020**: Implement Welcome Landing page (`/welcome`) providing high-level product presentation, architecture highlights, and evaluator tour.
 
 ## 6. Files & Modules Relevant to That Task
-- `app/methodology/page.tsx`
-- `app/settings/page.tsx`
-- `components/ResetModal.tsx`
-- `lib/workspace/useWorkspace.ts`
+- `app/welcome/page.tsx`
+- `components/ExportModal.tsx`
+- `components/AppShell.tsx`
 
 ## 7. Last Verified Git Commit
-- `12fc4d3` (TASK-017 commit; staging TASK-018 commit next).
+- `c3201f3` (TASK-018 commit; staging TASK-019 commit next).
 
 ## 8. Current Git Branch & Working-Tree Status
 - Branch: `main`
-- Status: Clean build of 16 pages, 8/8 tests passing.
+- Status: Clean build of 18 pages, 8/8 tests passing.
 
 ## 9. Last Successful Build or Test Results
-- `npm run build`: Compiled successfully (16/16 static pages generated, 0 type errors).
-- `npm test`: 8/8 unit tests passed in 13.9ms.
+- `npm run build`: Compiled successfully (18/18 static pages generated, 0 type errors).
+- `npm test`: 8/8 unit tests passed in 14.6ms.
 
 ## 10. Known Bugs & Unresolved Blockers
 - None.
@@ -46,5 +45,5 @@ Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI
 
 ## Ready-to-Copy Instruction for Next Agent
 ```text
-Continue SKILLAX AI prototype development by executing TASK-019 in docs/TASKS.md: Implement Methodology & Transparency (app/methodology/page.tsx), Settings (app/settings/page.tsx), and atomic workspace reset modal (components/ResetModal.tsx) ensuring all mathematical formulas, O*NET mappings, and no-database invariants are documented, and preferences can be reset cleanly. Verify build, update docs/PROGRESS_LOG.md, and commit changes to git.
+Continue SKILLAX AI prototype development by executing TASK-020 in docs/TASKS.md: Implement Welcome Landing page (app/welcome/page.tsx) featuring executive value proposition, architecture diagram, 10 priority occupation carousel/grid, zero-database disclosure, and evaluator fast-track tour. Verify build, update docs/PROGRESS_LOG.md, and commit changes to git.
 ```
