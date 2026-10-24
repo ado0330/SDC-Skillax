@@ -62,7 +62,7 @@ export default function UpdatesPage() {
                 "Manual replanning simulation triggered by evaluator to audit proposal workflow"
               )
             }
-            className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 transition-colors flex items-center gap-1.5 shadow-sm"
+            className="ui-button text-sm font-semibold px-3 py-1.5 rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-accent-cyan hover:bg-cyan-500/20 transition-colors flex items-center gap-1.5 shadow-sm"
           >
             <Sparkles className="h-3.5 w-3.5" />
             <span>Simulate Replanning Trigger</span>
@@ -74,15 +74,15 @@ export default function UpdatesPage() {
           <Panel glow={pendingCount > 0} className="p-5">
             <div className="flex items-center justify-between text-muted-foreground text-xs font-semibold uppercase tracking-wider">
               <span>Pending Review</span>
-              <AlertCircle className={`h-4 w-4 ${pendingCount > 0 ? "text-amber-400" : "text-muted-foreground"}`} />
+              <AlertCircle className={`h-4 w-4 ${pendingCount > 0 ? "text-warning" : "text-muted-foreground"}`} />
             </div>
             <div className="mt-3 flex items-baseline gap-2">
-              <span className={`text-3xl font-extrabold ${pendingCount > 0 ? "text-amber-400" : "text-foreground"}`}>
+              <span className={`text-3xl font-semibold ${pendingCount > 0 ? "text-warning" : "text-foreground"}`}>
                 {pendingCount}
               </span>
-              <span className="text-xs text-muted-foreground">Proposals Staged</span>
+              <span className="text-sm text-muted-foreground">Proposals Staged</span>
             </div>
-            <p className="mt-1 text-xs text-muted-foreground">
+            <p className="mt-1 text-sm text-muted-foreground">
               Awaiting explicit human approval
             </p>
           </Panel>
@@ -90,15 +90,15 @@ export default function UpdatesPage() {
           <Panel className="p-5">
             <div className="flex items-center justify-between text-muted-foreground text-xs font-semibold uppercase tracking-wider">
               <span>Approved Revisions</span>
-              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+              <CheckCircle2 className="h-4 w-4 text-success" />
             </div>
             <div className="mt-3 flex items-baseline gap-2">
-              <span className="text-3xl font-extrabold text-foreground">
+              <span className="text-3xl font-semibold text-foreground">
                 {approvedCount}
               </span>
-              <span className="text-xs text-muted-foreground">Applied</span>
+              <span className="text-sm text-muted-foreground">Applied</span>
             </div>
-            <p className="mt-1 text-xs text-muted-foreground">
+            <p className="mt-1 text-sm text-muted-foreground">
               Successfully merged into roadmap
             </p>
           </Panel>
@@ -106,15 +106,15 @@ export default function UpdatesPage() {
           <Panel className="p-5">
             <div className="flex items-center justify-between text-muted-foreground text-xs font-semibold uppercase tracking-wider">
               <span>Rejected Revisions</span>
-              <XCircle className="h-4 w-4 text-rose-400" />
+              <XCircle className="h-4 w-4 text-destructive" />
             </div>
             <div className="mt-3 flex items-baseline gap-2">
-              <span className="text-3xl font-extrabold text-foreground">
+              <span className="text-3xl font-semibold text-foreground">
                 {rejectedCount}
               </span>
-              <span className="text-xs text-muted-foreground">Archived</span>
+              <span className="text-sm text-muted-foreground">Archived</span>
             </div>
-            <p className="mt-1 text-xs text-muted-foreground">
+            <p className="mt-1 text-sm text-muted-foreground">
               Previous curriculum preserved
             </p>
           </Panel>
@@ -122,12 +122,12 @@ export default function UpdatesPage() {
           <Panel className="p-5">
             <div className="flex items-center justify-between text-muted-foreground text-xs font-semibold uppercase tracking-wider">
               <span>Governance Invariant</span>
-              <ShieldCheck className="h-4 w-4 text-cyan-400" />
+              <ShieldCheck className="h-4 w-4 text-accent-cyan" />
             </div>
-            <div className="mt-2 text-xs text-foreground font-semibold">
+            <div className="mt-2 text-sm text-foreground font-semibold">
               Zero Silent Overwrites
             </div>
-            <p className="mt-1 text-[11px] text-muted-foreground leading-relaxed">
+            <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
               Section 2.5 of AGENTS.md mandates all recalculations remain staged as proposals until confirmed.
             </p>
           </Panel>
@@ -141,24 +141,24 @@ export default function UpdatesPage() {
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <span
-                    className={`text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded border ${
+                    className={`text-xs uppercase font-mono font-semibold px-2 py-0.5 rounded border ${
                       activeProposal.status === "Pending Review"
-                        ? "bg-amber-500/10 text-amber-400 border-amber-500/30"
+                        ? "bg-amber-500/10 text-warning border-amber-500/30"
                         : activeProposal.status === "Approved"
-                        ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
-                        : "bg-rose-500/10 text-rose-400 border-rose-500/30"
+                        ? "bg-emerald-500/10 text-success border-emerald-500/30"
+                        : "bg-rose-500/10 text-destructive border-rose-500/30"
                     }`}
                   >
                     {activeProposal.status}
                   </span>
-                  <span className="text-xs text-muted-foreground font-mono">
+                  <span className="text-sm text-muted-foreground font-mono">
                     ID: {activeProposal.id}
                   </span>
                 </div>
-                <h3 className="text-lg font-bold text-foreground">
+                <h3 className="text-lg font-semibold text-foreground">
                   Recalculation Proposal: {activeProposal.reason}
                 </h3>
-                <span className="text-xs text-muted-foreground flex items-center gap-1">
+                <span className="text-sm text-muted-foreground flex items-center gap-1">
                   <Clock className="h-3 w-3" />
                   <span>Staged at {new Date(activeProposal.timestamp).toLocaleString()}</span>
                 </span>
@@ -168,14 +168,14 @@ export default function UpdatesPage() {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => rejectProposal(activeProposal.id)}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 text-xs font-semibold transition-colors"
+                    className="ui-button inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-rose-500/30 bg-rose-500/10 text-destructive hover:bg-rose-500/20 text-sm font-semibold transition-colors"
                   >
                     <X className="h-3.5 w-3.5" />
                     <span>Reject Changes</span>
                   </button>
                   <button
                     onClick={() => approveProposal(activeProposal.id)}
-                    className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-md transition-all hover:scale-[1.02]"
+                    className="ui-button inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-action hover:bg-action-hover text-white text-sm font-semibold shadow-md transition-all "
                   >
                     <Check className="h-3.5 w-3.5" />
                     <span>Approve &amp; Update Roadmap</span>
@@ -187,16 +187,16 @@ export default function UpdatesPage() {
             {/* Ranking Changes Comparison Table */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <h4 className="text-sm font-bold text-foreground">
+                <h4 className="text-sm font-semibold text-foreground">
                   Career Suitability Ranking Shifts
                 </h4>
-                <span className="text-xs text-muted-foreground">
+                <span className="text-sm text-muted-foreground">
                   Comparing current baseline vs. proposed trajectory
                 </span>
               </div>
 
-              <div className="rounded-xl border border-card-border overflow-hidden bg-card divide-y divide-card-border/60">
-                <div className="grid grid-cols-12 gap-2 p-3 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider bg-muted/40">
+              <div className="comparison-table rounded-xl border border-card-border overflow-x-auto bg-card divide-y divide-card-border/60">
+                <div className="grid grid-cols-12 gap-2 p-3 text-sm font-semibold text-muted-foreground uppercase tracking-wider bg-muted/40">
                   <span className="col-span-5">Occupation</span>
                   <span className="col-span-2 text-center">Previous Rank</span>
                   <span className="col-span-2 text-center">Proposed Rank</span>
@@ -218,13 +218,13 @@ export default function UpdatesPage() {
                   return (
                     <div
                       key={afterMatch.role.id}
-                      className="grid grid-cols-12 gap-2 p-3 items-center text-xs hover:bg-muted/20 transition-colors"
+                      className="grid grid-cols-12 gap-2 p-3 items-center text-sm hover:bg-muted/20 transition-colors"
                     >
                       <div className="col-span-5">
-                        <span className="font-bold text-foreground block">
+                        <span className="font-semibold text-foreground block">
                           {afterMatch.role.name}
                         </span>
-                        <span className="text-[10px] text-muted-foreground">
+                        <span className="text-sm text-muted-foreground">
                           {afterMatch.role.industry}
                         </span>
                       </div>
@@ -233,17 +233,17 @@ export default function UpdatesPage() {
                         #{prevRank} ({prevScore}%)
                       </div>
 
-                      <div className="col-span-2 text-center font-mono font-bold text-foreground">
+                      <div className="col-span-2 text-center font-mono font-semibold text-foreground">
                         #{newRank} ({newScore}%)
                       </div>
 
                       <div className="col-span-3 flex items-center justify-end gap-2 font-mono">
                         {rankDelta !== 0 && (
                           <span
-                            className={`inline-flex items-center gap-0.5 text-[10px] px-1.5 py-0.2 rounded font-semibold ${
+                            className={`inline-flex items-center gap-0.5 text-sm px-1.5 py-0.2 rounded font-semibold ${
                               rankDelta > 0
-                                ? "text-emerald-400 bg-emerald-500/10"
-                                : "text-amber-400 bg-amber-500/10"
+                                ? "text-success bg-emerald-500/10"
+                                : "text-warning bg-amber-500/10"
                             }`}
                           >
                             {rankDelta > 0 ? (
@@ -258,9 +258,9 @@ export default function UpdatesPage() {
                         <span
                           className={`font-semibold ${
                             scoreDelta > 0
-                              ? "text-emerald-400"
+                              ? "text-success"
                               : scoreDelta < 0
-                              ? "text-rose-400"
+                              ? "text-destructive"
                               : "text-muted-foreground"
                           }`}
                         >
@@ -274,10 +274,10 @@ export default function UpdatesPage() {
             </div>
 
             {/* Proposed Curriculum Invariant Notice */}
-            <div className="p-4 rounded-xl bg-muted/40 border border-card-border/80 flex items-start gap-3 text-xs">
-              <FileCheck className="h-5 w-5 text-emerald-400 shrink-0 mt-0.5" />
+            <div className="p-4 rounded-xl bg-muted/40 border border-card-border/80 flex items-start gap-3 text-sm">
+              <FileCheck className="h-5 w-5 text-success shrink-0 mt-0.5" />
               <div>
-                <span className="font-bold text-foreground block">
+                <span className="font-semibold text-foreground block">
                   Milestone Completion Preservation Guarantee
                 </span>
                 <p className="text-muted-foreground leading-relaxed mt-0.5">
@@ -290,10 +290,10 @@ export default function UpdatesPage() {
         ) : (
           <Panel className="p-10 text-center space-y-3">
             <History className="h-10 w-10 text-muted-foreground/50 mx-auto" />
-            <h3 className="text-base font-bold text-foreground">
+            <h3 className="text-base font-semibold text-foreground">
               No Proposals Currently in History
             </h3>
-            <p className="text-xs text-muted-foreground max-w-md mx-auto">
+            <p className="text-sm text-muted-foreground max-w-md mx-auto">
               Recalculation proposals are automatically created when you modify AI adoption scenarios in the Scenario Lab or when new workforce datasets are ingested.
             </p>
             <button
@@ -302,7 +302,7 @@ export default function UpdatesPage() {
                   "Evaluator test proposal triggered to audit human-in-the-loop review workflow"
                 )
               }
-              className="mt-2 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-xs font-semibold hover:bg-primary/90 transition-colors"
+              className="ui-button mt-2 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-action text-primary-foreground text-sm font-semibold hover:bg-action-hover transition-colors"
             >
               <Sparkles className="h-3.5 w-3.5" />
               <span>Generate Test Proposal</span>
@@ -313,7 +313,7 @@ export default function UpdatesPage() {
         {/* Historical Proposals Audit Trail */}
         {recommendationHistory.length > 0 && (
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
               <History className="h-4 w-4 text-primary" />
               <span>Recalculation Audit Trail ({recommendationHistory.length})</span>
             </h3>
@@ -326,7 +326,7 @@ export default function UpdatesPage() {
                   <button
                     key={item.id}
                     onClick={() => setSelectedProposalId(item.id)}
-                    className={`w-full p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-left transition-colors ${
+                    className={`ui-button w-full p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-left transition-colors ${
                       isSelected
                         ? "bg-primary/10 border-l-4 border-l-primary"
                         : "hover:bg-muted/30"
@@ -335,28 +335,28 @@ export default function UpdatesPage() {
                     <div className="space-y-0.5">
                       <div className="flex items-center gap-2">
                         <span
-                          className={`text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded border ${
+                          className={`text-xs uppercase font-mono font-semibold px-2 py-0.5 rounded border ${
                             item.status === "Pending Review"
-                              ? "bg-amber-500/10 text-amber-400 border-amber-500/30"
+                              ? "bg-amber-500/10 text-warning border-amber-500/30"
                               : item.status === "Approved"
-                              ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
-                              : "bg-rose-500/10 text-rose-400 border-rose-500/30"
+                              ? "bg-emerald-500/10 text-success border-emerald-500/30"
+                              : "bg-rose-500/10 text-destructive border-rose-500/30"
                           }`}
                         >
                           {item.status}
                         </span>
-                        <span className="text-xs font-bold text-foreground">
+                        <span className="text-sm font-semibold text-foreground">
                           {item.reason}
                         </span>
                       </div>
-                      <span className="text-[11px] text-muted-foreground flex items-center gap-1">
+                      <span className="text-sm text-muted-foreground flex items-center gap-1">
                         <Clock className="h-3 w-3" />
                         <span>{new Date(item.timestamp).toLocaleString()}</span>
                       </span>
                     </div>
 
                     <div className="flex items-center gap-2 shrink-0">
-                      <span className="text-xs text-muted-foreground font-mono">
+                      <span className="text-sm text-muted-foreground font-mono">
                         {item.afterMatches.length} Roles Scored
                       </span>
                       <ArrowRight className="h-4 w-4 text-muted-foreground" />

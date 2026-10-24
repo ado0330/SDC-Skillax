@@ -19,7 +19,7 @@ export function LevelDots({
   const dots = Array.from({ length: maxLevel }, (_, i) => i + 1);
 
   return (
-    <div className={cn("inline-flex items-center gap-1", className)}>
+    <div role="img" aria-label={`Level ${currentLevel} of ${maxLevel}${requiredLevel !== undefined ? `; required level ${requiredLevel}` : ""}`} className={cn("inline-flex items-center gap-1", className)}>
       {dots.map((level) => {
         const isCurrentFilled = level <= currentLevel;
         const isRequiredShortfall =
@@ -34,7 +34,7 @@ export function LevelDots({
               "rounded-full transition-colors",
               size === "sm" ? "h-1.5 w-3" : "h-2 w-4",
               isCurrentFilled
-                ? "bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.4)]"
+                ? "bg-chart-1"
                 : isRequiredShortfall
                 ? "border border-indigo-400 bg-indigo-500/30"
                 : "bg-muted-foreground/20"

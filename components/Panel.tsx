@@ -32,12 +32,12 @@ export function Panel({
       {...props}
     >
       {(title || headerAction) && (
-        <div className="mb-4 flex items-center justify-between border-b pb-3 border-card-border">
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b pb-4 border-card-border">
           <div className="flex items-center gap-2.5">
             {icon && <span className="text-primary">{icon}</span>}
             <div>
-              {title && <h3 className="text-base font-semibold text-foreground tracking-tight">{title}</h3>}
-              {subtitle && <p className="text-xs text-muted-foreground mt-0.5">{subtitle}</p>}
+              {title && <h3 className="text-lg font-semibold text-foreground tracking-tight">{title}</h3>}
+              {subtitle && <p className="text-sm text-muted-foreground mt-0.5">{subtitle}</p>}
             </div>
           </div>
           {headerAction && <div>{headerAction}</div>}

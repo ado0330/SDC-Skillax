@@ -58,7 +58,7 @@ export default function CareersPage() {
           title="Career Suitability Matches"
           description="Deterministic ranking of 10 benchmark O*NET occupations evaluated against your current capabilities, interests, and live market signals."
         >
-          <div className="text-xs text-muted-foreground flex items-center gap-1.5 font-mono">
+          <div className="text-sm text-muted-foreground flex items-center gap-1.5 font-mono">
             <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
             <span>10 Roles Evaluated Deterministically</span>
           </div>
@@ -68,18 +68,18 @@ export default function CareersPage() {
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-            <input
+            <input aria-label="Search career role title, description, or requirements..."
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search career role title, description, or requirements..."
-              className="w-full rounded-md border border-card-border bg-background pl-9 pr-3 py-2 text-xs text-foreground focus:border-primary focus:outline-none"
+              className="ui-field w-full rounded-md border border-card-border bg-background pl-9 pr-3 py-2 text-sm text-foreground focus:border-primary focus:outline-none"
             />
           </div>
-          <select
+          <select aria-label="Filter by industry"
             value={selectedIndustry}
             onChange={(e) => setSelectedIndustry(e.target.value)}
-            className="rounded-md border border-card-border bg-background px-3 py-2 text-xs text-foreground focus:outline-none"
+            className="ui-field rounded-md border border-card-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none"
           >
             {INDUSTRIES.map((ind) => (
               <option key={ind} value={ind}>
@@ -107,30 +107,30 @@ export default function CareersPage() {
 
                     <div className="space-y-1 min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="font-mono text-xs font-bold text-cyan-400">
+                        <span className="font-mono text-xs font-semibold text-accent-cyan">
                           #{match.rank}
                         </span>
-                        <h3 className="text-base font-bold text-foreground">
+                        <h3 className="text-base font-semibold text-foreground">
                           {match.role.name}
                         </h3>
                         {isTarget && (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-indigo-500/20 border border-indigo-500/40 px-2 py-0.5 text-[10px] font-bold text-indigo-300 uppercase tracking-wider">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-indigo-500/20 border border-indigo-500/40 px-2 py-0.5 text-sm font-semibold text-primary uppercase tracking-wider">
                             <Target className="h-3 w-3" />
                             Target Career
                           </span>
                         )}
                       </div>
 
-                      <p className="text-xs text-muted-foreground line-clamp-2 max-w-2xl leading-relaxed">
+                      <p className="text-sm text-muted-foreground line-clamp-2 max-w-2xl leading-relaxed">
                         {match.role.description}
                       </p>
 
-                      <div className="flex flex-wrap items-center gap-3 pt-1 text-xs text-muted-foreground">
-                        <span className="rounded bg-muted px-2 py-0.5 text-[11px] font-medium text-foreground">
+                      <div className="flex flex-wrap items-center gap-3 pt-1 text-sm text-muted-foreground">
+                        <span className="rounded bg-muted px-2 py-0.5 text-sm font-medium text-foreground">
                           {match.role.industry}
                         </span>
                         <span className="flex items-center gap-1">
-                          <Layers className="h-3.5 w-3.5 text-amber-400" />
+                          <Layers className="h-3.5 w-3.5 text-warning" />
                           <span>
                             {match.missingCount === 0
                               ? "All requirements met"
@@ -138,7 +138,7 @@ export default function CareersPage() {
                           </span>
                         </span>
                         <span className="flex items-center gap-1">
-                          <Clock className="h-3.5 w-3.5 text-cyan-400" />
+                          <Clock className="h-3.5 w-3.5 text-accent-cyan" />
                           <span>~{match.estimatedHours} study hours</span>
                         </span>
                       </div>
@@ -157,7 +157,7 @@ export default function CareersPage() {
                       {!isTarget && (
                         <button
                           onClick={() => setTargetRole(match.role.id)}
-                          className="inline-flex items-center gap-1.5 rounded-lg border border-card-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors"
+                          className="ui-button ui-button-secondary inline-flex items-center gap-1.5 rounded-lg border border-card-border bg-card px-3 py-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors"
                         >
                           <Target className="h-3.5 w-3.5" />
                           <span>Set Target</span>
@@ -165,7 +165,7 @@ export default function CareersPage() {
                       )}
                       <Link
                         href={`/careers/${match.role.id}`}
-                        className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-1.5 text-xs font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors"
+                        className="ui-button inline-flex items-center gap-1.5 rounded-lg bg-action px-3.5 py-1.5 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-action-hover transition-colors"
                       >
                         <span>Audit Match</span>
                         <ArrowRight className="h-3.5 w-3.5" />
@@ -175,35 +175,35 @@ export default function CareersPage() {
                 </div>
 
                 {/* Subcomponent Mini Bar Preview */}
-                <div className="mt-4 pt-3 border-t border-card-border/60 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2 text-[11px]">
+                <div className="mt-4 pt-3 border-t border-card-border/60 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2 text-sm">
                   <div>
-                    <span className="text-muted-foreground block text-[10px]">Direct Skills (50%)</span>
+                    <span className="text-muted-foreground block text-sm">Direct Skills (50%)</span>
                     <span className="font-mono font-semibold text-foreground">
                       {match.components.skillsScore}%
                     </span>
                   </div>
                   <div>
-                    <span className="text-muted-foreground block text-[10px]">Transferable (20%)</span>
+                    <span className="text-muted-foreground block text-sm">Transferable (20%)</span>
                     <span className="font-mono font-semibold text-foreground">
                       {match.components.transferableScore}%
                     </span>
                   </div>
                   <div>
-                    <span className="text-muted-foreground block text-[10px]">Interest Fit (15%)</span>
+                    <span className="text-muted-foreground block text-sm">Interest Fit (15%)</span>
                     <span className="font-mono font-semibold text-foreground">
                       {match.components.interestScore}%
                     </span>
                   </div>
                   <div>
-                    <span className="text-muted-foreground block text-[10px]">Research (15%)</span>
+                    <span className="text-muted-foreground block text-sm">Research (15%)</span>
                     <span className="font-mono font-semibold text-foreground">
                       {match.components.marketScore}%
                     </span>
                   </div>
                   {match.components.workforceScore !== null && (
                     <div>
-                      <span className="text-muted-foreground block text-[10px]">Workforce (10%)</span>
-                      <span className="font-mono font-semibold text-rose-400">
+                      <span className="text-muted-foreground block text-sm">Workforce (10%)</span>
+                      <span className="font-mono font-semibold text-destructive">
                         {match.components.workforceScore}%
                       </span>
                     </div>

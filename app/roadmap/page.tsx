@@ -77,13 +77,13 @@ export default function RoadmapPage() {
         }`}
       >
         <div className="flex items-start gap-3.5">
-          <button
+          <button aria-label={`${milestone.completed ? "Mark incomplete" : "Mark complete"}: ${milestone.title}`}
             onClick={() => toggleMilestone(milestone.id)}
-            className="mt-0.5 shrink-0 text-muted-foreground hover:text-emerald-400 transition-colors"
+            className="ui-button mt-0.5 shrink-0 text-muted-foreground hover:text-success transition-colors"
             title={milestone.completed ? "Mark incomplete" : "Mark milestone completed"}
           >
             {milestone.completed ? (
-              <CheckCircle className="h-5 w-5 text-emerald-400 fill-emerald-500/20" />
+              <CheckCircle className="h-5 w-5 text-success fill-emerald-500/20" />
             ) : (
               <Circle className="h-5 w-5" />
             )}
@@ -92,7 +92,7 @@ export default function RoadmapPage() {
           <div className="flex-1 min-w-0 space-y-1.5">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <h4
-                className={`text-sm font-bold tracking-tight ${
+                className={`text-sm font-semibold tracking-tight ${
                   milestone.completed
                     ? "line-through text-muted-foreground"
                     : "text-foreground"
@@ -102,22 +102,22 @@ export default function RoadmapPage() {
               </h4>
 
               <div className="flex items-center gap-2 shrink-0">
-                <span className="inline-flex items-center gap-1 rounded bg-muted px-2 py-0.5 font-mono text-[11px] font-bold text-foreground">
-                  <Clock className="h-3 w-3 text-cyan-400" />
+                <span className="inline-flex items-center gap-1 rounded bg-muted px-2 py-0.5 font-mono text-xs font-semibold text-foreground">
+                  <Clock className="h-3 w-3 text-accent-cyan" />
                   {milestone.hours} hrs
                 </span>
-                <span className="rounded bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 text-[10px] font-semibold text-cyan-400">
+                <span className="rounded bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 text-sm font-semibold text-accent-cyan">
                   {milestone.provider}
                 </span>
               </div>
             </div>
 
-            <p className="text-xs text-muted-foreground leading-relaxed">
+            <p className="text-sm text-muted-foreground leading-relaxed">
               {milestone.objective}
             </p>
 
-            <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-card-border/50 text-[11px]">
-              <span className="text-muted-foreground/80 italic">
+            <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-card-border/50 text-sm">
+              <span className="text-muted-foreground italic">
                 {milestone.prerequisites}
               </span>
               <a
@@ -147,7 +147,7 @@ export default function RoadmapPage() {
           <div className="flex items-center gap-2">
             <button
               onClick={regenerateRoadmap}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-card-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors"
+              className="ui-button ui-button-secondary inline-flex items-center gap-1.5 rounded-lg border border-card-border bg-card px-3 py-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors"
               title="Recalculate gaps and ordering while preserving completed checkmarks"
             >
               <RotateCcw className="h-3.5 w-3.5" />
@@ -155,7 +155,7 @@ export default function RoadmapPage() {
             </button>
             <button
               onClick={() => setIsExportModalOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-1.5 text-xs font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors"
+              className="ui-button inline-flex items-center gap-1.5 rounded-lg bg-action px-3.5 py-1.5 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-action-hover transition-colors"
             >
               <Download className="h-3.5 w-3.5" />
               <span>Export Plan</span>
@@ -167,14 +167,14 @@ export default function RoadmapPage() {
         <Panel className="p-5">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-card-border/60 pb-4 mb-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-400 ring-1 ring-indigo-500/30">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-500/10 text-primary ring-1 ring-indigo-500/30">
                 <Target className="h-5 w-5" />
               </div>
               <div>
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Active Target Career
                 </span>
-                <h3 className="text-base font-bold text-foreground">
+                <h3 className="text-base font-semibold text-foreground">
                   {targetRole?.name || "Select Target Occupation"}
                 </h3>
               </div>
@@ -182,11 +182,11 @@ export default function RoadmapPage() {
 
             {/* Switch Target Career Dropdown */}
             <div className="flex items-center gap-2">
-              <label className="text-xs text-muted-foreground">Target Role:</label>
-              <select
+              <label className="text-sm text-muted-foreground">Target Role:</label>
+              <select aria-label="Target career pathway"
                 value={targetRole?.id || ""}
                 onChange={(e) => setTargetRole(e.target.value)}
-                className="rounded-md border border-card-border bg-background px-3 py-1.5 text-xs font-semibold text-foreground focus:outline-none"
+                className="ui-field rounded-md border border-card-border bg-background px-3 py-1.5 text-sm font-semibold text-foreground focus:outline-none"
               >
                 {ROLES_CATALOG.map((r) => (
                   <option key={r.id} value={r.id}>
@@ -198,39 +198,39 @@ export default function RoadmapPage() {
           </div>
 
           {/* Progress Indicators */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
             <div>
-              <span className="text-muted-foreground block text-[10px] uppercase tracking-wider">
+              <span className="text-muted-foreground block text-xs uppercase tracking-wider">
                 Total Pathway Effort
               </span>
-              <span className="font-mono text-lg font-bold text-foreground">
+              <span className="font-mono text-lg font-semibold text-foreground">
                 {totalHours} hours
               </span>
             </div>
             <div>
-              <span className="text-muted-foreground block text-[10px] uppercase tracking-wider">
+              <span className="text-muted-foreground block text-xs uppercase tracking-wider">
                 Completed Milestones
               </span>
-              <span className="font-mono text-lg font-bold text-emerald-400">
+              <span className="font-mono text-lg font-semibold text-success">
                 {completedCount} of {roadmap.length}
               </span>
             </div>
             <div>
-              <span className="text-muted-foreground block text-[10px] uppercase tracking-wider">
+              <span className="text-muted-foreground block text-xs uppercase tracking-wider">
                 Completion Rate
               </span>
-              <span className="font-mono text-lg font-bold text-cyan-400">
+              <span className="font-mono text-lg font-semibold text-accent-cyan">
                 {percentComplete}%
               </span>
             </div>
             <div>
-              <span className="text-muted-foreground block text-[10px] uppercase tracking-wider">
+              <span className="text-muted-foreground block text-xs uppercase tracking-wider">
                 Projected Duration
               </span>
-              <span className="font-mono text-lg font-bold text-indigo-400">
+              <span className="font-mono text-lg font-semibold text-primary">
                 ~{estimatedWeeks} weeks
               </span>
-              <span className="text-[10px] text-muted-foreground block">
+              <span className="text-sm text-muted-foreground block">
                 at {weeklyPace} hrs/week
               </span>
             </div>
@@ -240,7 +240,7 @@ export default function RoadmapPage() {
           <div className="mt-4 h-2 w-full rounded-full bg-muted overflow-hidden">
             <div
               style={{ width: `${percentComplete}%` }}
-              className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-indigo-500 transition-all duration-500"
+              className="h-full rounded-full bg-chart-1 transition-all duration-500"
             />
           </div>
         </Panel>
@@ -258,7 +258,7 @@ export default function RoadmapPage() {
                 {phaseGroups.p1.map((m) => renderMilestoneCard(m))}
               </div>
             ) : (
-              <p className="text-xs text-muted-foreground italic py-2">
+              <p className="text-sm text-muted-foreground italic py-2">
                 No foundational level gaps detected. Your baseline proficiencies satisfy Phase 1.
               </p>
             )}
@@ -275,7 +275,7 @@ export default function RoadmapPage() {
                 {phaseGroups.p2.map((m) => renderMilestoneCard(m))}
               </div>
             ) : (
-              <p className="text-xs text-muted-foreground italic py-2">
+              <p className="text-sm text-muted-foreground italic py-2">
                 No technical shortfall detected for this phase.
               </p>
             )}

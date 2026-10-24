@@ -41,7 +41,7 @@ export default function CareerDetailPage() {
           <p className="text-muted-foreground text-sm">Career occupation not found.</p>
           <Link
             href="/careers"
-            className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground"
+            className="ui-button inline-flex items-center gap-2 rounded-lg bg-action px-4 py-2 text-sm font-semibold text-primary-foreground"
           >
             <ArrowLeft className="h-4 w-4" />
             <span>Back to Career Matches</span>
@@ -62,7 +62,7 @@ export default function CareerDetailPage() {
     <ProfileGate>
       <div className="space-y-6">
         {/* Breadcrumb Navigation */}
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Link href="/careers" className="hover:text-foreground flex items-center gap-1">
             <ArrowLeft className="h-3.5 w-3.5" />
             <span>Career Matches</span>
@@ -79,14 +79,14 @@ export default function CareerDetailPage() {
         >
           <div className="flex items-center gap-2.5">
             {isTarget ? (
-              <span className="inline-flex items-center gap-1.5 rounded-lg border border-indigo-500/40 bg-indigo-500/20 px-3.5 py-2 text-xs font-bold text-indigo-300">
+              <span className="inline-flex items-center gap-1.5 rounded-lg border border-indigo-500/40 bg-indigo-500/20 px-3.5 py-2 text-sm font-semibold text-primary">
                 <Target className="h-4 w-4" />
                 <span>Active Target Role</span>
               </span>
             ) : (
               <button
                 onClick={() => setTargetRole(role.id)}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-card-border bg-card px-3.5 py-2 text-xs font-semibold text-foreground hover:border-primary transition-colors"
+                className="ui-button ui-button-secondary inline-flex items-center gap-1.5 rounded-lg border border-card-border bg-card px-3.5 py-2 text-sm font-semibold text-foreground hover:border-primary transition-colors"
               >
                 <Target className="h-4 w-4 text-primary" />
                 <span>Set as Target Role</span>
@@ -95,7 +95,7 @@ export default function CareerDetailPage() {
 
             <button
               onClick={handleSetTargetAndGoToRoadmap}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors"
+              className="ui-button inline-flex items-center gap-1.5 rounded-lg bg-action px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-action-hover transition-colors"
             >
               <Map className="h-4 w-4" />
               <span>Target & View Roadmap</span>
@@ -107,10 +107,10 @@ export default function CareerDetailPage() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <Panel className="p-4 flex items-center justify-between">
             <div>
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Overall Match
               </span>
-              <div className="text-2xl font-bold font-mono text-cyan-400 mt-0.5">
+              <div className="text-2xl font-semibold font-mono text-accent-cyan mt-0.5">
                 {match.overallScore}%
               </div>
             </div>
@@ -118,27 +118,27 @@ export default function CareerDetailPage() {
           </Panel>
 
           <Panel className="p-4">
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Estimated Study
             </span>
-            <div className="text-2xl font-bold font-mono text-foreground mt-0.5">
+            <div className="text-2xl font-semibold font-mono text-foreground mt-0.5">
               ~{match.estimatedHours} hrs
             </div>
-            <p className="text-[11px] text-muted-foreground mt-0.5">4-phase gap curriculum</p>
+            <p className="text-sm text-muted-foreground mt-0.5">4-phase gap curriculum</p>
           </Panel>
 
           <Panel className="p-4">
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Automation Exposure
             </span>
-            <div className="text-2xl font-bold font-mono text-amber-400 mt-0.5">
+            <div className="text-2xl font-semibold font-mono text-warning mt-0.5">
               {role.exposure}/100
             </div>
-            <p className="text-[11px] text-muted-foreground mt-0.5">Industrial AI sensitivity</p>
+            <p className="text-sm text-muted-foreground mt-0.5">Industrial AI sensitivity</p>
           </Panel>
 
           <Panel className="p-4">
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               O*NET Family Reference
             </span>
             <div className="mt-1">
@@ -146,13 +146,13 @@ export default function CareerDetailPage() {
                 href={role.sourceUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-xs font-semibold text-cyan-400 hover:underline"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-accent-cyan hover:underline"
               >
                 <span>View Standard Profile</span>
                 <ExternalLink className="h-3 w-3" />
               </a>
             </div>
-            <p className="text-[11px] text-muted-foreground mt-0.5">Standardized taxonomy</p>
+            <p className="text-sm text-muted-foreground mt-0.5">Standardized taxonomy</p>
           </Panel>
         </div>
 
@@ -164,7 +164,7 @@ export default function CareerDetailPage() {
         >
           <div className="space-y-5">
             <div className="rounded-lg border border-card-border/80 bg-muted/40 p-3.5 font-mono text-xs text-foreground leading-relaxed">
-              <div className="text-cyan-400 font-semibold mb-1 uppercase tracking-wider text-[10px]">
+              <div className="text-accent-cyan font-semibold mb-1 uppercase tracking-wider text-sm">
                 Deterministic Formula Calculation:
               </div>
               {match.auditExplanation}
@@ -172,9 +172,9 @@ export default function CareerDetailPage() {
 
             <ScoreDecompositionBar components={match.components} />
 
-            <div className="rounded-lg border border-card-border bg-card/60 p-3 text-[11px] text-muted-foreground space-y-1">
+            <div className="rounded-lg border border-card-border bg-card/60 p-3 text-sm text-muted-foreground space-y-1">
               <div className="flex items-center gap-1.5 font-semibold text-foreground">
-                <ShieldCheck className="h-3.5 w-3.5 text-cyan-400" />
+                <ShieldCheck className="h-3.5 w-3.5 text-accent-cyan" />
                 <span>Decision Support Disclosure</span>
               </div>
               <p>
@@ -206,7 +206,7 @@ export default function CareerDetailPage() {
                 <SdgBadge key={sdgId} sdgId={sdgId} showName size="md" />
               ))}
             </div>
-            <p className="text-xs text-muted-foreground leading-relaxed pt-1">
+            <p className="text-sm text-muted-foreground leading-relaxed pt-1">
               {role.sdgRationale}
             </p>
           </div>

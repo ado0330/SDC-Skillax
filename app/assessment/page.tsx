@@ -306,7 +306,7 @@ export default function AssessmentWizardPage() {
       >
         <button
           onClick={handleFastTrack}
-          className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 transition-colors flex items-center gap-1.5"
+          className="ui-button text-sm font-semibold px-3 py-1.5 rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-accent-cyan hover:bg-cyan-500/20 transition-colors flex items-center gap-1.5"
         >
           <Sparkles className="h-3.5 w-3.5" />
           <span>Fast-Track Sample</span>
@@ -315,7 +315,7 @@ export default function AssessmentWizardPage() {
 
       {/* Progress Stepper */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground">
+        <div className="flex items-center justify-between text-sm font-semibold text-muted-foreground">
           <span>
             {isReviewed ? "Step 6: Review & Apply" : `Scenario ${currentStep + 1} of ${SCENARIOS.length}`}
           </span>
@@ -331,7 +331,7 @@ export default function AssessmentWizardPage() {
                 ? "100%"
                 : `${((currentStep + 1) / (SCENARIOS.length + 1)) * 100}%`,
             }}
-            className="h-full bg-gradient-to-r from-cyan-500 to-indigo-500 transition-all duration-300"
+            className="h-full bg-chart-1 transition-all duration-300"
           />
         </div>
       </div>
@@ -347,17 +347,17 @@ export default function AssessmentWizardPage() {
               <Panel glow className="p-6 sm:p-8 space-y-6">
                 {/* Header */}
                 <div className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-500/10 text-cyan-400 ring-1 ring-cyan-500/30 shrink-0">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-500/10 text-accent-cyan ring-1 ring-cyan-500/30 shrink-0">
                     <Icon className="h-6 w-6" />
                   </div>
                   <div>
-                    <span className="text-[11px] font-semibold uppercase tracking-wider text-cyan-400">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-accent-cyan">
                       {scenario.category}
                     </span>
-                    <h2 className="text-xl sm:text-2xl font-bold text-foreground mt-0.5">
+                    <h2 className="text-xl sm:text-2xl font-semibold text-foreground mt-0.5">
                       {scenario.title}
                     </h2>
-                    <p className="text-xs sm:text-sm text-muted-foreground mt-1 leading-relaxed">
+                    <p className="text-sm text-muted-foreground mt-1 leading-relaxed">
                       {scenario.context}
                     </p>
                   </div>
@@ -372,7 +372,7 @@ export default function AssessmentWizardPage() {
                       <button
                         key={opt.id}
                         onClick={() => handleSelectOption(opt.id)}
-                        className={`w-full p-4 rounded-xl border text-left transition-all duration-200 flex items-start gap-3 ${
+                        className={`ui-button w-full p-4 rounded-xl border text-left transition-all duration-200 flex items-start gap-3 ${
                           isSelected
                             ? "border-cyan-500 bg-cyan-500/10 ring-2 ring-cyan-500/40 shadow-md"
                             : "border-card-border bg-card/60 hover:bg-card hover:border-card-border/80"
@@ -384,7 +384,7 @@ export default function AssessmentWizardPage() {
 
                         <div className="space-y-1 flex-1">
                           <div className="flex items-center justify-between gap-2">
-                            <span className="text-sm font-bold text-foreground">
+                            <span className="text-sm font-semibold text-foreground">
                               {opt.label}
                             </span>
                             <div className="flex items-center gap-1.5 flex-wrap">
@@ -393,7 +393,7 @@ export default function AssessmentWizardPage() {
                                 return (
                                   <span
                                     key={sId}
-                                    className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground font-semibold"
+                                    className="text-sm font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground font-semibold"
                                   >
                                     {sk?.name || sId} L{lvl}
                                   </span>
@@ -401,7 +401,7 @@ export default function AssessmentWizardPage() {
                               })}
                             </div>
                           </div>
-                          <p className="text-xs text-muted-foreground leading-relaxed">
+                          <p className="text-sm text-muted-foreground leading-relaxed">
                             {opt.description}
                           </p>
                         </div>
@@ -415,7 +415,7 @@ export default function AssessmentWizardPage() {
                   <button
                     disabled={currentStep === 0}
                     onClick={() => setCurrentStep((prev) => Math.max(0, prev - 1))}
-                    className={`inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-lg border border-card-border transition-colors ${
+                    className={`ui-button inline-flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-lg border border-card-border transition-colors ${
                       currentStep === 0
                         ? "opacity-40 cursor-not-allowed text-muted-foreground"
                         : "hover:bg-muted/40 text-foreground"
@@ -429,10 +429,10 @@ export default function AssessmentWizardPage() {
                     <button
                       disabled={!isCurrentQuestionAnswered}
                       onClick={() => setCurrentStep((prev) => prev + 1)}
-                      className={`inline-flex items-center gap-1.5 text-xs font-semibold px-5 py-2.5 rounded-lg transition-all ${
+                      className={`ui-button inline-flex items-center gap-1.5 text-sm font-semibold px-5 py-2.5 rounded-lg transition-all ${
                         !isCurrentQuestionAnswered
                           ? "opacity-40 cursor-not-allowed bg-muted text-muted-foreground"
-                          : "bg-primary text-primary-foreground hover:bg-primary/90 shadow-md"
+                          : "bg-action text-primary-foreground hover:bg-action-hover shadow-md"
                       }`}
                     >
                       <span>Next Scenario</span>
@@ -442,10 +442,10 @@ export default function AssessmentWizardPage() {
                     <button
                       disabled={!isCurrentQuestionAnswered}
                       onClick={handleProceedToReview}
-                      className={`inline-flex items-center gap-1.5 text-xs font-semibold px-5 py-2.5 rounded-lg transition-all ${
+                      className={`ui-button inline-flex items-center gap-1.5 text-sm font-semibold px-5 py-2.5 rounded-lg transition-all ${
                         !isCurrentQuestionAnswered
                           ? "opacity-40 cursor-not-allowed bg-muted text-muted-foreground"
-                          : "bg-emerald-600 text-white hover:bg-emerald-500 shadow-md"
+                          : "bg-action text-white hover:bg-action-hover shadow-md"
                       }`}
                     >
                       <span>Review Staged Ratings</span>
@@ -462,13 +462,13 @@ export default function AssessmentWizardPage() {
         <Panel glow className="p-6 sm:p-8 space-y-6">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-400">
+              <span className="text-xs font-semibold uppercase tracking-wider text-success">
                 Stage 2: Human-in-the-Loop Verification
               </span>
-              <h2 className="text-2xl font-extrabold text-foreground mt-0.5">
+              <h2 className="text-2xl font-semibold text-foreground mt-0.5">
                 Staged Diagnostic Ratings
               </h2>
-              <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-2xl leading-relaxed">
+              <p className="text-sm text-muted-foreground mt-1 max-w-2xl leading-relaxed">
                 Based on your scenario responses, the following standard capability ratings have been generated. Review and adjust any rating before applying them to your active profile.
               </p>
             </div>
@@ -478,7 +478,7 @@ export default function AssessmentWizardPage() {
                 setIsReviewed(false);
                 setCurrentStep(0);
               }}
-              className="text-xs font-medium text-muted-foreground hover:text-foreground flex items-center gap-1 shrink-0"
+              className="ui-button text-sm font-medium text-muted-foreground hover:text-foreground flex items-center gap-1 shrink-0"
             >
               <RefreshCw className="h-3 w-3" />
               <span>Retake Wizard</span>
@@ -499,21 +499,21 @@ export default function AssessmentWizardPage() {
                 >
                   <div className="space-y-0.5">
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-bold text-foreground">
+                      <span className="text-sm font-semibold text-foreground">
                         {meta?.name || skillId}
                       </span>
-                      <span className="text-[10px] uppercase font-mono px-1.5 py-0.2 rounded bg-muted text-muted-foreground">
+                      <span className="text-xs uppercase font-mono px-1.5 py-0.2 rounded bg-muted text-muted-foreground">
                         {meta?.category || "Technical"}
                       </span>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <span>Prior Level: L{currentLevel}</span>
                       <span>→</span>
                       <span>Suggested: L{stagedLevel}</span>
                       {delta !== 0 && (
                         <span
                           className={`font-semibold ${
-                            delta > 0 ? "text-emerald-400" : "text-amber-400"
+                            delta > 0 ? "text-success" : "text-warning"
                           }`}
                         >
                           ({delta > 0 ? `+${delta}` : delta})
@@ -523,16 +523,18 @@ export default function AssessmentWizardPage() {
                   </div>
 
                   {/* Level Adjustment Controls */}
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-wrap items-center gap-3">
                     <LevelDots currentLevel={stagedLevel} maxLevel={5} size="sm" />
                     <div className="flex items-center gap-1 border border-card-border rounded-lg bg-card p-0.5">
                       {[1, 2, 3, 4, 5].map((lvl) => (
                         <button
                           key={lvl}
                           onClick={() => handleSkillLevelChange(skillId, lvl)}
-                          className={`h-6 w-6 rounded text-xs font-mono font-semibold transition-colors ${
+                          aria-label={`${meta?.name || skillId}: level ${lvl}`}
+                          aria-pressed={stagedLevel === lvl}
+                          className={`ui-button min-h-9 h-9 w-9 rounded text-sm font-mono font-semibold transition-colors ${
                             stagedLevel === lvl
-                              ? "bg-primary text-primary-foreground shadow-sm"
+                              ? "bg-action text-primary-foreground shadow-sm"
                               : "text-muted-foreground hover:text-foreground"
                           }`}
                         >
@@ -550,14 +552,14 @@ export default function AssessmentWizardPage() {
           <div className="pt-6 border-t border-card-border flex flex-col sm:flex-row items-center justify-between gap-3">
             <Link
               href="/profile"
-              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               Cancel &amp; return to profile
             </Link>
 
             <button
               onClick={handleApplyToProfile}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground shadow-lg hover:bg-primary/90 transition-all hover:scale-[1.01]"
+              className="ui-button w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-action px-6 py-2.5 text-sm font-semibold text-primary-foreground shadow-lg hover:bg-action-hover transition-all "
             >
               <Check className="h-4 w-4" />
               <span>Apply Ratings &amp; Explore Careers</span>

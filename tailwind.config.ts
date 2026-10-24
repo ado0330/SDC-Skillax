@@ -11,6 +11,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        success: "hsl(var(--success))",
+        warning: "hsl(var(--warning))",
+        action: {
+          DEFAULT: "hsl(var(--action))",
+          hover: "hsl(var(--action-hover))",
+        },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -52,13 +58,13 @@ const config: Config = {
         },
       },
       borderRadius: {
-        lg: "0.5rem",
+        lg: "0.625rem",
         md: "0.375rem",
         sm: "0.25rem",
       },
       boxShadow: {
-        glow: "0 0 20px -5px rgba(56, 189, 248, 0.25)",
-        "glow-violet": "0 0 20px -5px rgba(129, 140, 248, 0.25)",
+        glow: "0 2px 6px rgb(0 0 0 / 0.08)",
+        "glow-violet": "0 2px 6px rgb(0 0 0 / 0.08)",
       },
     },
   },

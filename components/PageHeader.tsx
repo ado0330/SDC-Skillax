@@ -18,19 +18,18 @@ export function PageHeader({
 }: PageHeaderProps) {
   return (
     <div className={cn("mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center", className)}>
-      <div>
+      <div className="min-w-0">
         {eyebrow && (
           <div className="mb-1.5 flex items-center gap-2">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
             </span>
-            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-500">
+            <span className="text-xs font-semibold tracking-wider text-primary">
               {eyebrow}
             </span>
           </div>
         )}
-        <h1 className="text-[26px] sm:text-[28px] font-bold tracking-tight text-foreground">
+        <h1 className="text-[28px] sm:text-[32px] leading-tight font-semibold tracking-tight text-foreground">
           {title}
         </h1>
         {description && (
@@ -40,7 +39,7 @@ export function PageHeader({
         )}
       </div>
       {children && (
-        <div className="flex shrink-0 items-center gap-2.5">
+        <div className="page-actions flex min-w-0 shrink-0 flex-wrap items-center gap-2.5">
           {children}
         </div>
       )}

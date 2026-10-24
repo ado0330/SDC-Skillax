@@ -20,8 +20,8 @@ export function ScoreDecompositionBar({
       rawScore: components.skillsScore,
       weightPct: Math.round(50 * baselineScale),
       points: Number((components.skillsScore * 0.5 * baselineScale).toFixed(1)),
-      color: "bg-blue-500",
-      textColor: "text-blue-400",
+      color: "bg-chart-1",
+      textColor: "text-primary",
       description: "Direct alignment to catalogued role skill proficiencies.",
     },
     {
@@ -29,8 +29,8 @@ export function ScoreDecompositionBar({
       rawScore: components.transferableScore,
       weightPct: Math.round(20 * baselineScale),
       points: Number((components.transferableScore * 0.2 * baselineScale).toFixed(1)),
-      color: "bg-teal-500",
-      textColor: "text-teal-400",
+      color: "bg-chart-2",
+      textColor: "text-chart-2",
       description: "Cross-functional competencies (communication, ethics, coordination).",
     },
     {
@@ -38,8 +38,8 @@ export function ScoreDecompositionBar({
       rawScore: components.interestScore,
       weightPct: Math.round(15 * baselineScale),
       points: Number((components.interestScore * 0.15 * baselineScale).toFixed(1)),
-      color: "bg-purple-500",
-      textColor: "text-purple-400",
+      color: "bg-chart-3",
+      textColor: "text-chart-3",
       description: "Match between candidate interest tags and occupational industry.",
     },
     {
@@ -47,8 +47,8 @@ export function ScoreDecompositionBar({
       rawScore: components.marketScore,
       weightPct: Math.round(15 * baselineScale),
       points: Number((components.marketScore * 0.15 * baselineScale).toFixed(1)),
-      color: "bg-amber-500",
-      textColor: "text-amber-400",
+      color: "bg-chart-4",
+      textColor: "text-warning",
       description: "Scientific publication mentions (Hugging Face / MIT AI News).",
     },
   ];
@@ -59,8 +59,8 @@ export function ScoreDecompositionBar({
       rawScore: components.workforceScore,
       weightPct: 10,
       points: Number((components.workforceScore * 0.1).toFixed(1)),
-      color: "bg-rose-500",
-      textColor: "text-rose-400",
+      color: "bg-chart-5",
+      textColor: "text-destructive",
       description: "Eligible comparable time-series workforce demand trend.",
     });
   }
@@ -83,13 +83,13 @@ export function ScoreDecompositionBar({
       <div className="space-y-3">
         {items.map((item) => (
           <div key={item.label} className="rounded-lg border border-card-border/60 bg-card/40 p-3">
-            <div className="flex items-center justify-between text-xs mb-1">
+            <div className="score-breakdown-row flex items-center justify-between text-sm mb-1">
               <span className="font-semibold text-foreground">{item.label}</span>
               <div className="flex items-center gap-2">
-                <span className="text-[11px] text-muted-foreground font-mono">
+                <span className="text-sm text-muted-foreground font-mono">
                   {item.rawScore}% raw × {item.weightPct}% weight =
                 </span>
-                <span className={cn("font-mono font-bold text-sm", item.textColor)}>
+                <span className={cn("font-mono font-semibold text-sm", item.textColor)}>
                   +{item.points} pts
                 </span>
               </div>
@@ -102,7 +102,7 @@ export function ScoreDecompositionBar({
                 className={cn("h-full rounded-full", item.color)}
               />
             </div>
-            <p className="mt-1 text-[11px] text-muted-foreground">{item.description}</p>
+            <p className="mt-1 text-sm text-muted-foreground">{item.description}</p>
           </div>
         ))}
       </div>
@@ -127,20 +127,20 @@ export function ProficiencyGapChart({
         return (
           <div
             key={gap.skillId}
-            className="rounded-lg border border-card-border/60 bg-card/40 p-3 text-xs"
+            className="rounded-lg border border-card-border/60 bg-card/40 p-3 text-sm"
           >
             <div className="flex items-center justify-between mb-2">
               <div>
                 <span className="font-semibold text-foreground text-sm">{gap.skillName}</span>
-                <span className="ml-2 text-[11px] text-muted-foreground">({gap.category})</span>
+                <span className="ml-2 text-sm text-muted-foreground">({gap.category})</span>
               </div>
               <div>
                 {isMet ? (
-                  <span className="inline-flex items-center rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-[11px] font-semibold text-emerald-400">
+                  <span className="inline-flex items-center rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-sm font-semibold text-success">
                     Requirement Met
                   </span>
                 ) : (
-                  <span className="inline-flex items-center rounded-full bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 text-[11px] font-semibold text-amber-400 font-mono">
+                  <span className="inline-flex items-center rounded-full bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 text-sm font-semibold text-warning font-mono">
                     -{gap.gap} Level Shortfall
                   </span>
                 )}
@@ -150,27 +150,27 @@ export function ProficiencyGapChart({
             {/* Dual Bar (Current Cyan vs Required Indigo) */}
             <div className="space-y-1.5">
               <div className="flex items-center gap-2">
-                <span className="w-14 text-[10px] font-mono text-muted-foreground">Current:</span>
+                <span className="w-14 text-sm font-mono text-muted-foreground">Current:</span>
                 <div className="h-2 flex-1 rounded-full bg-muted overflow-hidden">
                   <div
                     style={{ width: `${(gap.currentLevel / 5) * 100}%` }}
                     className="h-full rounded-full bg-cyan-400"
                   />
                 </div>
-                <span className="w-8 text-right font-mono text-[11px] font-bold text-cyan-400">
+                <span className="w-8 text-right font-mono text-xs font-semibold text-accent-cyan">
                   {gap.currentLevel}/5
                 </span>
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="w-14 text-[10px] font-mono text-muted-foreground">Required:</span>
+                <span className="w-14 text-sm font-mono text-muted-foreground">Required:</span>
                 <div className="h-2 flex-1 rounded-full bg-muted overflow-hidden">
                   <div
                     style={{ width: `${(gap.requiredLevel / 5) * 100}%` }}
                     className="h-full rounded-full bg-indigo-500"
                   />
                 </div>
-                <span className="w-8 text-right font-mono text-[11px] font-bold text-indigo-400">
+                <span className="w-8 text-right font-mono text-xs font-semibold text-primary">
                   {gap.requiredLevel}/5
                 </span>
               </div>

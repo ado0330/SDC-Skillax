@@ -17,8 +17,8 @@ export function ScoreRing({
   const clampedScore = Math.max(0, Math.min(100, Math.round(score)));
 
   const sizeConfig = {
-    sm: { dimension: 56, stroke: 4.5, radius: 22, text: "text-xs", labelText: "text-[8px]" },
-    md: { dimension: 84, stroke: 6, radius: 34, text: "text-lg", labelText: "text-[9px]" },
+    sm: { dimension: 56, stroke: 4.5, radius: 22, text: "text-xs", labelText: "text-[9px]" },
+    md: { dimension: 84, stroke: 6, radius: 34, text: "text-lg", labelText: "text-[11px]" },
     lg: { dimension: 110, stroke: 8, radius: 46, text: "text-2xl", labelText: "text-[10px]" },
     xl: { dimension: 140, stroke: 10, radius: 58, text: "text-3xl", labelText: "text-[11px]" },
   };
@@ -29,6 +29,8 @@ export function ScoreRing({
 
   return (
     <div
+      role="img"
+      aria-label={`${label}: ${clampedScore}%`}
       className={cn("relative inline-flex items-center justify-center shrink-0", className)}
       style={{ width: config.dimension, height: config.dimension }}
     >
@@ -60,7 +62,7 @@ export function ScoreRing({
           cy={config.dimension / 2}
           r={config.radius}
           fill="transparent"
-          stroke="url(#scoreGradient)"
+          stroke="hsl(var(--chart-1))"
           strokeWidth={config.stroke}
           strokeDasharray={circumference}
           strokeDashoffset={strokeDashoffset}
@@ -71,11 +73,11 @@ export function ScoreRing({
 
       {/* Center Label */}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-        <span className={cn("font-bold font-mono tracking-tight text-foreground", config.text)}>
+        <span className={cn("font-semibold font-mono tracking-tight text-foreground", config.text)}>
           {clampedScore}%
         </span>
         {label && (
-          <span className={cn("font-semibold uppercase tracking-widest text-muted-foreground", config.labelText)}>
+          <span className={cn("font-medium uppercase tracking-normal text-muted-foreground", config.labelText)}>
             {label}
           </span>
         )}

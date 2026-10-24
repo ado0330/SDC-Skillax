@@ -124,7 +124,7 @@ export default function ProgressPage() {
       description: "Completed your first reskilling module",
       achieved: stats.completedCount >= 1,
       icon: Sparkles,
-      color: "text-cyan-400 bg-cyan-500/10 border-cyan-500/30",
+      color: "text-accent-cyan bg-cyan-500/10 border-cyan-500/30",
     },
     {
       id: "halfway",
@@ -132,7 +132,7 @@ export default function ProgressPage() {
       description: "Finished 50% or more of career pathway",
       achieved: stats.completionPct >= 50,
       icon: Flame,
-      color: "text-amber-400 bg-amber-500/10 border-amber-500/30",
+      color: "text-warning bg-amber-500/10 border-amber-500/30",
     },
     {
       id: "foundation-master",
@@ -140,7 +140,7 @@ export default function ProgressPage() {
       description: "Completed 100% of Phase 1 Foundational modules",
       achieved: stats.phaseBreakdown[0].pct === 100 && stats.phaseBreakdown[0].total > 0,
       icon: Layers,
-      color: "text-purple-400 bg-purple-500/10 border-purple-500/30",
+      color: "text-chart-3 bg-purple-500/10 border-purple-500/30",
     },
     {
       id: "job-ready",
@@ -148,7 +148,7 @@ export default function ProgressPage() {
       description: "Completed all 4 phases including capstone & portfolio",
       achieved: stats.completionPct === 100 && stats.totalMilestones > 0,
       icon: Award,
-      color: "text-emerald-400 bg-emerald-500/10 border-emerald-500/30",
+      color: "text-success bg-emerald-500/10 border-emerald-500/30",
     },
   ];
 
@@ -161,7 +161,7 @@ export default function ProgressPage() {
           description={`Tracking completion milestones, study hours invested, and estimated delivery dates toward your career transition.`}
         >
           {focusRole && (
-            <div className="flex items-center gap-2 rounded-lg border border-card-border bg-card/60 px-3 py-1.5 text-xs text-muted-foreground">
+            <div className="flex items-center gap-2 rounded-lg border border-card-border bg-card/60 px-3 py-1.5 text-sm text-muted-foreground">
               <Target className="h-4 w-4 text-primary" />
               <span>Target: <strong className="text-foreground">{focusRole.name}</strong></span>
             </div>
@@ -176,10 +176,10 @@ export default function ProgressPage() {
               <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Pathway Completion
               </span>
-              <div className="text-2xl font-extrabold text-foreground">
+              <div className="text-2xl font-semibold text-foreground">
                 {stats.completedCount} / {stats.totalMilestones}
               </div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-sm text-muted-foreground">
                 Milestones completed
               </p>
             </div>
@@ -190,15 +190,15 @@ export default function ProgressPage() {
           <Panel className="p-5">
             <div className="flex items-center justify-between text-muted-foreground text-xs font-semibold uppercase tracking-wider">
               <span>Study Hours Completed</span>
-              <Clock className="h-4 w-4 text-emerald-400" />
+              <Clock className="h-4 w-4 text-success" />
             </div>
             <div className="mt-3 flex items-baseline gap-2">
-              <span className="text-3xl font-extrabold text-emerald-400 font-mono">
+              <span className="text-3xl font-semibold text-success font-mono">
                 {stats.completedHours}
               </span>
-              <span className="text-xs text-muted-foreground">/ {stats.totalHours} hrs</span>
+              <span className="text-sm text-muted-foreground">/ {stats.totalHours} hrs</span>
             </div>
-            <p className="mt-1 text-xs text-muted-foreground">
+            <p className="mt-1 text-sm text-muted-foreground">
               {stats.remainingHours} study hours remaining
             </p>
           </Panel>
@@ -207,15 +207,15 @@ export default function ProgressPage() {
           <Panel className="p-5">
             <div className="flex items-center justify-between text-muted-foreground text-xs font-semibold uppercase tracking-wider">
               <span>Estimated Delivery</span>
-              <Calendar className="h-4 w-4 text-cyan-400" />
+              <Calendar className="h-4 w-4 text-accent-cyan" />
             </div>
             <div className="mt-3 flex items-baseline gap-2">
-              <span className="text-3xl font-extrabold text-foreground font-mono">
+              <span className="text-3xl font-semibold text-foreground font-mono">
                 ~{stats.weeksRemaining}
               </span>
-              <span className="text-xs text-muted-foreground">Weeks to Target</span>
+              <span className="text-sm text-muted-foreground">Weeks to Target</span>
             </div>
-            <p className="mt-1 text-xs text-muted-foreground">
+            <p className="mt-1 text-sm text-muted-foreground">
               At your current pace of {stats.weeklyHours} hrs/week
             </p>
           </Panel>
@@ -224,13 +224,13 @@ export default function ProgressPage() {
           <Panel className="p-5">
             <div className="flex items-center justify-between text-muted-foreground text-xs font-semibold uppercase tracking-wider">
               <span>Active Target</span>
-              <Target className="h-4 w-4 text-purple-400" />
+              <Target className="h-4 w-4 text-chart-3" />
             </div>
             <div className="mt-3">
-              <div className="text-base font-bold text-foreground truncate">
+              <div className="text-base font-semibold text-foreground truncate">
                 {focusRole?.name || "No target role set"}
               </div>
-              <p className="mt-1 text-xs text-muted-foreground">
+              <p className="mt-1 text-sm text-muted-foreground">
                 {focusRole ? `${focusRole.industry} • 4-Phase Curriculum` : "Select a target in Career Matches"}
               </p>
             </div>
@@ -242,19 +242,19 @@ export default function ProgressPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2">
-                <Sliders className="h-4 w-4 text-cyan-400" />
-                <h3 className="text-sm font-bold text-foreground">
+                <Sliders className="h-4 w-4 text-accent-cyan" />
+                <h3 className="text-sm font-semibold text-foreground">
                   Weekly Study Pace Simulator
                 </h3>
               </div>
-              <p className="text-xs text-muted-foreground mt-0.5">
+              <p className="text-sm text-muted-foreground mt-0.5">
                 Adjust your weekly study commitment to project target completion timelines dynamically.
               </p>
             </div>
 
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-3">
-                <input
+                <input aria-label="Weekly study hours"
                   type="range"
                   min="2"
                   max="30"
@@ -263,9 +263,9 @@ export default function ProgressPage() {
                   onChange={(e) =>
                     updateProfile({ weeklyHours: Number(e.target.value) })
                   }
-                  className="w-36 sm:w-48 accent-cyan-500 cursor-pointer"
+                  className="ui-field w-36 sm:w-48 accent-cyan-500 cursor-pointer"
                 />
-                <span className="font-mono text-sm font-bold text-foreground min-w-[60px] text-right">
+                <span className="font-mono text-xs font-semibold text-foreground min-w-[60px] text-right">
                   {stats.weeklyHours} hrs/wk
                 </span>
               </div>
@@ -275,7 +275,7 @@ export default function ProgressPage() {
 
         {/* Phase-by-Phase Effort Progress */}
         <div className="space-y-4">
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
             <Layers className="h-4 w-4 text-primary" />
             <span>4-Phase Curriculum Progression</span>
           </h3>
@@ -285,14 +285,14 @@ export default function ProgressPage() {
               <Panel key={phase.phase} className="p-5 space-y-3">
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-muted text-muted-foreground font-semibold">
+                    <span className="text-xs uppercase font-mono px-2 py-0.5 rounded bg-muted text-muted-foreground font-semibold">
                       Phase {phase.phase}
                     </span>
-                    <h4 className="text-sm font-bold text-foreground mt-1">
+                    <h4 className="text-sm font-semibold text-foreground mt-1">
                       {phase.title}
                     </h4>
                   </div>
-                  <span className="text-sm font-bold font-mono text-primary">
+                  <span className="text-sm font-semibold font-mono text-primary">
                     {phase.pct}%
                   </span>
                 </div>
@@ -301,11 +301,11 @@ export default function ProgressPage() {
                 <div className="h-2 w-full rounded-full bg-card-border overflow-hidden">
                   <div
                     style={{ width: `${phase.pct}%` }}
-                    className="h-full bg-gradient-to-r from-cyan-500 to-indigo-500 transition-all duration-300"
+                    className="h-full bg-chart-1 transition-all duration-300"
                   />
                 </div>
 
-                <div className="flex items-center justify-between text-xs text-muted-foreground pt-1">
+                <div className="flex items-center justify-between text-sm text-muted-foreground pt-1">
                   <span>
                     {phase.completed} of {phase.total} milestones done
                   </span>
@@ -320,8 +320,8 @@ export default function ProgressPage() {
 
         {/* Achievement Velocity Badges */}
         <div className="space-y-4">
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-            <Award className="h-4 w-4 text-amber-400" />
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <Award className="h-4 w-4 text-warning" />
             <span>Reskilling Velocity Badges</span>
           </h3>
 
@@ -342,15 +342,15 @@ export default function ProgressPage() {
                       <Icon className="h-5 w-5" />
                     </div>
                     <div>
-                      <h4 className="text-xs font-bold text-foreground">
+                      <h4 className="text-sm font-semibold text-foreground">
                         {badge.name}
                       </h4>
-                      <span className="text-[10px] font-semibold text-muted-foreground">
+                      <span className="text-sm font-semibold text-muted-foreground">
                         {badge.achieved ? "Unlocked" : "Locked"}
                       </span>
                     </div>
                   </div>
-                  <p className="text-[11px] text-muted-foreground leading-relaxed">
+                  <p className="text-sm text-muted-foreground leading-relaxed">
                     {badge.description}
                   </p>
                 </Panel>
@@ -363,11 +363,11 @@ export default function ProgressPage() {
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                <BookOpen className="h-4 w-4 text-emerald-400" />
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+                <BookOpen className="h-4 w-4 text-success" />
                 <span>Pathway Modules Checklist ({filteredMilestones.length})</span>
               </h3>
-              <p className="text-xs text-muted-foreground mt-0.5">
+              <p className="text-sm text-muted-foreground mt-0.5">
                 Check off completed milestones in real time. State is preserved across recalculations.
               </p>
             </div>
@@ -378,9 +378,9 @@ export default function ProgressPage() {
                 <button
                   key={f}
                   onClick={() => setFilter(f)}
-                  className={`px-3 py-1 text-xs font-medium rounded-lg capitalize transition-colors ${
+                  className={`ui-button px-3 py-1 text-sm font-medium rounded-lg capitalize transition-colors ${
                     filter === f
-                      ? "bg-primary text-primary-foreground font-semibold shadow-sm"
+                      ? "bg-action text-primary-foreground font-semibold shadow-sm"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                   }`}
                 >
@@ -392,7 +392,7 @@ export default function ProgressPage() {
 
           <div className="rounded-2xl border border-card-border overflow-hidden bg-card divide-y divide-card-border/60">
             {filteredMilestones.length === 0 ? (
-              <div className="p-8 text-center text-xs text-muted-foreground">
+              <div className="p-8 text-center text-sm text-muted-foreground">
                 No milestones found matching filter &quot;{filter}&quot;.
               </div>
             ) : (
@@ -407,11 +407,12 @@ export default function ProgressPage() {
                     }`}
                   >
                     <div className="flex items-start gap-3">
-                      <button
+                      <button aria-label={`${isCompleted ? "Mark incomplete" : "Mark complete"}: ${m.title}`}
                         onClick={() => toggleMilestone(m.id)}
-                        className={`mt-0.5 flex h-5 w-5 items-center justify-center rounded-lg border transition-all ${
+                        aria-pressed={isCompleted}
+                        className={`ui-button ui-button-icon mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border transition-all ${
                           isCompleted
-                            ? "bg-emerald-500 border-emerald-500 text-white shadow-sm"
+                            ? "bg-emerald-700 border-emerald-500 text-white shadow-sm"
                             : "border-card-border hover:border-emerald-500"
                         }`}
                         title={isCompleted ? "Mark incomplete" : "Mark complete"}
@@ -421,14 +422,14 @@ export default function ProgressPage() {
 
                       <div className="space-y-0.5">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-[10px] uppercase font-mono px-1.5 py-0.2 rounded bg-muted text-muted-foreground font-semibold">
+                          <span className="text-xs uppercase font-mono px-1.5 py-0.2 rounded bg-muted text-muted-foreground font-semibold">
                             Phase {m.phase}
                           </span>
-                          <span className="text-xs font-semibold px-2 py-0.2 rounded bg-cyan-500/10 text-cyan-400">
+                          <span className="text-sm font-semibold px-2 py-0.2 rounded bg-cyan-500/10 text-accent-cyan">
                             {m.skillId}
                           </span>
                           <h4
-                            className={`text-sm font-bold ${
+                            className={`text-sm font-semibold ${
                               isCompleted
                                 ? "line-through text-muted-foreground"
                                 : "text-foreground"
@@ -437,18 +438,18 @@ export default function ProgressPage() {
                             {m.title}
                           </h4>
                         </div>
-                        <p className="text-xs text-muted-foreground line-clamp-1">
+                        <p className="text-sm text-muted-foreground line-clamp-1">
                           {m.objective}
                         </p>
                       </div>
                     </div>
 
                     <div className="flex items-center gap-4 shrink-0 sm:self-center pl-8 sm:pl-0">
-                      <div className="text-right text-xs">
+                      <div className="text-right text-sm">
                         <span className="font-mono font-semibold text-foreground">
                           {m.hours} hrs
                         </span>
-                        <span className="text-muted-foreground block text-[11px]">
+                        <span className="text-muted-foreground block text-sm">
                           {m.provider}
                         </span>
                       </div>
@@ -458,7 +459,7 @@ export default function ProgressPage() {
                           href={m.url}
                           target="_blank"
                           rel="noreferrer"
-                          className="p-1.5 rounded-lg border border-card-border text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors"
+                          className="ui-button p-1.5 rounded-lg border border-card-border text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors"
                           title="Open course syllabus"
                         >
                           <ExternalLink className="h-3.5 w-3.5" />

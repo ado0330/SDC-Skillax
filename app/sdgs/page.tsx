@@ -138,7 +138,7 @@ export default function SdgMatrixPage() {
           description="Track how your reskilling pathway directly contributes to the United Nations 17 Sustainable Development Goals (SDGs) and Malaysian green-tech economic growth."
         >
           {targetRole && (
-            <div className="flex items-center gap-2 rounded-lg border border-card-border bg-card/60 px-3 py-1.5 text-xs text-muted-foreground">
+            <div className="flex items-center gap-2 rounded-lg border border-card-border bg-card/60 px-3 py-1.5 text-sm text-muted-foreground">
               <Target className="h-4 w-4 text-primary" />
               <span>Target: <strong className="text-foreground">{targetRole.name}</strong></span>
             </div>
@@ -150,15 +150,15 @@ export default function SdgMatrixPage() {
           <Panel glow className="p-5">
             <div className="flex items-center justify-between text-muted-foreground text-xs font-semibold uppercase tracking-wider">
               <span>Direct SDG Footprint</span>
-              <Globe className="h-4 w-4 text-cyan-400" />
+              <Globe className="h-4 w-4 text-accent-cyan" />
             </div>
             <div className="mt-3 flex items-baseline gap-2">
-              <span className="text-3xl font-extrabold text-foreground tracking-tight">
+              <span className="text-3xl font-semibold text-foreground tracking-tight">
                 {topMatchedSdgs.size}
               </span>
-              <span className="text-xs text-muted-foreground">/ 17 Goals</span>
+              <span className="text-sm text-muted-foreground">/ 17 Goals</span>
             </div>
-            <p className="mt-1 text-xs text-muted-foreground">
+            <p className="mt-1 text-sm text-muted-foreground">
               Directly advanced by your top 3 recommended career pathways.
             </p>
           </Panel>
@@ -166,11 +166,11 @@ export default function SdgMatrixPage() {
           <Panel className="p-5">
             <div className="flex items-center justify-between text-muted-foreground text-xs font-semibold uppercase tracking-wider">
               <span>Target Role Alignment</span>
-              <Target className="h-4 w-4 text-emerald-400" />
+              <Target className="h-4 w-4 text-success" />
             </div>
             {targetRole ? (
               <div className="mt-3">
-                <div className="text-sm font-bold text-foreground truncate">
+                <div className="text-sm font-semibold text-foreground truncate">
                   {targetRole.name}
                 </div>
                 <div className="mt-2 flex flex-wrap gap-1.5">
@@ -182,7 +182,7 @@ export default function SdgMatrixPage() {
             ) : (
               <div className="mt-3">
                 <span className="text-sm text-muted-foreground italic">No target role designated</span>
-                <p className="text-xs text-muted-foreground mt-1">Set a target in Career Matches</p>
+                <p className="text-sm text-muted-foreground mt-1">Set a target in Career Matches</p>
               </div>
             )}
           </Panel>
@@ -190,15 +190,15 @@ export default function SdgMatrixPage() {
           <Panel className="p-5">
             <div className="flex items-center justify-between text-muted-foreground text-xs font-semibold uppercase tracking-wider">
               <span>Catalogued Benchmark Roles</span>
-              <Layers className="h-4 w-4 text-purple-400" />
+              <Layers className="h-4 w-4 text-chart-3" />
             </div>
             <div className="mt-3 flex items-baseline gap-2">
-              <span className="text-3xl font-extrabold text-foreground tracking-tight">
+              <span className="text-3xl font-semibold text-foreground tracking-tight">
                 {ROLES_CATALOG.length}
               </span>
-              <span className="text-xs text-muted-foreground">Occupations Mapped</span>
+              <span className="text-sm text-muted-foreground">Occupations Mapped</span>
             </div>
-            <p className="mt-1 text-xs text-muted-foreground">
+            <p className="mt-1 text-sm text-muted-foreground">
               All 10 occupations mapped to O*NET task-sustainability indicators.
             </p>
           </Panel>
@@ -206,13 +206,13 @@ export default function SdgMatrixPage() {
           <Panel className="p-5">
             <div className="flex items-center justify-between text-muted-foreground text-xs font-semibold uppercase tracking-wider">
               <span>Primary Impact Domain</span>
-              <Award className="h-4 w-4 text-amber-400" />
+              <Award className="h-4 w-4 text-warning" />
             </div>
             <div className="mt-3">
-              <div className="text-base font-bold text-foreground">
+              <div className="text-base font-semibold text-foreground">
                 SDG 8 &amp; SDG 9
               </div>
-              <p className="mt-1 text-xs text-muted-foreground">
+              <p className="mt-1 text-sm text-muted-foreground">
                 Decent Work &amp; Resilient Industry Innovation (Highest cohort density).
               </p>
             </div>
@@ -233,9 +233,9 @@ export default function SdgMatrixPage() {
               <button
                 key={cat.id}
                 onClick={() => setCategoryFilter(cat.id as SdgCategory)}
-                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                className={`ui-button px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
                   categoryFilter === cat.id
-                    ? "bg-primary text-primary-foreground shadow-sm font-semibold"
+                    ? "bg-action text-primary-foreground shadow-sm font-semibold"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                 }`}
               >
@@ -247,12 +247,12 @@ export default function SdgMatrixPage() {
           {/* Search Box */}
           <div className="relative min-w-[240px]">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
-            <input
+            <input aria-label="Search SDG by number or keyword..."
               type="text"
               placeholder="Search SDG by number or keyword..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-1.5 rounded-lg border border-card-border bg-card text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+              className="ui-field w-full pl-9 pr-3 py-1.5 rounded-lg border border-card-border bg-card text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </div>
         </div>
@@ -260,10 +260,10 @@ export default function SdgMatrixPage() {
         {/* 17 UN SDG Interactive Grid */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Official UN SDG Directory ({filteredSdgs.length} shown) — Click to Inspect
             </h3>
-            <span className="text-xs text-muted-foreground">
+            <span className="text-sm text-muted-foreground">
               Selected: <strong className="text-foreground">SDG {activeSdg.id}</strong>
             </span>
           </div>
@@ -281,7 +281,7 @@ export default function SdgMatrixPage() {
                   style={{
                     borderLeftColor: sdg.color,
                   }}
-                  className={`relative p-3 rounded-xl border text-left transition-all duration-200 border-l-4 flex flex-col justify-between ${
+                  className={`ui-button relative p-3 rounded-xl border text-left transition-all duration-200 border-l-4 flex flex-col justify-between ${
                     isSelected
                       ? "border-primary bg-primary/10 shadow-lg ring-2 ring-primary/40 -translate-y-0.5"
                       : "border-card-border bg-card/60 hover:bg-card hover:border-card-border hover:-translate-y-0.5"
@@ -294,7 +294,7 @@ export default function SdgMatrixPage() {
                           backgroundColor: sdg.color,
                           color: sdg.textColor,
                         }}
-                        className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold"
+                        className="px-1.5 py-0.5 rounded text-sm font-mono font-semibold"
                       >
                         {String(sdg.id).padStart(2, "0")}
                       </span>
@@ -304,15 +304,15 @@ export default function SdgMatrixPage() {
                       )}
                     </div>
 
-                    <div className="text-xs font-bold text-foreground line-clamp-2 leading-snug">
+                    <div className="text-sm font-semibold text-foreground line-clamp-2 leading-snug">
                       {sdg.name}
                     </div>
                   </div>
 
-                  <div className="mt-3 pt-2 border-t border-card-border/50 flex items-center justify-between text-[11px] text-muted-foreground">
+                  <div className="mt-3 pt-2 border-t border-card-border/50 flex items-center justify-between text-sm text-muted-foreground">
                     <span>{mappedRoles.length} role{mappedRoles.length !== 1 ? "s" : ""}</span>
                     {mappedRoles.length > 0 && (
-                      <span className="text-primary font-semibold text-[10px]">
+                      <span className="text-primary font-semibold text-sm">
                         {Math.max(...mappedRoles.map((r) => scoreByRoleId.get(r.id) || 0))}% max
                       </span>
                     )}
@@ -348,7 +348,7 @@ export default function SdgMatrixPage() {
                     <span className="text-xs uppercase font-mono tracking-widest opacity-80">
                       United Nations Goal {activeSdg.id}
                     </span>
-                    <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight">
+                    <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">
                       {activeSdg.name}
                     </h2>
                   </div>
@@ -359,7 +359,7 @@ export default function SdgMatrixPage() {
                     href={`https://sdgs.un.org/goals/goal${activeSdg.id}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-black/20 hover:bg-black/30 backdrop-blur text-xs font-semibold transition-colors"
+                    className="ui-button inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-black/20 hover:bg-black/30 backdrop-blur text-sm font-semibold transition-colors"
                   >
                     <span>UN SDG Factsheet</span>
                     <ExternalLink className="h-3.5 w-3.5" />
@@ -373,9 +373,9 @@ export default function SdgMatrixPage() {
             </div>
 
             {/* Sub-bar explaining Malaysian workforce alignment */}
-            <div className="px-6 py-3 bg-muted/40 border-t border-card-border flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
+            <div className="px-6 py-3 bg-muted/40 border-t border-card-border flex flex-wrap items-center justify-between gap-3 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
-                <Zap className="h-4 w-4 text-amber-400" />
+                <Zap className="h-4 w-4 text-warning" />
                 <span>
                   <strong>Malaysian Workforce Context:</strong> Upskilling local talent in digital, automation, and data telemetry accelerates SDG {activeSdg.id} compliance across regional industries.
                 </span>
@@ -391,22 +391,22 @@ export default function SdgMatrixPage() {
             {/* Associated Occupations (7 Cols) */}
             <div className="lg:col-span-7 space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-base font-bold text-foreground flex items-center gap-2">
+                <h3 className="text-base font-semibold text-foreground flex items-center gap-2">
                   <Target className="h-4 w-4 text-primary" />
                   <span>Mapped Occupations ({activeSdgRoles.length})</span>
                 </h3>
-                <span className="text-xs text-muted-foreground">
+                <span className="text-sm text-muted-foreground">
                   Ranked by your profile match
                 </span>
               </div>
 
               {activeSdgRoles.length === 0 ? (
                 <Panel className="p-8 text-center text-muted-foreground">
-                  <Globe className="h-8 w-8 mx-auto mb-2 text-muted-foreground/60" />
+                  <Globe className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
                   <p className="text-sm font-semibold text-foreground">
                     No Direct Catalog Occupations Mapped to SDG {activeSdg.id}
                   </p>
-                  <p className="text-xs mt-1 max-w-md mx-auto">
+                  <p className="text-sm mt-1 max-w-md mx-auto">
                     While none of our 10 primary benchmark occupations are tagged exclusively with SDG {activeSdg.id}, transferable competencies such as <em>Problem Solving</em>, <em>Organization</em>, and <em>Digital Literacy</em> empower civic and green projects supporting this goal.
                   </p>
                 </Panel>
@@ -426,33 +426,33 @@ export default function SdgMatrixPage() {
                           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                             <div className="space-y-1">
                               <div className="flex items-center gap-2 flex-wrap">
-                                <span className="text-xs font-semibold px-2 py-0.5 rounded bg-muted text-muted-foreground">
+                                <span className="text-sm font-semibold px-2 py-0.5 rounded bg-muted text-muted-foreground">
                                   {role.industry}
                                 </span>
                                 {isTarget && (
-                                  <span className="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                                  <span className="text-sm font-semibold px-2 py-0.5 rounded bg-emerald-500/10 text-success border border-emerald-500/30">
                                     Target Career
                                   </span>
                                 )}
                               </div>
-                              <h4 className="text-base font-bold text-foreground">
+                              <h4 className="text-base font-semibold text-foreground">
                                 {role.name}
                               </h4>
-                              <p className="text-xs text-muted-foreground line-clamp-2">
+                              <p className="text-sm text-muted-foreground line-clamp-2">
                                 {role.description}
                               </p>
                             </div>
 
                             <div className="flex sm:flex-col items-center justify-between sm:items-end gap-2 shrink-0">
                               <ScoreRing score={role.userScore} size="sm" />
-                              <span className="text-[11px] text-muted-foreground">
+                              <span className="text-sm text-muted-foreground">
                                 Overall Match
                               </span>
                             </div>
                           </div>
 
                           {/* SDG Specific Rationale */}
-                          <div className="mt-4 p-3 rounded-lg bg-muted/40 border border-card-border/60 text-xs">
+                          <div className="mt-4 p-3 rounded-lg bg-muted/40 border border-card-border/60 text-sm">
                             <span className="font-semibold text-foreground block mb-1">
                               SDG Impact Rationale:
                             </span>
@@ -473,14 +473,14 @@ export default function SdgMatrixPage() {
                               {!isTarget && (
                                 <button
                                   onClick={() => setTargetRole(role.id)}
-                                  className="text-xs font-medium text-muted-foreground hover:text-foreground px-2.5 py-1 rounded border border-card-border hover:bg-muted/40 transition-colors"
+                                  className="ui-button text-sm font-medium text-muted-foreground hover:text-foreground px-2.5 py-1 rounded border border-card-border hover:bg-muted/40 transition-colors"
                                 >
                                   Set Target
                                 </button>
                               )}
                               <Link
                                 href={`/careers/${role.id}`}
-                                className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary/80 transition-colors"
+                                className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
                               >
                                 <span>Audit Breakdown</span>
                                 <ArrowRight className="h-3.5 w-3.5" />
@@ -497,22 +497,22 @@ export default function SdgMatrixPage() {
             {/* Skills Relevance & Capability Check (5 Cols) */}
             <div className="lg:col-span-5 space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-base font-bold text-foreground flex items-center gap-2">
-                  <Sparkles className="h-4 w-4 text-cyan-400" />
+                <h3 className="text-base font-semibold text-foreground flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-accent-cyan" />
                   <span>Required Skills for SDG {activeSdg.id}</span>
                 </h3>
-                <span className="text-xs text-muted-foreground">
+                <span className="text-sm text-muted-foreground">
                   Your Current Mastery
                 </span>
               </div>
 
               {activeSdgSkills.length === 0 ? (
-                <Panel className="p-6 text-center text-muted-foreground text-xs">
+                <Panel className="p-6 text-center text-muted-foreground text-sm">
                   No explicit skill requirements mapped for this goal.
                 </Panel>
               ) : (
                 <Panel className="p-5 space-y-3">
-                  <p className="text-xs text-muted-foreground leading-relaxed">
+                  <p className="text-sm text-muted-foreground leading-relaxed">
                     The following competencies are demanded by occupations supporting <strong>SDG {activeSdg.id}</strong>. Improving any skill marked with a gap increases your capacity to contribute directly to this goal.
                   </p>
 
@@ -521,14 +521,14 @@ export default function SdgMatrixPage() {
                       <div key={sk.skillId} className="py-2.5 flex items-center justify-between gap-3">
                         <div className="min-w-0">
                           <div className="flex items-center gap-2">
-                            <span className="text-xs font-semibold text-foreground truncate">
+                            <span className="text-sm font-semibold text-foreground truncate">
                               {sk.name}
                             </span>
-                            <span className="text-[10px] px-1.5 py-0.2 rounded bg-muted text-muted-foreground">
+                            <span className="text-sm px-1.5 py-0.2 rounded bg-muted text-muted-foreground">
                               {sk.category}
                             </span>
                           </div>
-                          <div className="mt-1 flex items-center gap-2 text-[11px] text-muted-foreground">
+                          <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
                             <span>Target: L{sk.required}</span>
                             <span>•</span>
                             <span>Current: L{sk.current}</span>
@@ -538,12 +538,12 @@ export default function SdgMatrixPage() {
                         <div className="flex items-center gap-3 shrink-0">
                           <LevelDots currentLevel={sk.current} requiredLevel={sk.required} size="sm" />
                           {sk.met ? (
-                            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                            <span className="inline-flex items-center gap-1 text-sm font-semibold text-success bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
                               <CheckCircle2 className="h-3 w-3" />
                               <span>Ready</span>
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+                            <span className="inline-flex items-center gap-1 text-sm font-semibold text-warning bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
                               <AlertCircle className="h-3 w-3" />
                               <span>-{sk.shortfall} gap</span>
                             </span>
@@ -553,7 +553,7 @@ export default function SdgMatrixPage() {
                     ))}
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-card-border flex items-center justify-between text-xs">
+                  <div className="mt-4 pt-3 border-t border-card-border flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">Ready to close skill shortfalls?</span>
                     <Link
                       href="/roadmap"

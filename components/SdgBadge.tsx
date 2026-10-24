@@ -25,8 +25,8 @@ export function SdgBadge({
         color: sdg.textColor,
       }}
       className={cn(
-        "inline-flex items-center gap-1 font-bold rounded font-mono uppercase tracking-wider shadow-sm",
-        size === "sm" ? "px-1.5 py-0.5 text-[10px]" : "px-2 py-0.5 text-xs",
+        "inline-flex items-center gap-1 font-semibold rounded font-mono uppercase tracking-wider shadow-sm",
+        size === "sm" ? "px-1.5 py-0.5 text-sm" : "px-2 py-0.5 text-sm",
         className
       )}
       title={`SDG ${sdg.id}: ${sdg.name} - ${sdg.description}`}

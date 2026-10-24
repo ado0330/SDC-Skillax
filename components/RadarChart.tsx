@@ -84,18 +84,20 @@ export function RadarChart({
   const activeSkill = SKILLS_CATALOG.find((s) => s.id === hoveredSkillId);
 
   return (
-    <div className={cn("relative flex flex-col items-center select-none", className)}>
+    <div className={cn("radar-chart relative flex flex-col items-center select-none", className)}>
       <svg
         width={size}
         height={size}
-        viewBox={`0 0 ${size} ${size}`}
+        viewBox={`-65 -20 ${size + 130} ${size + 40}`}
+        role="img"
+        aria-label="Capability radar comparing your 19 skill ratings with target requirements"
         className="overflow-visible"
       >
         <defs>
           {/* User gradient fill */}
           <linearGradient id="userRadarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.45" />
-            <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.25" />
+            <stop offset="0%" stopColor="hsl(var(--cyan))" stopOpacity="0.25" />
+            <stop offset="100%" stopColor="hsl(var(--cyan))" stopOpacity="0.12" />
           </linearGradient>
 
           {/* Glow filter */}
@@ -154,9 +156,8 @@ export function RadarChart({
         <polygon
           points={userPoints}
           fill="url(#userRadarGrad)"
-          stroke="#06b6d4"
+          stroke="hsl(var(--cyan))"
           strokeWidth="2.5"
-          filter="url(#radarGlow)"
           className="transition-all duration-500 ease-out"
         />
 
@@ -215,7 +216,7 @@ export function RadarChart({
                     textAnchor={textAnchor}
                     dominantBaseline="central"
                     fill={isHovered ? "#38bdf8" : "hsl(var(--foreground))"}
-                    fontSize={isHovered ? "11" : "9.5"}
+                    fontSize={isHovered ? "12" : "11"}
                     fontWeight={isHovered ? "700" : "500"}
                     className="transition-all duration-150"
                   >
@@ -229,7 +230,7 @@ export function RadarChart({
       </svg>
 
       {/* Hover Tooltip / Detail Strip */}
-      <div className="mt-2 min-h-[38px] w-full max-w-sm rounded-lg border border-card-border bg-card/80 px-3 py-1.5 text-center text-xs backdrop-blur">
+      <div className="mt-2 min-h-[38px] w-full max-w-sm rounded-lg border border-card-border bg-card/80 px-3 py-1.5 text-center text-sm backdrop-blur">
         {activeSkill ? (
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-1.5">
@@ -237,22 +238,22 @@ export function RadarChart({
                 style={{ backgroundColor: getCategoryColor(activeSkill.category) }}
                 className="h-2 w-2 rounded-full shrink-0"
               />
-              <span className="font-bold text-foreground">{activeSkill.name}</span>
-              <span className="text-[10px] text-muted-foreground">({activeSkill.category})</span>
+              <span className="font-semibold text-foreground">{activeSkill.name}</span>
+              <span className="text-sm text-muted-foreground">({activeSkill.category})</span>
             </div>
             <div className="flex items-center gap-2 font-mono">
-              <span className="text-cyan-400 font-semibold">
+              <span className="text-accent-cyan font-semibold">
                 You: L{userSkills[activeSkill.id] || 0}/5
               </span>
               {targetMap.has(activeSkill.id) && (
-                <span className="text-amber-400">
+                <span className="text-warning">
                   Target: L{targetMap.get(activeSkill.id)}/5
                 </span>
               )}
             </div>
           </div>
         ) : (
-          <div className="flex items-center justify-center gap-4 text-[11px] text-muted-foreground">
+          <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
             <span className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-cyan-400" />
               <span>Your Profile</span>
@@ -263,7 +264,7 @@ export function RadarChart({
                 <span>{targetName || "Target Role"} Requirements</span>
               </span>
             )}
-            <span className="text-[10px] italic">Hover vertices to inspect</span>
+            <span className="text-sm italic">Hover vertices to inspect</span>
           </div>
         )}
       </div>

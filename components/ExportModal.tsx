@@ -91,20 +91,20 @@ export function ExportModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm print:hidden">
-      <div className="panel-card w-full max-w-xl max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
+      <div className="panel-card w-full max-w-xl max-h-[90vh] flex flex-col overflow-hidden shadow-lg">
         <div className="flex items-center justify-between border-b border-card-border px-6 py-4">
           <div className="flex items-center gap-2.5">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
               <Download className="h-4 w-4" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-foreground">Export Learning Pathway</h3>
-              <p className="text-xs text-muted-foreground mt-0.5">
+              <h3 className="text-base font-semibold text-foreground">Export Learning Pathway</h3>
+              <p className="text-sm text-muted-foreground mt-0.5">
                 Download structured JSON or print a document for stakeholders.
               </p>
             </div>
           </div>
-          <button onClick={onClose} className="rounded p-1 text-muted-foreground hover:text-foreground">
+          <button aria-label="Close dialog" onClick={onClose} className="ui-button ui-button-icon rounded p-1 text-muted-foreground hover:text-foreground">
             <X className="h-5 w-5" />
           </button>
         </div>
@@ -113,16 +113,16 @@ export function ExportModal({
           <div className="grid grid-cols-2 gap-3">
             <button
               onClick={handleDownloadJson}
-              className="flex items-center justify-center gap-2 rounded-lg border border-card-border bg-card p-4 hover:border-primary/50 hover:bg-muted/40 transition-all text-xs font-semibold text-foreground"
+              className="ui-button ui-button-secondary flex items-center justify-center gap-2 rounded-lg border border-card-border bg-card p-4 hover:border-primary/50 hover:bg-muted/40 transition-all text-sm font-semibold text-foreground"
             >
-              <FileJson className="h-5 w-5 text-cyan-400" />
+              <FileJson className="h-5 w-5 text-accent-cyan" />
               <span>Download JSON File</span>
             </button>
             <button
               onClick={handlePrint}
-              className="flex items-center justify-center gap-2 rounded-lg border border-card-border bg-card p-4 hover:border-primary/50 hover:bg-muted/40 transition-all text-xs font-semibold text-foreground"
+              className="ui-button ui-button-secondary flex items-center justify-center gap-2 rounded-lg border border-card-border bg-card p-4 hover:border-primary/50 hover:bg-muted/40 transition-all text-sm font-semibold text-foreground"
             >
-              <Printer className="h-5 w-5 text-indigo-400" />
+              <Printer className="h-5 w-5 text-primary" />
               <span>Print / Save as PDF</span>
             </button>
           </div>
@@ -134,13 +134,13 @@ export function ExportModal({
               </span>
               <button
                 onClick={handleCopyJson}
-                className="inline-flex items-center gap-1 text-[11px] font-semibold text-primary hover:underline"
+                className="ui-button inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
               >
-                {copied ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
+                {copied ? <Check className="h-3 w-3 text-success" /> : <Copy className="h-3 w-3" />}
                 <span>{copied ? "Copied" : "Copy to Clipboard"}</span>
               </button>
             </div>
-            <pre className="max-h-56 overflow-y-auto rounded-lg border border-card-border bg-muted/50 p-3 font-mono text-[11px] text-muted-foreground">
+            <pre className="max-h-56 overflow-y-auto rounded-lg border border-card-border bg-muted/50 p-3 font-mono text-xs text-muted-foreground">
               {jsonString}
             </pre>
           </div>
@@ -149,7 +149,7 @@ export function ExportModal({
         <div className="flex items-center justify-end border-t border-card-border px-6 py-4 bg-muted/20">
           <button
             onClick={onClose}
-            className="rounded-lg bg-card border border-card-border px-4 py-2 text-xs font-semibold text-muted-foreground hover:text-foreground"
+            className="ui-button ui-button-secondary rounded-lg bg-card border border-card-border px-4 py-2 text-sm font-semibold text-muted-foreground hover:text-foreground"
           >
             Close
           </button>
