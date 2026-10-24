@@ -8,21 +8,19 @@ Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI
 - **Overall Completion:** ~10% (Project Memory & Architecture established; moving to Next.js project shell initialization).
 
 ## 3. Latest Completed Task
-- **TASK-003**: Implemented core domain static catalogs (19 skills, 10 occupations, 17 SDGs, learning resources, fallback research signals, initial workforce data, synthetic cohorts, sample CVs). Type check passed cleanly.
+- **TASK-004**: Implemented pure deterministic mathematical domain scoring engine (`scoring.ts`, `scenarios.ts`, `gaps.ts`, `roadmap.ts`, `workforce.ts`) with automated unit tests (7/7 tests passed in 6.4ms, clean production build).
 
 ## 4. Task Currently in Progress
-- None (TASK-003 completed; ready for TASK-004).
+- None (TASK-004 completed; ready for TASK-005).
 
 ## 5. Next Exact Task to Execute
-- **TASK-004**: Implement pure deterministic mathematical domain scoring engine (`scoring.ts`, `scenarios.ts`, `gaps.ts`, `roadmap.ts`, `workforce.ts`) with automated unit tests.
+- **TASK-005**: Implement client-side Workspace State Provider (`lib/workspace/WorkspaceContext.tsx` & `useWorkspace.ts`) with demonstration persistence (`localStorage`) and no-database isolation.
 
 ## 6. Files & Modules Relevant to That Task
-- `lib/domain/scoring.ts`
-- `lib/domain/scenarios.ts`
-- `lib/domain/gaps.ts`
-- `lib/domain/roadmap.ts`
-- `lib/domain/workforce.ts`
-- `tests/scoring.test.ts`
+- `lib/workspace/WorkspaceContext.tsx`
+- `lib/workspace/useWorkspace.ts`
+- `lib/schemas/profile.ts`
+- `app/layout.tsx`
 
 ## 7. Last Verified Git Commit
 - `0ed7e40` (Staging TASK-002 commit next).

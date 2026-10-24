@@ -67,5 +67,25 @@ This document is an append-only journal of all completed development tasks, veri
   - Created `lib/data/sampleCvs.ts` with 3 synthetic CV presets for zero-API-key demonstrations.
 - **Commands & Verification:**
   - `npx tsc --noEmit` (Passed with 0 errors)
-- **Git Commit:** Pending commit.
+- **Git Commit:** f842a0b ("feat(data): implement 19 skills, 10 occupations, 17 SDGs, learning resources, and synthetic seeds")
 - **Next Recommended Task:** TASK-004: Implement pure deterministic mathematical domain scoring engine (`scoring.ts`, `scenarios.ts`, `gaps.ts`, `roadmap.ts`, `workforce.ts`) with automated unit tests.
+
+---
+
+### Entry 004 | 2026-10-24 10:43:00 +08:00
+- **Task ID:** TASK-004 (Deterministic Career Intelligence Domain Engine & Unit Tests)
+- **Status:** COMPLETED
+- **Description:** Implemented pure mathematical scoring, AI scenario requirement adjustments, skill gaps, 4-phase roadmap generation with milestone preservation, and workforce statistical comparability engine with full automated test suite.
+- **What changed:**
+  - Implemented `lib/domain/scenarios.ts`: AI scenario requirement adjustments (Slower reduces AI level by 1; Rapid increases by 1 or injects level 3) and scenario effects on market scores.
+  - Implemented `lib/domain/gaps.ts`: Pure gap calculation mapping current vs. required levels.
+  - Implemented `lib/domain/workforce.ts`: Duration classifier, deterministic series key hashing, comparability validation (frequency matching, non-overlapping periods, non-zero denominator), trend thresholding (Rising > +5%, Declining < -5%, Stable), and role linkage priority engine.
+  - Implemented `lib/domain/scoring.ts`: Deterministic 4-part baseline formula (50% skills + 20% transferable + 15% interest + 15% market) and 5-part workforce integration (90% baseline + 10% workforce score), learning hours estimator, and audit text generator.
+  - Implemented `lib/domain/roadmap.ts`: 4-phase learning pathway generation (Phase 1 foundational, Phase 2 technical, Phase 3 capstone, Phase 4 portfolio) with milestone completion preservation.
+  - Created `tests/scoring.test.ts` covering 7 test suites.
+  - Updated `tsconfig.json` with `target: es2020` and `downlevelIteration: true`.
+- **Commands & Verification:**
+  - `npm test` (7/7 tests passed in 6.4ms)
+  - `npm run build` (Clean production build)
+- **Git Commit:** Pending commit.
+- **Next Recommended Task:** TASK-005: Implement client-side Workspace State Provider (`lib/workspace/WorkspaceContext.tsx` & `useWorkspace.ts`) with demonstration persistence (`localStorage`) and no-database isolation.

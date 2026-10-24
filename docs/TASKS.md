@@ -21,8 +21,8 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
   - *Files:* `lib/data/skills.ts`, `lib/data/roles.ts`, `lib/data/sdgs.ts`, `lib/data/learningResources.ts`, `lib/data/fallbackSignals.ts`, `lib/data/initialWorkforce.ts`, `lib/data/syntheticWorkers.ts`, `lib/data/sampleCvs.ts`, `lib/domain/types.ts`
   - *Acceptance:* All 19 skills, 10 O*NET roles, 17 SDGs accurately match reverse-engineering spec.
 
-- [ ] **TASK-004**: Implement pure deterministic mathematical domain scoring engine (`scoring.ts`, `scenarios.ts`, `gaps.ts`, `roadmap.ts`, `workforce.ts`) with automated unit tests.
-  - *Status:* TODO
+- [x] **TASK-004**: Implement pure deterministic mathematical domain scoring engine (`scoring.ts`, `scenarios.ts`, `gaps.ts`, `roadmap.ts`, `workforce.ts`) with automated unit tests.
+  - *Status:* DONE
   - *Files:* `lib/domain/*`, `tests/scoring.test.ts`
   - *Acceptance:* Unit tests verify: 4/5-component baseline formulas, rapid/slower scenario modifiers, workforce scaling, gap calculation, and repeatable ranking.
 
