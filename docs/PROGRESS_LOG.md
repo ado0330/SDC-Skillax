@@ -237,7 +237,29 @@ This document is an append-only journal of all completed development tasks, veri
 - **Commands & Verification:**
   - `npm run build` (Clean build of 12/12 pages)
   - `npm test` (8/8 domain tests passed)
-- **Git Commit:** Pending commit.
+- **Git Commit:** 417536d ("feat(sdgs): implement interactive UN SDG Impact Matrix with 17-goal grid and capability mapping")
 - **Next Recommended Task:** TASK-014: Implement Intelligence Dashboard (`/`) briefing with top match card, 19-skill polygonal radar chart, score decomposition bars, active milestone card, and research digest.
+
+---
+
+### Entry 014 | 2026-10-24 11:04:00 +08:00
+- **Task ID:** TASK-014 (Intelligence Dashboard & 19-Skill Capability Radar)
+- **Status:** COMPLETED
+- **Description:** Implemented the central Intelligence Dashboard (`/`) serving as the executive command center for lifelong learners and workforce analysts.
+- **What changed:**
+  - Implemented `components/RadarChart.tsx`: A responsive, interactive SVG polygonal spider chart plotting all 19 skills across 5 concentric difficulty rings, user proficiencies, target overlay requirements, and interactive hover tooltips.
+  - Implemented `app/page.tsx`:
+    - Dynamic welcome view with instant synthetic Malaysian worker presets (Aina, Daniel, Kumar) and core feature teasers for uninitialized sessions.
+    - Executive briefing for active profiles with 4 key KPI cards (Top match score, target pathway completion %, active AI scenario boost, UN SDG footprint).
+    - Centerpiece layout pairing the 19-skill polygonal radar chart with the top recommendation intelligence card and `ScoreDecompositionBar`.
+    - Active reskilling milestone tracker with in-place completion toggling.
+    - Scientific research and trend radar digest with Hugging Face/MIT AI source tags.
+    - Quick-navigation module tiles to Careers, Scenarios, SDGs, and Employer view.
+- **Commands & Verification:**
+  - `npm run build` (Clean build of 12/12 pages)
+  - `npm test` (8/8 domain tests passed)
+- **Git Commit:** Pending commit.
+- **Next Recommended Task:** TASK-015: Implement Conversational Assessment Wizard (`/assessment`) translating 5 everyday scenarios into skill ratings.
+
 
 

@@ -79,8 +79,8 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
 
 ## Phase 2 — Supporting Workflows & Full Experience
 
-- [ ] **TASK-014**: Implement Intelligence Dashboard (`/`) briefing with top match card, 19-skill polygonal radar chart, score decomposition bars, active milestone card, and research digest.
-  - *Status:* TODO
+- [x] **TASK-014**: Implement Intelligence Dashboard (`/`) briefing with top match card, 19-skill polygonal radar chart, score decomposition bars, active milestone card, and research digest.
+  - *Status:* DONE
   - *Files:* `app/page.tsx`, `components/RadarChart.tsx`
   - *Acceptance:* Executive overview renders all key intelligence metrics.
 
