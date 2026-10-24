@@ -8,6 +8,9 @@ export async function POST(req: NextRequest) {
     const contentType = req.headers.get("content-type") || "";
 
     let cvText = "";
+    let fileBuffer: Buffer | null = null;
+    let fileMimeType = "";
+    let fileName = "";
     let consentAI = false;
     let consentSynthetic = false;
     let sampleId: string | undefined = undefined;
@@ -28,16 +31,14 @@ export async function POST(req: NextRequest) {
       if (file) {
         if (file.size > 10 * 1024 * 1024) {
           return NextResponse.json(
-            { error: "PDF must be 10 MB or smaller." },
+            { error: "Document must be 10 MB or smaller." },
             { status: 413 }
           );
         }
-        // Extract text from text/plain or sample string in memory
         const arrayBuffer = await file.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
-        cvText = buffer.toString("utf-8");
-        // Zero memory buffer immediately
-        buffer.fill(0);
+        fileBuffer = Buffer.from(arrayBuffer);
+        fileMimeType = file.type || "application/pdf";
+        fileName = file.name;
       }
     } else {
       return NextResponse.json(
@@ -51,7 +52,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           error:
-            "Confirm external AI processing and that this is a fictional CV before analysis.",
+            "Please confirm both consent checkboxes before analysis.",
         },
         { status: 400 }
       );
@@ -81,25 +82,34 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    if (!cvText || cvText.trim().length === 0) {
+    let proposal;
+
+    if (fileBuffer) {
+      proposal = await extractCvData({
+        buffer: fileBuffer,
+        mimeType: fileMimeType,
+        filename: fileName,
+      });
+      // Zero memory buffer immediately for security
+      fileBuffer.fill(0);
+    } else if (cvText && cvText.trim().length > 0) {
+      proposal = await extractCvData(cvText);
+    } else {
       return NextResponse.json(
         { error: "Provide CV text or attach a document for extraction." },
         { status: 400 }
       );
     }
 
-    // Run extraction through Gemini or keyword fallback
-    const proposal = await extractCvData(cvText);
-
     return NextResponse.json({
       success: true,
       proposal,
       isGeminiConfigured: isGeminiConfigured(),
     });
-  } catch (error) {
-    console.error("CV Analysis route error:", error);
+  } catch (error: any) {
+    console.error("CV Analysis Route Error:", error);
     return NextResponse.json(
-      { error: "CV analysis failed. Please retry or choose a synthetic sample demo." },
+      { error: error.message || "Failed to process CV data." },
       { status: 500 }
     );
   }

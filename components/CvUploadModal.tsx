@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { SAMPLE_CVS } from "@/lib/data/sampleCvs";
 import { SKILLS_BY_ID } from "@/lib/data/skills";
 import { CvExtractionOutput } from "@/lib/schemas/cv";
@@ -15,6 +15,7 @@ import {
   ShieldCheck,
   Loader2,
   FileCode,
+  FileCheck2,
 } from "lucide-react";
 
 interface CvUploadModalProps {
@@ -28,18 +29,33 @@ export function CvUploadModal({
   onClose,
   onApplyProposal,
 }: CvUploadModalProps) {
-  const [activeTab, setActiveTab] = useState<"samples" | "paste" | "upload">("samples");
+  const [activeTab, setActiveTab] = useState<"upload" | "paste" | "samples">("upload");
   const [consentAI, setConsentAI] = useState(false);
   const [consentSynthetic, setConsentSynthetic] = useState(false);
   const [selectedSampleId, setSelectedSampleId] = useState<string>("sample-aina");
   const [pastedText, setPastedText] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Staged review proposal
   const [stagedProposal, setStagedProposal] = useState<CvExtractionOutput | null>(null);
 
   if (!isOpen) return null;
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      if (file.size > 10 * 1024 * 1024) {
+        setErrorMessage("File must be 10 MB or smaller.");
+        return;
+      }
+      setSelectedFile(file);
+      setErrorMessage(null);
+    }
+  };
 
   const handleAnalyze = async () => {
     if (!consentAI || !consentSynthetic) {
@@ -51,27 +67,52 @@ export function CvUploadModal({
     setIsLoading(true);
 
     try {
-      let payload: Record<string, any> = {
-        consentAI,
-        consentSynthetic,
-      };
+      let res: Response;
 
-      if (activeTab === "samples") {
-        payload.sampleId = selectedSampleId;
-      } else {
-        if (!pastedText.trim()) {
-          setErrorMessage("Please provide resume text to analyze.");
+      if (activeTab === "upload") {
+        if (!selectedFile) {
+          setErrorMessage("Please select a resume file (.pdf, .txt, .md) to upload.");
           setIsLoading(false);
           return;
         }
-        payload.text = pastedText;
-      }
 
-      const res = await fetch("/api/cv/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+        formData.append("consentAI", "true");
+        formData.append("consentSynthetic", "true");
+
+        res = await fetch("/api/cv/analyze", {
+          method: "POST",
+          body: formData,
+        });
+      } else if (activeTab === "paste") {
+        if (!pastedText.trim()) {
+          setErrorMessage("Please paste your resume text to analyze.");
+          setIsLoading(false);
+          return;
+        }
+
+        res = await fetch("/api/cv/analyze", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            text: pastedText,
+            consentAI,
+            consentSynthetic,
+          }),
+        });
+      } else {
+        // samples
+        res = await fetch("/api/cv/analyze", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sampleId: selectedSampleId,
+            consentAI,
+            consentSynthetic,
+          }),
+        });
+      }
 
       const data = await res.json();
       if (!res.ok || !data.success) {
@@ -108,8 +149,8 @@ export function CvUploadModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
-      <div className="panel-card w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden shadow-2xl border-card-border">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="panel-card w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden shadow-2xl border-card-border bg-card">
         {/* Modal Header */}
         <div className="flex items-center justify-between border-b border-card-border px-6 py-4">
           <div className="flex items-center gap-2.5">
@@ -118,12 +159,12 @@ export function CvUploadModal({
             </div>
             <div>
               <h3 className="text-base font-bold text-foreground">
-                {stagedProposal ? "Review Staged CV Suggestions" : "Consented CV & Resume Intake"}
+                {stagedProposal ? "Review Extracted Profile" : "AI Resume / CV Analyzer"}
               </h3>
               <p className="text-xs text-muted-foreground mt-0.5">
                 {stagedProposal
-                  ? "Human-in-the-Loop review: Verify and adjust extracted skills before merging into draft."
-                  : "Ephemeral analysis with zero database persistence. Model suggestions require your approval."}
+                  ? "Human-in-the-Loop review: Inspect and adjust extracted details before updating your profile."
+                  : "Google Gemini 2.5 Flash scans your CV to extract your experience, skills, and industry background."}
               </p>
             </div>
           </div>
@@ -147,24 +188,40 @@ export function CvUploadModal({
           {stagedProposal ? (
             /* STAGE 2: Human-in-the-Loop Review */
             <div className="space-y-5">
-              <div className="flex items-center justify-between rounded-lg border border-cyan-500/30 bg-cyan-500/10 p-3 text-xs">
+              <div className="flex items-center justify-between rounded-xl border border-cyan-500/30 bg-cyan-500/10 p-4 text-xs">
                 <div>
-                  <span className="font-semibold text-foreground">
-                    Extracted Candidate: {stagedProposal.name || "Candidate"}
+                  <span className="font-bold text-sm text-foreground block">
+                    {stagedProposal.name || "Candidate"}
                   </span>
                   <p className="text-muted-foreground mt-0.5">
-                    {stagedProposal.occupation} • {stagedProposal.experience} years experience • {stagedProposal.industry}
+                    {stagedProposal.occupation} • {stagedProposal.experience} years exp • {stagedProposal.industry}
                   </p>
+                  {stagedProposal.education && (
+                    <p className="text-muted-foreground text-[11px] mt-0.5">
+                      Education: {stagedProposal.education}
+                    </p>
+                  )}
+                  {stagedProposal.professionalSummary && (
+                    <p className="text-muted-foreground/90 text-xs mt-2 italic bg-background/40 p-2 rounded">
+                      &quot;{stagedProposal.professionalSummary}&quot;
+                    </p>
+                  )}
                 </div>
-                <span className="rounded-full bg-cyan-500/20 px-2.5 py-1 font-mono text-[11px] font-semibold text-cyan-300 uppercase">
+                <span className="rounded-full bg-cyan-500/20 px-2.5 py-1 font-mono text-[10px] font-bold text-cyan-300 uppercase shrink-0">
                   {stagedProposal.extractionMethod.replace("_", " ")}
                 </span>
               </div>
 
               <div>
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-                  Proposed Skill Ratings ({Object.keys(stagedProposal.skills).length} Detected)
-                </h4>
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    Detected Skills ({Object.keys(stagedProposal.skills).length} Mapped)
+                  </h4>
+                  <span className="text-[11px] text-muted-foreground">
+                    Adjust any level before merging
+                  </span>
+                </div>
+
                 <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
                   {Object.entries(stagedProposal.skills).map(([skillId, level]) => {
                     const skill = SKILLS_BY_ID.get(skillId);
@@ -207,13 +264,13 @@ export function CvUploadModal({
               {stagedProposal.interests.length > 0 && (
                 <div>
                   <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
-                    Suggested Interests
+                    Suggested Career Interests
                   </h4>
                   <div className="flex flex-wrap gap-1.5">
                     {stagedProposal.interests.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full bg-primary/10 border border-primary/20 px-2.5 py-0.5 text-xs text-primary"
+                        className="rounded-full bg-primary/10 border border-primary/20 px-2.5 py-0.5 text-xs text-primary font-medium"
                       >
                         {tag}
                       </span>
@@ -223,42 +280,116 @@ export function CvUploadModal({
               )}
             </div>
           ) : (
-            /* STAGE 1: Intake Options */
+            /* STAGE 1: Intake Options (Upload File, Paste Text, or Synthetic Samples) */
             <div className="space-y-4">
-              {/* Tabs */}
-              <div className="flex rounded-lg border border-card-border bg-muted p-1 text-xs">
+              {/* Tab Selector */}
+              <div className="flex rounded-xl border border-card-border bg-muted/60 p-1 text-xs">
                 <button
-                  onClick={() => setActiveTab("samples")}
-                  className={`flex-1 py-1.5 rounded-md font-semibold transition-all ${
-                    activeTab === "samples"
+                  onClick={() => setActiveTab("upload")}
+                  className={`flex-1 py-1.5 rounded-lg font-semibold transition-all ${
+                    activeTab === "upload"
                       ? "bg-card text-foreground shadow-sm"
                       : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  Synthetic Presets (Offline)
+                  Upload File (.pdf, .txt)
                 </button>
                 <button
                   onClick={() => setActiveTab("paste")}
-                  className={`flex-1 py-1.5 rounded-md font-semibold transition-all ${
+                  className={`flex-1 py-1.5 rounded-lg font-semibold transition-all ${
                     activeTab === "paste"
                       ? "bg-card text-foreground shadow-sm"
                       : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  Paste Plain Text
+                  Paste Text
+                </button>
+                <button
+                  onClick={() => setActiveTab("samples")}
+                  className={`flex-1 py-1.5 rounded-lg font-semibold transition-all ${
+                    activeTab === "samples"
+                      ? "bg-card text-foreground shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  Synthetic Presets
                 </button>
               </div>
 
-              {activeTab === "samples" ? (
+              {/* Tab 1: Upload File */}
+              {activeTab === "upload" && (
+                <div className="space-y-3">
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    accept=".pdf,.txt,.md,.doc,.docx"
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
+
+                  <div
+                    onClick={() => fileInputRef.current?.click()}
+                    className="border-2 border-dashed border-card-border hover:border-cyan-500/60 rounded-2xl p-6 text-center cursor-pointer transition-all bg-muted/20 hover:bg-muted/40 group"
+                  >
+                    {selectedFile ? (
+                      <div className="flex flex-col items-center gap-2">
+                        <FileCheck2 className="h-10 w-10 text-cyan-400" />
+                        <div>
+                          <span className="text-sm font-bold text-foreground block">
+                            {selectedFile.name}
+                          </span>
+                          <span className="text-xs text-muted-foreground">
+                            {(selectedFile.size / 1024).toFixed(1)} KB • Ready for AI extraction
+                          </span>
+                        </div>
+                        <span className="text-[11px] text-cyan-400 font-medium underline mt-1">
+                          Click to select a different file
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center gap-2">
+                        <Upload className="h-10 w-10 text-muted-foreground group-hover:text-cyan-400 transition-colors" />
+                        <div>
+                          <span className="text-sm font-bold text-foreground block">
+                            Click to browse or drop your CV / Resume here
+                          </span>
+                          <span className="text-xs text-muted-foreground">
+                            Supports PDF, Plain Text (.txt), and Markdown (.md) up to 10 MB
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Tab 2: Paste Text */}
+              {activeTab === "paste" && (
+                <div className="space-y-2">
+                  <label className="text-xs font-medium text-foreground">
+                    Paste Resume Content (Fictional / Synthetic Only)
+                  </label>
+                  <textarea
+                    rows={6}
+                    value={pastedText}
+                    onChange={(e) => setPastedText(e.target.value)}
+                    placeholder="Paste resume text, work experience, bullet points, or skills list here..."
+                    className="w-full rounded-xl border border-card-border bg-background p-3 text-xs text-foreground focus:border-primary focus:outline-none"
+                  />
+                </div>
+              )}
+
+              {/* Tab 3: Synthetic Samples */}
+              {activeTab === "samples" && (
                 <div className="space-y-2.5">
                   <p className="text-xs text-muted-foreground">
-                    Select a curated synthetic Malaysian profile to test instant deterministic extraction without requiring an external file or live Gemini API key:
+                    Select a curated synthetic Malaysian profile to test instant extraction without uploading a file:
                   </p>
                   <div className="space-y-2">
                     {SAMPLE_CVS.map((sample) => (
                       <label
                         key={sample.id}
-                        className={`flex items-start gap-3 rounded-lg border p-3 cursor-pointer transition-all ${
+                        className={`flex items-start gap-3 rounded-xl border p-3 cursor-pointer transition-all ${
                           selectedSampleId === sample.id
                             ? "border-primary bg-primary/5 ring-1 ring-primary/30"
                             : "border-card-border bg-card/60 hover:bg-card"
@@ -286,26 +417,13 @@ export function CvUploadModal({
                     ))}
                   </div>
                 </div>
-              ) : (
-                <div className="space-y-2">
-                  <label className="text-xs font-medium text-foreground">
-                    Paste Resume Content (Fictional / Synthetic Only)
-                  </label>
-                  <textarea
-                    rows={6}
-                    value={pastedText}
-                    onChange={(e) => setPastedText(e.target.value)}
-                    placeholder="Paste resume text, skills list, or job experience here..."
-                    className="w-full rounded-md border border-card-border bg-background p-3 text-xs text-foreground focus:border-primary focus:outline-none"
-                  />
-                </div>
               )}
 
               {/* Mandatory Consent Checkboxes (E-007) */}
-              <div className="rounded-lg border border-card-border bg-muted/40 p-3.5 space-y-2.5">
+              <div className="rounded-xl border border-card-border bg-muted/40 p-3.5 space-y-2.5">
                 <div className="flex items-center gap-2 text-xs font-semibold text-foreground">
                   <ShieldCheck className="h-4 w-4 text-cyan-400" />
-                  <span>Privacy & Demonstration Consents</span>
+                  <span>Privacy &amp; Demonstration Consents</span>
                 </div>
                 <label className="flex items-start gap-2.5 text-xs text-muted-foreground cursor-pointer">
                   <input
@@ -326,7 +444,7 @@ export function CvUploadModal({
                     className="mt-0.5 accent-primary"
                   />
                   <span>
-                    I confirm this is synthetic/fictional text containing no real personal or confidential data.
+                    I acknowledge that raw resume files are never persisted to disk or external databases.
                   </span>
                 </label>
               </div>
@@ -335,43 +453,41 @@ export function CvUploadModal({
         </div>
 
         {/* Modal Footer */}
-        <div className="flex items-center justify-between border-t border-card-border px-6 py-4 bg-muted/20">
+        <div className="border-t border-card-border px-6 py-4 flex items-center justify-between bg-muted/20">
           <button
-            onClick={() => {
-              if (stagedProposal) {
-                setStagedProposal(null);
-              } else {
-                onClose();
-              }
-            }}
-            className="rounded-lg border border-card-border bg-card px-4 py-2 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors"
+            onClick={onClose}
+            className="rounded-lg border border-card-border px-4 py-2 text-xs font-semibold text-muted-foreground hover:text-foreground"
           >
-            {stagedProposal ? "Back to Intake" : "Cancel"}
+            Cancel
           </button>
 
           {stagedProposal ? (
             <button
               onClick={handleApply}
-              className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2 text-xs font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2 text-xs font-semibold text-primary-foreground hover:bg-primary/90 shadow transition-colors"
             >
               <Check className="h-4 w-4" />
-              <span>Apply Suggestions to Profile</span>
+              <span>Apply to Profile &amp; Recalculate</span>
             </button>
           ) : (
             <button
+              disabled={isLoading || !consentAI || !consentSynthetic}
               onClick={handleAnalyze}
-              disabled={!consentAI || !consentSynthetic || isLoading}
-              className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2 text-xs font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className={`inline-flex items-center gap-2 rounded-xl px-5 py-2 text-xs font-semibold shadow transition-all ${
+                isLoading || !consentAI || !consentSynthetic
+                  ? "bg-muted text-muted-foreground cursor-not-allowed opacity-50"
+                  : "bg-primary text-primary-foreground hover:bg-primary/90"
+              }`}
             >
               {isLoading ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  <span>Analyzing Capabilities...</span>
+                  <span>Scanning with Gemini AI...</span>
                 </>
               ) : (
                 <>
                   <Sparkles className="h-4 w-4" />
-                  <span>Extract Capabilities</span>
+                  <span>Analyze Document with AI</span>
                 </>
               )}
             </button>

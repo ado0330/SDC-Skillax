@@ -8,8 +8,8 @@ const SKILLS_PROMPT_REFERENCE = SKILLS_CATALOG.map(
 ).join("\n");
 
 const EXTRACTION_SYSTEM_INSTRUCTION = `
-You are an expert career advisory intelligence agent for SKILLAX AI, analyzing synthetic resumes for the Malaysian workforce.
-Your task is to extract and structure candidate capabilities into standardized JSON.
+You are an expert career advisory intelligence agent for SKILLAX AI, analyzing resumes for the Malaysian workforce.
+Your task is to scan the resume document or text, extract the candidate's professional details, and map their capabilities into standardized JSON.
 
 The platform recognizes exactly 19 standard matching catalogue skills (rated from discrete level 1 to 5):
 ${SKILLS_PROMPT_REFERENCE}
@@ -23,14 +23,14 @@ Proficiency Rubric:
 
 Output format MUST be a single valid JSON object with these keys:
 {
-  "name": "Full Name",
+  "name": "Candidate Full Name (or 'Candidate' if not specified)",
   "occupation": "Current or recent job title",
   "industry": "Business & Services | Technology | Manufacturing | Sustainability | Health | Agriculture",
   "education": "Highest degree, institution, and year",
-  "experience": 0 to 60 (integer years of professional experience),
-  "professionalSummary": "Concise 2-sentence summary of professional strengths",
+  "experience": 0 to 60 (integer estimated years of professional experience),
+  "professionalSummary": "Concise 2-sentence summary of professional strengths and background",
   "skills": {
-    "skill_id": 1 to 5 (only include skills with evidence in the resume)
+    "skill_id": 1 to 5 (only include skills from the 19 standard catalogue with evidence in the resume)
   },
   "interests": ["Array of career interest sectors or domains"],
   "additionalSkills": [
@@ -41,28 +41,64 @@ Output format MUST be a single valid JSON object with these keys:
 DO NOT include markdown wrappers like \`\`\`json. Output raw JSON only.
 `;
 
+export type CvExtractionInput =
+  | string
+  | {
+      buffer: Buffer;
+      mimeType: string;
+      filename?: string;
+    };
+
 /**
- * Extracts structured capability proposals from CV text using Gemini 2.5 Flash,
- * with deterministic keyword fallback.
+ * Extracts structured capability proposals from CV text or uploaded document (PDF/Text)
+ * using Gemini 2.5 Flash, with deterministic keyword fallback.
  */
-export async function extractCvData(cvText: string): Promise<CvExtractionOutput> {
+export async function extractCvData(input: CvExtractionInput): Promise<CvExtractionOutput> {
   const gemini = getGeminiClient();
+
+  const isFileInput = typeof input !== "string";
+  const rawTextFallback = isFileInput
+    ? input.buffer.toString("utf-8").replace(/[^\x20-\x7E\n\r\t]/g, " ")
+    : input;
 
   if (!gemini) {
     // Zero-config / offline fallback
-    return extractSkillsByKeywords(cvText);
+    return extractSkillsByKeywords(rawTextFallback);
   }
 
   try {
+    let parts: any[] = [{ text: EXTRACTION_SYSTEM_INSTRUCTION }];
+
+    if (isFileInput) {
+      if (input.mimeType === "application/pdf") {
+        parts.push({
+          inlineData: {
+            mimeType: "application/pdf",
+            data: input.buffer.toString("base64"),
+          },
+        });
+        parts.push({
+          text: "Scan the attached resume document, extract candidate details and skill capabilities, and output the required JSON.",
+        });
+      } else {
+        // Plain text or markdown document
+        const textContent = input.buffer.toString("utf-8");
+        parts.push({
+          text: `Resume Document Content to Analyze:\n${textContent}`,
+        });
+      }
+    } else {
+      parts.push({
+        text: `Resume Content to Analyze:\n${input}`,
+      });
+    }
+
     const response = await gemini.models.generateContent({
       model: "gemini-2.5-flash",
       contents: [
         {
           role: "user",
-          parts: [
-            { text: EXTRACTION_SYSTEM_INSTRUCTION },
-            { text: `Resume Content to Analyze:\n${cvText}` },
-          ],
+          parts,
         },
       ],
       config: {
@@ -87,6 +123,6 @@ export async function extractCvData(cvText: string): Promise<CvExtractionOutput>
     return validated;
   } catch (error) {
     console.warn("Gemini CV extraction failed or timed out, falling back to keyword extractor:", error);
-    return extractSkillsByKeywords(cvText);
+    return extractSkillsByKeywords(rawTextFallback);
   }
 }
