@@ -87,5 +87,22 @@ This document is an append-only journal of all completed development tasks, veri
 - **Commands & Verification:**
   - `npm test` (7/7 tests passed in 6.4ms)
   - `npm run build` (Clean production build)
-- **Git Commit:** Pending commit.
+- **Git Commit:** 0fc258c ("feat(domain): implement deterministic career scoring, scenarios, gaps, roadmaps, and workforce engine with tests")
 - **Next Recommended Task:** TASK-005: Implement client-side Workspace State Provider (`lib/workspace/WorkspaceContext.tsx` & `useWorkspace.ts`) with demonstration persistence (`localStorage`) and no-database isolation.
+
+---
+
+### Entry 005 | 2026-10-24 10:45:00 +08:00
+- **Task ID:** TASK-005 (Client-Side Workspace State Provider & Demo Persistence)
+- **Status:** COMPLETED
+- **Description:** Implemented central React WorkspaceContext syncing non-sensitive demo profile, skills, scenario, boost, research signals, workforce observations, roadmap, and milestone completion state with `localStorage` and zero database dependencies.
+- **What changed:**
+  - Created `lib/schemas/profile.ts` with Zod validation.
+  - Implemented `lib/workspace/WorkspaceContext.tsx` managing state, reactive match ranking, target role selection, milestone checkoffs, replanning proposal review, and atomic workspace reset.
+  - Implemented `lib/workspace/useWorkspace.ts` hook.
+  - Integrated `WorkspaceProvider` into `app/layout.tsx`.
+- **Commands & Verification:**
+  - `npm run build` (Clean build)
+  - `npm test` (7/7 tests passed)
+- **Git Commit:** Pending commit.
+- **Next Recommended Task:** TASK-006: Build AppShell global navigation layout (desktop sidebar, mobile drawer, topbar with live scenario badge, sync indicator, replanning chip, theme toggle).

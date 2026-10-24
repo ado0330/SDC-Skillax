@@ -30,9 +30,9 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
 
 ## Phase 1 — Competition-Critical Working Journey (Domain 1 Capabilities)
 
-- [ ] **TASK-005**: Implement client-side Workspace State Provider (`lib/workspace/WorkspaceContext.tsx` & `useWorkspace.ts`) with demonstration persistence (`localStorage`) and no-database isolation.
-  - *Status:* TODO
-  - *Files:* `lib/workspace/WorkspaceContext.tsx`, `lib/workspace/useWorkspace.ts`
+- [x] **TASK-005**: Implement client-side Workspace State Provider (`lib/workspace/WorkspaceContext.tsx` & `useWorkspace.ts`) with demonstration persistence (`localStorage`) and no-database isolation.
+  - *Status:* DONE
+  - *Files:* `lib/workspace/WorkspaceContext.tsx`, `lib/workspace/useWorkspace.ts`, `lib/schemas/profile.ts`, `app/layout.tsx`
   - *Acceptance:* Profile, skills, active scenario, simulation boost, roadmap, and milestone completion state cleanly synchronizes and resets.
 
 - [ ] **TASK-006**: Build AppShell global navigation layout (desktop sidebar, mobile drawer, topbar with live scenario badge, sync indicator, replanning chip, theme toggle).
