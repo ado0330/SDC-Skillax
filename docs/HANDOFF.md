@@ -4,32 +4,35 @@
 Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI Platform** for the SDC Aiversecity Hackathon (Domain 1), strictly respecting the No-Database invariant, deterministic career matching, Gemini CV extraction, and Replit deployment readiness.
 
 ## 2. Current Phase & Overall Completion Status
-- **Current Phase:** Phase 0 (Foundation & Continuity)
-- **Overall Completion:** ~10% (Project Memory & Architecture established; moving to Next.js project shell initialization).
+- **Current Phase:** Phase 2 (Supporting Workflows & Full Experience)
+- **Overall Completion:** ~60% (Phase 0 Foundation & Phase 1 Core Journey complete; 12/12 pages building cleanly).
 
 ## 3. Latest Completed Task
-- **TASK-011**: Implemented 4-Phase Learning Roadmap (`/roadmap`) with estimated hours, learning resource links, interactive milestone completion checkoffs, and export modal (JSON/Print).
+- **TASK-013**: Implemented SDG Impact Matrix (`/sdgs`) linking all 17 UN Sustainable Development Goals to occupations and user capabilities with interactive color grid, deep-dive panel, and capability check.
 
 ## 4. Task Currently in Progress
-- None (TASK-011 completed; ready for TASK-012).
+- None (TASK-013 completed; ready for TASK-014).
 
 ## 5. Next Exact Task to Execute
-- **TASK-012**: Implement Scenario Lab (`/scenarios`) with Slower, Moderate, Rapid AI adoption toggles, simulation boost slider (-100 to +100), and live score comparison chart.
+- **TASK-014**: Implement Intelligence Dashboard (`/`) briefing with top match card, 19-skill polygonal radar chart (`components/RadarChart.tsx`), score decomposition bars, active milestone card, and research digest.
 
 ## 6. Files & Modules Relevant to That Task
-- `app/scenarios/page.tsx`
-- `lib/domain/scenarios.ts`
-- `lib/domain/scoring.ts`
+- `app/page.tsx`
+- `components/RadarChart.tsx`
+- `components/ScoreRing.tsx`
+- `components/BarCharts.tsx`
+- `lib/workspace/useWorkspace.ts`
 
 ## 7. Last Verified Git Commit
-- `0ed7e40` (Staging TASK-002 commit next).
+- `adb5566` (TASK-012 commit; staging TASK-013 commit next).
 
 ## 8. Current Git Branch & Working-Tree Status
 - Branch: `main`
-- Status: Next.js shell files created, verified build.
+- Status: Clean build of 12 pages, 8/8 tests passing.
 
 ## 9. Last Successful Build or Test Results
-- `npm run build`: Compiled successfully (4/4 static pages generated, 0 type errors).
+- `npm run build`: Compiled successfully (12/12 static pages generated, 0 type errors).
+- `npm test`: 8/8 unit tests passed in 13.9ms.
 
 ## 10. Known Bugs & Unresolved Blockers
 - None.
@@ -44,5 +47,5 @@ Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI
 
 ## Ready-to-Copy Instruction for Next Agent
 ```text
-Continue SKILLAX AI prototype development by executing TASK-003 in docs/TASKS.md: Implement core domain static catalogs (19 skills, 10 occupations, 17 SDGs, learning resources, fallback research signals, initial workforce data, synthetic cohorts). Verify data matches reverse engineering spec, update docs/PROGRESS_LOG.md, and commit changes to git.
+Continue SKILLAX AI prototype development by executing TASK-014 in docs/TASKS.md: Implement Intelligence Dashboard (app/page.tsx) with Top Match summary card, 19-skill polygonal radar chart (components/RadarChart.tsx), score decomposition bars, active learning milestone card, fresh research digest, and UN SDG footprint. Verify build, update docs/PROGRESS_LOG.md, and commit changes to git.
 ```

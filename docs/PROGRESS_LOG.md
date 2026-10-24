@@ -219,6 +219,25 @@ This document is an append-only journal of all completed development tasks, veri
 - **Commands & Verification:**
   - `npm run build` (Clean build of 11/11 pages)
   - `npm test` (8/8 domain tests passed)
-- **Git Commit:** Pending commit.
+- **Git Commit:** adb5566 ("feat(scenarios): implement Scenario Lab with AI adoption simulation and comparative matrix")
 - **Next Recommended Task:** TASK-013: Implement SDG Impact Matrix (`/sdgs`) linking all 17 UN Sustainable Development Goals to occupations and user capabilities.
+
+---
+
+### Entry 013 | 2026-10-24 11:02:00 +08:00
+- **Task ID:** TASK-013 (UN SDG Impact Matrix)
+- **Status:** COMPLETED
+- **Description:** Implemented the interactive UN SDG Impact Matrix (`/sdgs`) connecting all 17 UN Sustainable Development Goals to the 10 catalogued benchmark occupations and personalized user capability proficiencies.
+- **What changed:**
+  - Implemented `app/sdgs/page.tsx` displaying:
+    - Executive SDG metrics (Direct SDG footprint count, Target Role alignment, Benchmark roles count, Primary impact domain).
+    - Categorized filter tabs (All 17, My Footprint, Economic, Environmental, Social & Institutional) and search bar.
+    - Interactive 17-card official color grid with career counts and user match indicators.
+    - Deep dive inspection panel displaying official UN factsheet links, Malaysian green-tech economic context, ranked mapped occupations with animated ScoreRings and SDG impact rationales, and associated skill shortfall audit with `LevelDots`.
+- **Commands & Verification:**
+  - `npm run build` (Clean build of 12/12 pages)
+  - `npm test` (8/8 domain tests passed)
+- **Git Commit:** Pending commit.
+- **Next Recommended Task:** TASK-014: Implement Intelligence Dashboard (`/`) briefing with top match card, 19-skill polygonal radar chart, score decomposition bars, active milestone card, and research digest.
+
 

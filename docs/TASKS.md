@@ -70,8 +70,8 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
   - *Files:* `app/scenarios/page.tsx`, `lib/domain/scenarios.ts`, `lib/domain/scoring.ts`
   - *Acceptance:* Adjusting scenarios or boost immediately recalculates scores and visibly affects rankings.
 
-- [ ] **TASK-013**: Implement SDG Impact Matrix (`/sdgs`) linking all 17 UN Sustainable Development Goals to occupations and user capabilities.
-  - *Status:* TODO
+- [x] **TASK-013**: Implement SDG Impact Matrix (`/sdgs`) linking all 17 UN Sustainable Development Goals to occupations and user capabilities.
+  - *Status:* DONE
   - *Files:* `app/sdgs/page.tsx`, `components/SdgBadge.tsx`
   - *Acceptance:* Interactive 17-SDG grid with official colors, luminance-checked text, and occupational linkages.
 
