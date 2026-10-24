@@ -541,7 +541,7 @@ export default function DashboardPage() {
 
                     <button
                       onClick={() => toggleMilestone(nextMilestone.id)}
-                      className="ui-button px-2.5 py-1 rounded bg-primary/10 hover:bg-primary/20 text-primary border border-primary/30 text-sm font-semibold flex items-center gap-1.5 transition-colors shrink-0"
+                      className="ui-button px-2.5 py-1 rounded bg-action hover:bg-action-hover text-primary-foreground border border-primary/30 text-sm font-semibold flex items-center gap-1.5 transition-colors shrink-0"
                     >
                       <CheckCircle2 className="h-3.5 w-3.5" />
                       <span>Mark Complete</span>

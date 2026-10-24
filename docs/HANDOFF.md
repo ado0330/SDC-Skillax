@@ -30,3 +30,6 @@
 4. Deploy to Vercel/Replit and paste the live public URL into the tools declaration.
 5. Sign and date Section 7 of Document 1 and Section 8 of Document 2.
 
+
+## Royal Blue action refinement (TASK-027)
+The requested Royal Blue palette is applied through shared action tokens and styles, with inset boundaries, focus outlines and opaque disabled states. Dashboard Mark Complete uses the shared solid action variant. Both themes visually checked; white labels pass AA (6.70:1 light, 5.17:1 dark). Safari/macOS testing is unavailable on this Windows host. No behavior, API, layout or navigation changes. Local preview: development server at http://127.0.0.1:4317; stop before production builds.

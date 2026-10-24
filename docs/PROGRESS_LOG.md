@@ -519,3 +519,8 @@ This document is an append-only journal of all completed development tasks, veri
 - **Task:** TASK-025 — Employer disclaimer contrast.
 - **Changes:** Four presentation class strings in `app/employer/page.tsx`; exact user-specified hex colors through Tailwind dark variants. Copy, compact typography, icon and layout unchanged.
 - **Verification:** Visually inspected both themes and checked computed background, border, heading, paragraph and icon colors against all ten requested values. TypeScript and diff checks passed.
+
+### Entry 030 | 2026-10-24 +08:00
+- **Task:** TASK-027 — Royal Blue primary actions.
+- **Changes:** Updated action/hover tokens and shared `.ui-button.bg-action` styling in `app/globals.css`. Added an inset edge without changing geometry; retained keyboard outlines, added pressed treatment, and made disabled controls opaque neutral surfaces with readable labels. Existing loading spinners remain. Dashboard Mark Complete now uses the shared solid primary variant. Secondary and destructive actions retain their variants.
+- **Verification:** Browser computed colors match #1D4ED8 (light) and #2563EB (dark), white labels; hover token colors are #1E40AF / #1D4ED8. White text contrast is 6.70:1 / 5.17:1, with light hover 8.72:1. Visually inspected both themes, keyboard focus and CV disabled state; audited rendered primary controls across all 15 routes. Save Profile retained its measured 136.6px by 44px size. TypeScript and diff checks passed. Safari/macOS was unavailable; hover rules were inspected in source rather than exercised with a pointer.

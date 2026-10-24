@@ -13,8 +13,9 @@
     --sidebar: 216 33% 98%;
     --sidebar-accent: 224 90% 94%;
     --primary: 225 65% 42%;
-    --action: 225 72% 49%;
-    --action-hover: 225 73% 43%;
+    --action: 224.28 76.33% 48.04%;
+    --action-hover: 225.93 70.73% 40.20%;
+    --action-border: 225.93 70.73% 40.20%;
     --primary-foreground: 0 0% 100%;
     --secondary: 172 80% 25%;
     --success: 158 80% 26%;
@@ -40,8 +41,9 @@
     --sidebar: 221 39% 11%;
     --sidebar-accent: 225 45% 23%;
     --primary: 223 100% 79%;
-    --action: 225 72% 55%;
-    --action-hover: 225 73% 48%;
+    --action: 221.21 83.19% 53.33%;
+    --action-hover: 224.28 76.33% 48.04%;
+    --action-border: 213.12 93.90% 67.84%;
     --primary-foreground: 0 0% 100%;
     --secondary: 172 66% 65%;
     --success: 158 70% 70%;
@@ -98,6 +100,17 @@
   }
   .ui-button:not(.flex):not(.inline-flex) { align-content: center; }
   .ui-button-icon { min-width: 44px; display: inline-flex; align-items: center; justify-content: center; }
+  /* Inset edges preserve every button's existing dimensions and layout. */
+  .ui-button.bg-action {
+    background-color: hsl(var(--action));
+    color: #fff;
+    box-shadow: inset 0 0 0 1px hsl(var(--action-border)), 0 1px 2px rgb(0 0 0 / .12);
+  }
+  .ui-button.bg-action:hover:not(:disabled) { background-color: hsl(var(--action-hover)); }
+  .ui-button.bg-action:active:not(:disabled),
+  .ui-button.bg-action[aria-pressed="true"] {
+    box-shadow: inset 0 0 0 2px hsl(var(--action-border));
+  }
   .ui-button.ui-button-secondary { border-color: hsl(var(--control-border)); background-color: hsl(var(--muted)); color: hsl(var(--foreground)); }
   .ui-button.ui-button-secondary:hover:not(:disabled) { background-color: hsl(var(--sidebar-accent)); border-color: hsl(var(--primary)); }
   .nav-link { min-height: 44px; border: 1px solid transparent; }
@@ -110,7 +123,11 @@
 }
 /* Keep keyboard and disabled affordances above page-level utility styles. */
 :is(button, a, input, select, textarea, [tabindex]):focus-visible { outline: 2px solid hsl(var(--primary)); outline-offset: 3px; }
-.ui-button:disabled { cursor: not-allowed; opacity: .55; transform: none; box-shadow: none; transition: none; }
+.ui-button:disabled {
+  cursor: not-allowed; opacity: 1; transform: none; transition: none;
+  background-color: hsl(var(--muted)); color: hsl(var(--muted-foreground));
+  box-shadow: inset 0 0 0 1px hsl(var(--control-border));
+}
 @media (max-width: 639px) {
   .page-actions, .page-actions > div { max-width: 100%; flex-wrap: wrap; }
   .score-breakdown-row > div { flex-wrap: wrap; }

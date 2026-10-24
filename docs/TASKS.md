@@ -149,3 +149,6 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
   - *Files:* `docs/submission/preliminary-proposal-draft.md`, `technical-tools-declaration-draft.md`, `evidence-and-verification-checklist.md`, `system-architecture-diagram.md`, `submission-handoff.md`
   - *Acceptance:* Required fields are populated with verified facts or clear placeholders; bounded responses are counted; official handbook requirements, source evidence, privacy/licensing gaps, and deployment limitations are recorded. Supplied official DOCX templates were filled and visually reviewed; team confirmation and final submission blockers remain. No production code changed.
 
+
+- [x] **TASK-027**: Centralize Royal Blue primary button colors and visibility states. Light #1D4ED8 / hover #1E40AF; dark #2563EB / hover #1D4ED8; white text. Preserve dimensions and actions. Browser verified both themes, focus and disabled states; TypeScript passed. Safari unavailable on this Windows host.
+  - *Status:* DONE
