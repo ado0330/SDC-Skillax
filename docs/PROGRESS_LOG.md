@@ -316,8 +316,28 @@ This document is an append-only journal of all completed development tasks, veri
 - **Commands & Verification:**
   - `npm run build` (Clean build of 15/15 pages)
   - `npm test` (8/8 domain tests passed)
-- **Git Commit:** Pending commit.
+- **Git Commit:** 12fc4d3 ("feat(updates): implement Replanning and Audit Trail with human review and proposal staging")
 - **Next Recommended Task:** TASK-018: Implement Workforce View (`/employer`) for synthetic cohorts (Aina, Daniel, Kumar), capability averages, and requirement coverage matrix.
+
+---
+
+### Entry 018 | 2026-10-24 11:12:00 +08:00
+- **Task ID:** TASK-018 (Enterprise Workforce Planning & Cohort Analytics)
+- **Status:** COMPLETED
+- **Description:** Implemented the Enterprise Workforce Planning interface (`/employer`) featuring statutory screening disclaimers, aggregate capability benchmarks, individual synthetic worker transition diagnostics, and organizational requirement coverage analysis.
+- **What changed:**
+  - Implemented `app/employer/page.tsx`:
+    - Prominent statutory and ethical disclaimer explicitly prohibiting automated candidate screening or adverse employment decisions.
+    - Executive cohort KPIs (size, average skill score across 19 competencies, top capability domain, primary training priority).
+    - Category-level benchmark distribution bars (Transferable, Digital, Technical).
+    - Synthetic worker cards (Aina, Daniel, Kumar) displaying background, assessed proficiencies, top transition career match via deterministic scoring, and "Open in Personal OS" sandbox fast-track.
+    - Organizational requirement coverage matrix across 10 benchmark priority occupations assessing ready worker density, unmet skill requirements, and strategic training priority tags (High, Moderate, On Track).
+- **Commands & Verification:**
+  - `npm run build` (Clean build of 16/16 pages)
+  - `npm test` (8/8 domain tests passed)
+- **Git Commit:** Pending commit.
+- **Next Recommended Task:** TASK-019: Implement Methodology & Transparency (`/methodology`) and Settings (`/settings`) with workspace reset dialog.
+
 
 
 

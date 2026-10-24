@@ -99,8 +99,8 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
   - *Files:* `app/updates/page.tsx`, `lib/workspace/WorkspaceContext.tsx`
   - *Acceptance:* Human-in-the-loop approval prevents silent roadmap updates.
 
-- [ ] **TASK-018**: Implement Workforce View (`/employer`) for synthetic cohorts (Aina, Daniel, Kumar), capability averages, and requirement coverage matrix.
-  - *Status:* TODO
+- [x] **TASK-018**: Implement Workforce View (`/employer`) for synthetic cohorts (Aina, Daniel, Kumar), capability averages, and requirement coverage matrix.
+  - *Status:* DONE
   - *Files:* `app/employer/page.tsx`
   - *Acceptance:* Aggregate planning view clearly disclaims individual candidate screening.
 
