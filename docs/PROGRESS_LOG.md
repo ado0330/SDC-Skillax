@@ -46,5 +46,26 @@ This document is an append-only journal of all completed development tasks, veri
 - **Commands & Verification:**
   - `npm install` (Success: 151 packages installed)
   - `npm run build` (Success: compiled static pages 4/4 with 0 errors)
-- **Git Commit:** Pending commit.
+- **Git Commit:** 9545e4b ("feat(setup): initialize Next.js shell with Tailwind, Lucide, and Zod")
 - **Next Recommended Task:** TASK-003: Implement core domain static catalogs (19 skills, 10 occupations, 17 SDGs, learning resources, fallback research signals, initial workforce data, synthetic cohorts).
+
+---
+
+### Entry 003 | 2026-10-24 10:39:00 +08:00
+- **Task ID:** TASK-003 (Domain Catalogs & Static Data Implementation)
+- **Status:** COMPLETED
+- **Description:** Implemented all core static catalogs matching the reverse-engineering specification and SDC Domain 1 requirements.
+- **What changed:**
+  - Created `lib/domain/types.ts` defining Skill, Role, SDG, LearningResource, ResearchSignal, WorkforceObservation, SyntheticWorker, UserProfile, and CareerMatch types.
+  - Created `lib/data/skills.ts` containing the 19 standard skills across Transferable, Digital, and Technical categories with SDG linkages.
+  - Created `lib/data/roles.ts` containing the 10 catalogued benchmark occupations with O*NET family codes, requirements (levels 1-5), SDG rationale, and exposure ratings.
+  - Created `lib/data/sdgs.ts` with all 17 UN Sustainable Development Goals, official brand hex colors, and WCAG luminance-checked text colors.
+  - Created `lib/data/learningResources.ts` with curated public learning resources for each of the 19 skills with estimated study hours and pedagogical objectives.
+  - Created `lib/data/fallbackSignals.ts` with seed research signals from Hugging Face Research and MIT AI News with explicit non-employment disclaimers.
+  - Created `lib/data/initialWorkforce.ts` with synthetic quarterly workforce demand observations across comparable periods with trend data.
+  - Created `lib/data/syntheticWorkers.ts` with 3 synthetic cohort workers (Aina, Daniel, Kumar).
+  - Created `lib/data/sampleCvs.ts` with 3 synthetic CV presets for zero-API-key demonstrations.
+- **Commands & Verification:**
+  - `npx tsc --noEmit` (Passed with 0 errors)
+- **Git Commit:** Pending commit.
+- **Next Recommended Task:** TASK-004: Implement pure deterministic mathematical domain scoring engine (`scoring.ts`, `scenarios.ts`, `gaps.ts`, `roadmap.ts`, `workforce.ts`) with automated unit tests.

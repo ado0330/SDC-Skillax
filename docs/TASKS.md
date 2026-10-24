@@ -16,9 +16,9 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
   - *Files:* `package.json`, `tsconfig.json`, `tailwind.config.ts`, `postcss.config.js`, `app/layout.tsx`, `app/globals.css`
   - *Acceptance:* Next.js project builds cleanly and runs locally on port 3000.
 
-- [ ] **TASK-003**: Implement core domain static catalogs (19 skills, 10 occupations, 17 SDGs, learning resources, fallback research signals, initial workforce data, synthetic cohorts).
-  - *Status:* TODO
-  - *Files:* `lib/data/skills.ts`, `lib/data/roles.ts`, `lib/data/sdgs.ts`, `lib/data/learningResources.ts`, `lib/data/fallbackSignals.ts`, `lib/data/initialWorkforce.ts`, `lib/data/syntheticWorkers.ts`
+- [x] **TASK-003**: Implement core domain static catalogs (19 skills, 10 occupations, 17 SDGs, learning resources, fallback research signals, initial workforce data, synthetic cohorts).
+  - *Status:* DONE
+  - *Files:* `lib/data/skills.ts`, `lib/data/roles.ts`, `lib/data/sdgs.ts`, `lib/data/learningResources.ts`, `lib/data/fallbackSignals.ts`, `lib/data/initialWorkforce.ts`, `lib/data/syntheticWorkers.ts`, `lib/data/sampleCvs.ts`, `lib/domain/types.ts`
   - *Acceptance:* All 19 skills, 10 O*NET roles, 17 SDGs accurately match reverse-engineering spec.
 
 - [ ] **TASK-004**: Implement pure deterministic mathematical domain scoring engine (`scoring.ts`, `scenarios.ts`, `gaps.ts`, `roadmap.ts`, `workforce.ts`) with automated unit tests.
