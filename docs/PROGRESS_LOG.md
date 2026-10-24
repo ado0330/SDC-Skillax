@@ -205,5 +205,20 @@ This document is an append-only journal of all completed development tasks, veri
 - **Commands & Verification:**
   - `npm run build` (Clean build of 10/10 pages)
   - `npm test` (8/8 domain tests passed)
-- **Git Commit:** Pending commit.
+- **Git Commit:** e6563ac ("feat(roadmap): implement 4-phase learning pathway with milestone checkoffs and export modal")
 - **Next Recommended Task:** TASK-012: Implement Scenario Lab (`/scenarios`) with Slower, Moderate, Rapid AI adoption toggles, simulation boost slider (-100 to +100), and live score comparison chart.
+
+---
+
+### Entry 012 | 2026-10-24 10:58:00 +08:00
+- **Task ID:** TASK-012 (Scenario Lab & Live Impact Simulation)
+- **Status:** COMPLETED
+- **Description:** Implemented the interactive Scenario Lab (`/scenarios`) featuring Slower/Moderate/Rapid AI adoption scenario toggles, dynamic simulation boost slider (-100 to +100), live recalculation of career suitability scores, score trajectory deltas, and cross-scenario comparative audit matrix.
+- **What changed:**
+  - Implemented `app/scenarios/page.tsx` with reactive adoption speed selector, simulation boost controls, active formula parameter inspect panel, real-time score ranking comparison with delta indicators (+/-), and multi-scenario side-by-side audit table.
+- **Commands & Verification:**
+  - `npm run build` (Clean build of 11/11 pages)
+  - `npm test` (8/8 domain tests passed)
+- **Git Commit:** Pending commit.
+- **Next Recommended Task:** TASK-013: Implement SDG Impact Matrix (`/sdgs`) linking all 17 UN Sustainable Development Goals to occupations and user capabilities.
+

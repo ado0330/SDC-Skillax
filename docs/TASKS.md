@@ -65,9 +65,9 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
   - *Files:* `app/roadmap/page.tsx`, `components/ExportModal.tsx`, `lib/domain/roadmap.ts`
   - *Acceptance:* Generates Phase 1 (Foundational), Phase 2 (Technical), Phase 3 (Capstone), Phase 4 (Portfolio); preserves completed milestones across regeneration.
 
-- [ ] **TASK-012**: Implement Scenario Lab (`/scenarios`) with Slower, Moderate, Rapid AI adoption toggles, simulation boost slider (-100 to +100), and live score comparison chart.
-  - *Status:* TODO
-  - *Files:* `app/scenarios/page.tsx`
+- [x] **TASK-012**: Implement Scenario Lab (`/scenarios`) with Slower, Moderate, Rapid AI adoption toggles, simulation boost slider (-100 to +100), and live score comparison chart.
+  - *Status:* DONE
+  - *Files:* `app/scenarios/page.tsx`, `lib/domain/scenarios.ts`, `lib/domain/scoring.ts`
   - *Acceptance:* Adjusting scenarios or boost immediately recalculates scores and visibly affects rankings.
 
 - [ ] **TASK-013**: Implement SDG Impact Matrix (`/sdgs`) linking all 17 UN Sustainable Development Goals to occupations and user capabilities.
