@@ -179,7 +179,7 @@ No RunPod proof-of-use document is applicable because RunPod was not used.
 | Cecilia Se | Team Lead | [@Cecilia-1231](https://github.com/Cecilia-1231) |
 | Khaw Zhi Xin | Backend Developer | [@ado0330](https://github.com/ado0330) |
 | Chong Chai Yee | Frontend Developer | [@chaiyee](https://github.com/chaiyee) |
-| Kermian Kung | Documentation & Media Lead | [@kungkungmian](https://github.com/kungkungmian) |
+| Kung Ker Mian | Documentation & Media Lead | [@kungkungmian](https://github.com/kungkungmian) |
 
 ---
 
