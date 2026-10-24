@@ -296,8 +296,29 @@ This document is an append-only journal of all completed development tasks, veri
 - **Commands & Verification:**
   - `npm run build` (Clean build of 14/14 pages)
   - `npm test` (8/8 domain tests passed)
-- **Git Commit:** Pending commit.
+- **Git Commit:** 0666601 ("feat(progress): implement Progress Tracking dashboard with completion ring and pace simulator")
 - **Next Recommended Task:** TASK-017: Implement Replanning & Audit Trail (`/updates`) with proposal review (Approve/Reject) and immutable recalculation log.
+
+---
+
+### Entry 017 | 2026-10-24 11:10:00 +08:00
+- **Task ID:** TASK-017 (Replanning & Audit Trail)
+- **Status:** COMPLETED
+- **Description:** Implemented the Human-in-the-Loop Replanning & Audit Trail (`/updates`) enforcing the architectural invariant that career recalculations and roadmap modifications stage proposals rather than silently overwriting user progress.
+- **What changed:**
+  - Extended `WorkspaceContext` with `stageReplanningProposal` action to generate and stage dynamic before/after recalculations on demand or during scenario shifts.
+  - Implemented `app/updates/page.tsx`:
+    - Summary governance KPIs (Proposals Pending, Approved Revisions, Rejected Revisions, Zero Silent Overwrite rule notice).
+    - Interactive review card for active proposal comparing previous vs. proposed suitability scores, rank deltas (▲/▼), and score differences (+/-).
+    - Explicit Human-in-the-Loop Approve and Reject action buttons with milestone completion preservation guarantee.
+    - Historical proposal audit trail timeline with timestamp and status tags.
+    - Evaluator trigger button to simulate replanning scenarios on demand.
+- **Commands & Verification:**
+  - `npm run build` (Clean build of 15/15 pages)
+  - `npm test` (8/8 domain tests passed)
+- **Git Commit:** Pending commit.
+- **Next Recommended Task:** TASK-018: Implement Workforce View (`/employer`) for synthetic cohorts (Aina, Daniel, Kumar), capability averages, and requirement coverage matrix.
+
 
 
 

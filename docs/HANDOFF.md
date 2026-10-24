@@ -5,32 +5,33 @@ Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI
 
 ## 2. Current Phase & Overall Completion Status
 - **Current Phase:** Phase 2 (Supporting Workflows & Full Experience)
-- **Overall Completion:** ~75% (14/14 routes building cleanly, 8/8 unit tests passing).
+- **Overall Completion:** ~80% (15/15 routes building cleanly, 8/8 unit tests passing).
 
 ## 3. Latest Completed Task
-- **TASK-016**: Implemented Progress Tracking (`/progress`) with completion ScoreRing, weekly pace projection slider, 4-phase progression bars, velocity badges, and milestone checklist.
+- **TASK-017**: Implemented Replanning & Audit Trail (`/updates`) with human-in-the-loop review (Approve/Reject), ranking shift comparison table, and immutable recalculation log.
 
 ## 4. Task Currently in Progress
-- None (TASK-016 completed; ready for TASK-017).
+- None (TASK-017 completed; ready for TASK-018).
 
 ## 5. Next Exact Task to Execute
-- **TASK-017**: Implement Replanning & Audit Trail (`/updates`) with proposal review (Approve/Reject) and immutable recalculation log.
+- **TASK-018**: Implement Workforce View (`/employer`) for synthetic cohorts (Aina, Daniel, Kumar), capability averages, and requirement coverage matrix.
 
 ## 6. Files & Modules Relevant to That Task
-- `app/updates/page.tsx`
-- `lib/workspace/WorkspaceContext.tsx`
-- `lib/workspace/useWorkspace.ts`
+- `app/employer/page.tsx`
+- `lib/data/syntheticWorkers.ts`
+- `lib/data/roles.ts`
+- `lib/data/skills.ts`
 
 ## 7. Last Verified Git Commit
-- `903431f` (TASK-015 commit; staging TASK-016 commit next).
+- `0666601` (TASK-016 commit; staging TASK-017 commit next).
 
 ## 8. Current Git Branch & Working-Tree Status
 - Branch: `main`
-- Status: Clean build of 14 pages, 8/8 tests passing.
+- Status: Clean build of 15 pages, 8/8 tests passing.
 
 ## 9. Last Successful Build or Test Results
-- `npm run build`: Compiled successfully (14/14 static pages generated, 0 type errors).
-- `npm test`: 8/8 unit tests passed in 14.3ms.
+- `npm run build`: Compiled successfully (15/15 static pages generated, 0 type errors).
+- `npm test`: 8/8 unit tests passed in 14.0ms.
 
 ## 10. Known Bugs & Unresolved Blockers
 - None.
@@ -45,5 +46,5 @@ Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI
 
 ## Ready-to-Copy Instruction for Next Agent
 ```text
-Continue SKILLAX AI prototype development by executing TASK-017 in docs/TASKS.md: Implement Replanning & Audit Trail (app/updates/page.tsx) with human-in-the-loop review interface comparing before vs. after match rankings and roadmap revisions, providing Approve and Reject actions, and viewing historical proposals with timestamps. Verify build, update docs/PROGRESS_LOG.md, and commit changes to git.
+Continue SKILLAX AI prototype development by executing TASK-018 in docs/TASKS.md: Implement Workforce View (app/employer/page.tsx) featuring aggregate planning analytics across synthetic cohorts (Aina, Daniel, Kumar), category averages, training shortfall rankings, requirement coverage matrix, and clear candidate screening disclaimers. Verify build, update docs/PROGRESS_LOG.md, and commit changes to git.
 ```

@@ -72,6 +72,7 @@ export interface WorkspaceContextType {
   resetWorkforceObservations: () => void;
   approveProposal: (proposalId: string) => void;
   rejectProposal: (proposalId: string) => void;
+  stageReplanningProposal: (reason?: string) => void;
   toggleTheme: () => void;
   toggleReducedMotion: () => void;
   resetWorkspace: () => void;
@@ -363,6 +364,36 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
     );
   }, []);
 
+  const stageReplanningProposal = useCallback((reason?: string) => {
+    const focus = targetRole || (matches.length > 0 ? matches[0].role : ROLES_CATALOG[0]);
+    const freshMatches = rankCareerRoles(
+      ROLES_CATALOG,
+      profile.skills,
+      profile.interests,
+      undefined,
+      scenario,
+      simulationBoost,
+      researchSignals,
+      workforceObservations
+    );
+    const proposedRoadmap = generateLearningRoadmap(
+      focus,
+      profile.skills,
+      scenario,
+      new Set(completedMilestoneIds)
+    );
+    const newProposal: RecommendationProposal = {
+      id: `prop-${Date.now()}`,
+      timestamp: new Date().toISOString(),
+      reason: reason || "Scenario parameters or external workforce demand observations updated.",
+      beforeMatches: matches,
+      afterMatches: freshMatches,
+      proposedRoadmap,
+      status: "Pending Review",
+    };
+    setRecommendationHistory((prev) => [newProposal, ...prev]);
+  }, [targetRole, matches, profile.skills, profile.interests, scenario, simulationBoost, researchSignals, workforceObservations, completedMilestoneIds]);
+
   const toggleTheme = useCallback(() => {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   }, []);
@@ -460,6 +491,7 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
       resetWorkforceObservations,
       approveProposal,
       rejectProposal,
+      stageReplanningProposal,
       toggleTheme,
       toggleReducedMotion,
       resetWorkspace,
