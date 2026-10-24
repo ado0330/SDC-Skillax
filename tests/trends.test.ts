@@ -1,11 +1,11 @@
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
-import { deduplicateSignals, findResearchSignalsForSkills, isSignalSetStale, mapSkillsFromEvidence, normalizeCrossrefWorks, parseRssFeed } from "../lib/domain/trends";
-import { GET } from "../app/api/research/route";
-import { resetResearchCacheForTests, writeResearchCache } from "../lib/server/researchCache";
-import { ResearchSignal } from "../lib/domain/types";
-import { scoreCareerRole } from "../lib/domain/scoring";
-import { ROLES_BY_ID } from "../lib/data/roles";
+import { deduplicateSignals, findResearchSignalsForSkills, isSignalSetStale, mapSkillsFromEvidence, normalizeCrossrefWorks, parseRssFeed } from "../src/lib/domain/trends";
+import { GET } from "../src/app/api/research/route";
+import { resetResearchCacheForTests, writeResearchCache } from "../src/lib/server/researchCache";
+import { ResearchSignal } from "../src/lib/domain/types";
+import { scoreCareerRole } from "../src/lib/domain/scoring";
+import { ROLES_BY_ID } from "../src/lib/data/roles";
 
 describe("Trend evidence normalization", () => {
   test("normalizes valid RSS, preserves missing or invalid dates, and leaves direction uncertain", () => {

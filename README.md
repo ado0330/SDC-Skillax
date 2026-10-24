@@ -1,156 +1,72 @@
-# SKILLAX AI Platform — Future Workforce Intelligence & Career OS
+# SKILLAX AI Platform
 
-[![Next.js](https://img.shields.io/badge/Next.js-14.2-black?style=flat&logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-18-blue?style=flat&logo=react)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue?style=flat&logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38bdf8?style=flat&logo=tailwind-css)](https://tailwindcss.com/)
-[![Tests](https://img.shields.io/badge/Tests-8%2F8%20Passing-brightgreen?style=flat)](tests/scoring.test.ts)
-[![Hackathon](https://img.shields.io/badge/SDC%20Aiversecity-Domain%201%3A%20Future%20of%20Work-cyan?style=flat)](https://sdg.un.org/)
+SKILLAX is a Malaysian workforce career exploration prototype that compares a learner's skills with benchmark roles and turns gaps into reviewable learning steps.
 
-> **A high-precision, explainable AI platform bridging capability profiling, dynamic macroeconomic scenario shocks, and deterministic reskilling pathways for the Malaysian workforce.**
+## Team Information
 
----
+| Field | Information |
+|---|---|
+| Team name | **SKILLAX** is the project name; confirm the official registered team name. |
+| Team domain | Domain 1 — Aiversecity Future-Ready Workforce |
+| SDG track | Proposed primary: SDG 8; proposed secondary: SDG 4. Confirm the official track with the team. |
+| Team leader | [Add full name] |
+| University | [Confirm each member's institution] |
+| Number of members | [Add confirmed count, 1–5] |
 
-## 1. Executive Summary & Hackathon Mission
+## Links
 
-Built for the **SDC Aiversecity Hackathon (Domain 1: Future of Work & Lifelong Learning)**, **SKILLAX AI** tackles the urgent challenge of rapid AI workplace transformation across Malaysia and Southeast Asia. 
+| Resource | Link / status |
+|---|---|
+| GitHub repository | [https://github.com/ado0330/SCD-prototype2](https://github.com/ado0330/SCD-prototype2) — configured Git remote; public access must be confirmed. |
+| Replit project | [Add the team's Replit project URL] |
+| Live demo | [Add a public, judge-accessible URL; localhost is not a live demo] |
+| RunPod endpoint | [Add if used; otherwise state “Not used” after team confirmation] |
+| Pitch slides | [Add link] |
+| Pitch video | [Add link to the required 5–7 minute video] |
 
-Rather than relying on ungrounded generative LLM advice that hallucinates suitability percentages, SKILLAX AI employs a **pure mathematical deterministic scoring engine** coupled with:
-1. **19 Standardized Competencies:** 5 Transferable, 5 Digital, 9 Technical.
-2. **10 National Priority Benchmark Occupations:** Fully mapped to US Department of Labor O*NET SOC classifications and UN SDGs.
-3. **Dynamic Scenario Lab:** Simulating career sensitivity under Slower, Moderate, or Rapid technological adoption speeds.
-4. **4-Phase Structured Learning Pathways:** Foundational Literacy, Applied Technical Competencies, Capstones, and Production Portfolios.
-5. **17 UN Sustainable Development Goals (SDG) Matrix:** Tracking direct contributions to sustainable economic growth.
-6. **Enterprise Workforce View:** Aggregate capability analytics and requirement coverage matrices for organizational planners.
+## Overview
 
----
+The application includes a skill profile and assessment, deterministic career matches, skill gap views, a learning roadmap, progress tracking, scenario comparisons, an SDG view, a workforce planning view, and recommendation review history. The Trend Radar presents research publication activity from Hugging Face, MIT News, and Crossref. These research signals are not job vacancies or wage data and do not affect career rankings. Bundled workforce observations and example worker profiles are synthetic demonstrations.
 
-## 2. Core Architectural Invariants
+Gemini is optional and used server-side only to extract structured suggestions from CV input. Suggestions require user review; a local keyword fallback and synthetic sample CVs support demonstrations without an API key. Do not enter real personal CV data in a demo unless the team has reviewed the applicable service and privacy terms.
 
-| Invariant | Architectural Enforcement |
-| :--- | :--- |
-| **Strict No-Database Rule** | **Zero database connections** (no SQL, Prisma, Drizzle, SQLite, or migrations). All state is kept ephemeral in RAM or stored client-side in browser `localStorage` (`skillax_workspace_v2`). Sessions can be purged atomically via Settings. |
-| **Deterministic Intelligence** | Career matching and scenario scores are pure mathematical functions in `lib/domain/`. Identical inputs yield identical rankings every single time with zero LLM hallucination. |
-| **Consented Ephemeral AI** | Google Gemini 2.5 Flash SDK (`@google/genai`) extracts structured profiles server-side. Memory buffers are zeroed immediately; raw CV files and text are **never written to disk**. Staged review allows human-in-the-loop editing. |
-| **Evidence Separation** | Hugging Face, MIT News, and Crossref items show publication activity only. They never affect career scores or stand in for vacancies, wages, or workforce demand. |
-| **Human-in-the-Loop Replanning** | Recalculations triggered by data updates stage proposals in `/updates` with status `Pending Review`. Saved roadmaps are never silently overwritten; completed milestone IDs are strictly preserved. |
-
----
-
-## 3. Mathematical Scoring Engine
-
-### Baseline 4-Component Model
-$$\text{baselineScore} = \text{round}(0.50 \times \text{skills} + 0.20 \times \text{transferable} + 0.15 \times \text{interest} + 0.15 \times \text{market})$$
-
-### Empirical Workforce Demand Integration (5-Component Model)
-$$\text{overallMatch} = \text{round}(0.90 \times \text{baselineScore} + 0.10 \times \text{workforceScore})$$
-
-### Scenario Shocks & Simulation
-- **Slower Adoption:** AI requirements reduced by 1 level; market adjusted by $-10 \times \text{technicalShare} + 0.05 \times \text{exposure}$.
-- **Rapid Adoption:** AI requirements increased by +1 level (or injected at Level 3); market adjusted by $+20 \times \text{technicalShare} - 0.10 \times \text{exposure}$.
-- **Simulation Boost:** Bidirectional delta slider from -100 to +100 points.
-
----
-
-## 4. Application Route Map (19 Routes)
+## Overall Project Structure
 
 ```text
-├── / (Dashboard)               → Executive briefing, 19-skill polygonal radar chart, top match card
-├── /welcome                    → Public overview, architectural invariants, evaluator tour
-├── /profile                    → Capability profile editor, 19 skill self-ratings, CV extraction modal
-├── /assessment                 → 5-scenario conversational diagnostic wizard with staged review
-├── /careers                    → 10 benchmark occupations directory, filter by industry
-├── /careers/[id]               → Mathematical audit view, gap breakdown, O*NET SOC links
-├── /radar                      → Trend Radar: Research activity (Hugging Face/MIT) & Workforce demand
-├── /scenarios                  → Scenario Lab: Slower vs Rapid adoption toggles, simulation boost slider
-├── /sdgs                       → Interactive 17 UN SDG grid, mapped occupations, capability audit
-├── /roadmap                    → 4-phase structured curriculum, milestone checkoffs, export dialog
-├── /progress                   → Progress dashboard, completion ScoreRing, weekly study pace simulator
-├── /updates                    → Human-in-the-loop replanning review (Approve/Reject), proposal history
-├── /employer                   → Enterprise workforce planning, synthetic cohort analytics, coverage matrix
-├── /methodology                → Algorithmic formula disclosures, evidence separation, O*NET mappings
-├── /settings                   → Dark/Light themes, reduced motion, atomic workspace purge
-├── /api/cv/analyze             → Stateless ephemeral Gemini CV extraction handler with keyword fallback
-└── /api/research               → Hugging Face/MIT RSS plus Crossref scholarly metadata; server-side 60-second cache
+src/app/              Next.js App Router pages and API routes
+src/components/       Shared React interface components
+src/lib/              AI extraction, catalogs, schemas, domain logic, workspace state
+public/              Static assets
+tests/               Automated domain and route tests
+docs/                Architecture, progress, and submission preparation records
+docs/submission/     Editable proposal and technical declaration drafts
+submission/          Preliminary proposal PDF and platform-evidence placeholders
 ```
 
-### Trend evidence and refresh behavior
+The app, shared components, and domain libraries are grouped under `src/`. Next.js App Router routing remains in `src/app/`.
 
-The Radar fetches the [Hugging Face Blog RSS](https://huggingface.co/blog/feed.xml), [MIT AI News artificial intelligence RSS](https://news.mit.edu/rss/topic/artificial-intelligence2), and a broad topic query against the public [Crossref works API](https://api.crossref.org/works) on explicit user refresh. Crossref search terms target health data/informatics, industrial IoT, project management, and data analytics. Crossref metadata contributes title, DOI/source link, provider, and publication date where the record gives a complete valid date; abstract text is not requested or reproduced. The page shows results in compact pages while the activity count reflects all normalized and deduplicated items. Each item is attributed and linked; publication dates are shown when supplied and otherwise labelled unavailable. Some RSS sources provide no excerpt, which the Radar says explicitly rather than inventing a summary. The server caches successful results for 60 seconds. Evidence older than six hours is marked stale; a failed refresh preserves the user’s last stored items and says they may be stale. If no successful result exists, the route reports an error and the Radar stays usable with an empty state. There is no synthetic article fallback.
+## How We Used Replit & RunPod
 
-Titles and short RSS summaries are displayed with source links; no full article is republished. Crossref results show bibliographic metadata only and link to the DOI record. Crossref says most metadata is reusable but some abstracts may be copyrighted; abstracts are excluded from requests. Related skills are conservative deterministic keyword matches against titles. Article direction is always uncertain and cannot change career scores. MIT News describes its RSS as being for syndication and sets republication conditions in its [terms of use](https://news.mit.edu/terms-of-use); Hugging Face's [terms of service](https://huggingface.co/terms-of-service) govern use of its service content. Review provider terms if reuse expands beyond this prototype.
+- **Replit:** The repository contains a `.replit` configuration for running and deploying the Next.js application on port 3000. This verifies configuration; team account use and deployment remain unverified. Add authentic project/account evidence to `submission/Replit Proof of Use.pdf`.
 
-The Scenario Lab compares Moderate and Rapid assumptions using the same profile, existing career ranking and roadmap functions. It shows changed role skill requirements/gaps and links relevant external research by matching the feeds' deterministic skill tags to the selected role's catalogued requirements. Those links are context only: research items do not change scores, role demand, or roadmap priorities.
+- **RunPod:** No configuration or endpoint was identified in the repository audit. Confirm whether the team used RunPod. If so, replace `submission/RunPod Proof of Use.pdf` with authentic evidence; otherwise follow the organizer's instructions for reporting non-use.
 
----
+## How to Run the Project
 
-## 5. Getting Started & Local Development
+Requirements: Node.js 18 or newer and npm.
 
-### Prerequisites
-- Node.js `18.x` or higher (tested on Node `v20.x` and `v26.x`)
-- npm `9.x` or higher
-
-### Installation
 ```bash
-# Clone the repository
-git clone https://github.com/ado0330/SCD-prototype2.git
-cd SCD-prototype2
-
-# Install dependencies
 npm install
-
-# (Optional) Copy environment template for Gemini API key
-cp .env.example .env.local
-```
-
-> **Note:** The Gemini API key is optional for demonstrations. SKILLAX AI includes instant synthetic presets (Aina, Daniel, Kumar) and deterministic offline keyword extraction.
-
-### Run Local Development Server
-```bash
+cp .env.example .env.local   # optional; add a Gemini key only in your local environment
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Run Unit Tests
-```bash
-npm test
-```
-Executes the pure mathematical test suite verifying deterministic repeatability, scenario modifiers, workforce trend logic, and CV schema extraction.
+Open [http://localhost:3000](http://localhost:3000). Most features work without Gemini credentials using the offline demo flows. To run the automated checks, use `npm test`; to create a production build, use `npm run build`.
 
-### Production Build
-```bash
-npm run build
-npm start
-```
+## Submission Package Status
 
----
+The files in `submission/` are working drafts. The proposal PDF filename uses SKILLAX as a working team name until the official team name is confirmed; the PDF has unresolved team details and requires team review. The Replit and RunPod PDFs are explicitly marked as awaiting authentic evidence; they are not proof of platform use. Before submission, confirm team information, public links, signatures, platform use, and organizer requirements. Editable document drafts and the evidence checklist are in [`docs/submission/`](docs/submission/).
 
-## 6. One-Click Replit Deployment
+## License & Attribution
 
-This repository includes a preconfigured `.replit` deployment manifest:
-1. Import this repository directly into Replit.
-2. Replit will automatically detect the configuration and execute `npm run dev -- -H 0.0.0.0 -p 3000`.
-3. In Replit Secrets, optionally add `GEMINI_API_KEY` for live generative resume analysis.
-
----
-
-## 7. Fast-Track Evaluator Tour
-
-For hackathon judges and evaluators, we recommend the following 5-minute evaluation flow:
-
-1. **Start on the Welcome Page (`/welcome`)**: Review the architectural invariants and click **Aina (Operations)** or **Daniel (Data)** to load an instant synthetic profile.
-2. **Inspect the Intelligence Dashboard (`/`)**: View the 19-skill polygonal radar chart overlayed with target career requirements.
-3. **Explore Career Matches (`/careers/[id]`)**: Click into any occupation (e.g. *Business Intelligence Analyst*) to inspect the formula decomposition bars.
-4. **Stress-Test in the Scenario Lab (`/scenarios`)**: Toggle between *Slower*, *Moderate*, and *Rapid* adoption speeds to observe instant rank and score recalculations.
-5. **Inspect the UN SDG Matrix (`/sdgs`)**: Click *SDG 8* or *SDG 9* to explore associated green-tech occupations and required skills.
-6. **Track Learning Progress (`/roadmap` & `/progress`)**: Check off milestone modules and use the weekly study pace slider to project graduation timelines.
-7. **Audit Replanning Proposals (`/updates`)**: Click *"Simulate Replanning Trigger"* to review before/after ranking shifts with explicit Approve/Reject human approval.
-8. **Inspect Enterprise Analytics (`/employer`)**: Review cohort benchmarks across all 3 synthetic workers and the 10-role requirement coverage matrix.
-
----
-
-## 8. License & Attribution
-
-Developed for the **SDC Aiversecity Hackathon (Domain 1)**.
-All occupational benchmarks reference standard task definitions from the **US Department of Labor O*NET database**.
-United Nations Sustainable Development Goals content and iconography adhere to official UN Brand Guidelines.
+The project license is Apache License 2.0; see [`LICENSE`](LICENSE). Confirm contributor ownership and third-party content attribution before publishing. Research items remain attributed to their providers. O*NET references and United Nations SDG materials retain their respective source terms.

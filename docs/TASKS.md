@@ -162,3 +162,11 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
   - *Files:* `app/api/research/route.ts`, `app/radar/page.tsx`, `app/scenarios/page.tsx`, `app/methodology/page.tsx`, `lib/domain/trends.ts`, `lib/domain/scoring.ts`, `lib/schemas/evidence.ts`, `lib/server/researchCache.ts`, `lib/workspace/WorkspaceContext.tsx`, tests, README and architecture/methodology docs.
   - *Acceptance:* Source-backed items preserve optional publication dates and retrieval timestamps; URL deduplication and strict HTTP(S) attribution; uncertain research direction; explicit live/cached/stale/error states; no false synthetic fallback; explicit scenarios reuse current score/gap/roadmap logic; role-matched evidence links are contextual only and articles do not change scores.
   - *Verification:* `npx tsc --noEmit`; `npm test` (20/20); `npm run build` (18/18 routes). Build ran in an isolated temporary copy because the existing dev server was listening on port 3000; sandboxed font fetch initially failed, approved unsandboxed build passed.
+
+## Phase 6 — Submission Package
+
+- [x] **TASK-029**: Prepare a root submission folder and align the repository README with the SDC submission checklist.
+  - *Status:* DONE (package structure created; team completion and authentic platform evidence remain)
+  - *Files:* `src/` (moved from root `app/`, `components/`, `lib/`), `submission/`, `README.md`, `.env.example`, `LICENSE`, `tsconfig.json`, `tailwind.config.ts`, `tests/`, `docs/submission/`, `docs/HANDOFF.md`
+  - *Acceptance:* Preliminary proposal PDF and explicit Replit/RunPod evidence placeholders exist; README has required team, links, project, structure, platform-use, and run sections; unknown values are marked for confirmation; no platform proof is fabricated; application source is grouped under `src/`.
+  - *Verification:* PDFs rendered and visually reviewed; `npm test` passed 20/20; `npx tsc --noEmit` passed after refreshing generated route types; isolated `npm run build` passed with 18 routes; restarted dev server returned HTTP 200 for `/` and `/api/research`; `.env.local` remains ignored; no tracked credential-like values found; `git diff --check` passed.

@@ -1,19 +1,19 @@
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
 
-import { ROLES_CATALOG, ROLES_BY_ID } from "../lib/data/roles";
-import { FALLBACK_RESEARCH_SIGNALS } from "../lib/data/fallbackSignals";
-import { INITIAL_WORKFORCE_OBSERVATIONS } from "../lib/data/initialWorkforce";
-import { scoreCareerRole, rankCareerRoles } from "../lib/domain/scoring";
-import { adjustRoleRequirements, calculateScenarioEffect } from "../lib/domain/scenarios";
-import { calculateSkillGaps } from "../lib/domain/gaps";
-import { generateLearningRoadmap } from "../lib/domain/roadmap";
+import { ROLES_CATALOG, ROLES_BY_ID } from "../src/lib/data/roles";
+import { FALLBACK_RESEARCH_SIGNALS } from "../src/lib/data/fallbackSignals";
+import { INITIAL_WORKFORCE_OBSERVATIONS } from "../src/lib/data/initialWorkforce";
+import { scoreCareerRole, rankCareerRoles } from "../src/lib/domain/scoring";
+import { adjustRoleRequirements, calculateScenarioEffect } from "../src/lib/domain/scenarios";
+import { calculateSkillGaps } from "../src/lib/domain/gaps";
+import { generateLearningRoadmap } from "../src/lib/domain/roadmap";
 import {
   classifyPeriod,
   analyzeWorkforceSeries,
   findEligibleWorkforceSeriesForRole,
-} from "../lib/domain/workforce";
-import { WorkforceObservation } from "../lib/domain/types";
+} from "../src/lib/domain/workforce";
+import { WorkforceObservation } from "../src/lib/domain/types";
 
 describe("Domain Intelligence Tests — SKILLAX AI", () => {
   const sampleProfileSkills = {
@@ -246,8 +246,8 @@ describe("Domain Intelligence Tests — SKILLAX AI", () => {
   });
 
   test("CV Extraction: Deterministic keyword parsing and schema compliance", async () => {
-    const { extractSkillsByKeywords } = await import("../lib/ai/keywordExtractor");
-    const { CvExtractionOutputSchema } = await import("../lib/schemas/cv");
+    const { extractSkillsByKeywords } = await import("../src/lib/ai/keywordExtractor");
+    const { CvExtractionOutputSchema } = await import("../src/lib/schemas/cv");
 
     const sampleCvText = `
     Aina binti Abdullah
