@@ -1,0 +1,1042 @@
+{
+  "project": "SKILLAX AI Platform",
+  "version": "1.0.0-reverse-engineered",
+  "generatedAt": "2026-10-24T10:05:00+08:00",
+  "totalFeatures": 52,
+  "features": [
+    {
+      "id": "F-001",
+      "name": "Anonymous Session Management & Workspace Isolation",
+      "module": "Session & Security",
+      "purpose": "Provide each visitor with a fully isolated, private demo workspace without requiring account registration or credentials.",
+      "entry_point": "Application load on any route",
+      "user_actions": ["Open the application URL in a web browser"],
+      "behavior": "When a user connects, the system inspects the signed cookie. If absent or invalid, it issues a signed UUID cookie valid for 30 days and provisions an empty session record. All subsequent profile edits, milestones, evidence, and activity are isolated to this session.",
+      "inputs": ["Signed cookie header"],
+      "outputs": ["HTTP Set-Cookie header with signed UUID token (30-day max age, Lax SameSite, HttpOnly)"],
+      "business_rules": ["Session token must be a valid 36-character UUIDv4", "No cross-session data leakage", "All mutation endpoints enforce same-origin verification (rejects cross-origin browser writes with 403 Forbidden)"],
+      "states": ["New session (uninitialized)", "Active session (profile initialized)"],
+      "dependencies": [],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Visiting without a cookie establishes a valid signed cookie",
+        "Two concurrent browser sessions maintain strictly distinct profiles, roadmaps, and workforce datasets",
+        "Browser writes from external origins return HTTP 403"
+      ]
+    },
+    {
+      "id": "F-002",
+      "name": "Profile Setup Routing Guard",
+      "module": "Session & Security",
+      "purpose": "Prevent users from accessing personalized career matching and planning features before establishing their profile.",
+      "entry_point": "Navigating to /, /assessment, /careers, /roadmap, /progress, /scenarios, /sdgs, or /updates",
+      "user_actions": ["Attempt to visit a protected route before creating a profile"],
+      "behavior": "If the current session profile has an empty name, the app renders a dedicated Profile Setup prompt instead of the page content. Visiting /welcome, /profile, /radar, /employer, /methodology, or /settings remains allowed.",
+      "inputs": ["Target route URL", "Current session profile state"],
+      "outputs": ["Profile Setup screen with 'Create My Profile' CTA"],
+      "business_rules": ["Profile is considered initialized only when profile.name.trim() is non-empty", "Protected routes: /, /assessment, /careers, /careers/:id, /roadmap, /progress, /scenarios, /sdgs, /updates"],
+      "states": ["Gated (name is empty)", "Unlocked (name is present)"],
+      "dependencies": ["F-001"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Uninitialized user visiting '/' sees the 'Welcome to Skillax AI' onboarding card",
+        "Clicking 'Create My Profile' routes to '/profile'",
+        "After saving a name, all protected routes become fully accessible"
+      ]
+    },
+    {
+      "id": "F-003",
+      "name": "Full Workspace Reset",
+      "module": "Session & Security",
+      "purpose": "Allow the user to purge all personal data, roadmaps, progress, and imported evidence in the current session.",
+      "entry_point": "/settings -> Session section",
+      "user_actions": ["Click 'Reset workspace' button", "Confirm in the destructive alert dialog"],
+      "behavior": "The system validates the confirmation, clears the session profile, milestones, activity, recommendation history, and imported workforce evidence, resetting the session to its fresh, uninitialized state.",
+      "inputs": ["Action confirmation via modal"],
+      "outputs": ["Feedback toast 'Workspace reset'", "Cleared session state across all pages"],
+      "business_rules": ["Clears only the active session", "Confirmation dialog is mandatory with destructive styling", "Restores profileCreated to false and empties profile fields"],
+      "states": ["Idle", "Confirmation open", "Executing", "Reset completed"],
+      "dependencies": ["F-001"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Clicking 'Reset workspace' presents an alert dialog warning of data loss",
+        "Cancelling leaves all workspace data intact",
+        "Confirming resets the profile, roadmaps, and imported workforce data, and redirects/re-gates protected views"
+      ]
+    },
+    {
+      "id": "F-004",
+      "name": "Client Preferences (Theme & Reduced Motion)",
+      "module": "Session & Security",
+      "purpose": "Enable users to configure visual dark/light themes and toggle animation motion.",
+      "entry_point": "Header theme toggle button or /settings page switches",
+      "user_actions": ["Toggle dark/light mode icon", "Toggle 'Dark mode' switch", "Toggle 'Reduce motion' switch"],
+      "behavior": "Updates localStorage key 'skillax-prefs' and toggles the CSS classes 'dark' and 'reduce-motion' on document.documentElement. Synchronizes immediately across open tabs via custom window event.",
+      "inputs": ["Boolean toggle selections"],
+      "outputs": ["Updated document classList", "Immediate visual theme transition"],
+      "business_rules": ["Defaults to dark mode (true) and standard motion (false)", "Persisted in browser localStorage"],
+      "states": ["Light mode", "Dark mode", "Standard motion", "Reduced motion"],
+      "dependencies": [],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Clicking header toggle switches between dark and light palettes",
+        "Toggling 'Reduce motion' suppresses entrance keyframe and CSS orbital animations",
+        "Settings persist upon browser page reload"
+      ]
+    },
+    {
+      "id": "F-005",
+      "name": "Manual Profile Details Editing",
+      "module": "Skill Profile",
+      "purpose": "Allow users to record and update their personal career demographics, professional background, and career constraints.",
+      "entry_point": "/profile -> Details panel",
+      "user_actions": ["Edit Name, Occupation, Industry, Education, Language", "Adjust Experience, Weekly Hours, Budget inputs", "Edit Professional Summary and Experience Summary textareas", "Click 'Save profile' or 'Discard'"],
+      "behavior": "Modifications are tracked in a local draft state. When dirty, an unsaved banner is displayed and Discard/Save buttons activate. Clicking 'Save profile' validates constraints and sends a transaction that updates the profile, recalculates all matches, and flags roadmap updates for review if a roadmap exists.",
+      "inputs": ["Name (text, max 100)", "Occupation (text, max 200)", "Industry (text)", "Education (text)", "Language (text)", "Experience (number, 0-60)", "Weekly Hours (number, 1-80)", "Budget (number, >= 0)", "Professional Summary (text, max 1500)", "Experience Summary (text, max 3000)"],
+      "outputs": ["Saved profile", "Recalculated career matches", "Unsaved changes notification bar", "Toast notification"],
+      "business_rules": ["Name is mandatory and cannot be blank", "Experience cannot be negative and is capped at 60", "Weekly hours must be between 1 and 80", "Budget cannot be negative", "Matches only recalculate upon clicking 'Save profile'"],
+      "states": ["Pristine (draft matches saved)", "Dirty (unsaved changes)", "Saving in progress", "Saved"],
+      "dependencies": ["F-001"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Save button is disabled if Name is empty or draft is pristine",
+        "Typing minus sign in experience input is prevented",
+        "Discard button resets all draft inputs to the last saved profile",
+        "Saving updates career match scores and records a 'Profile saved' activity entry"
+      ]
+    },
+    {
+      "id": "F-006",
+      "name": "19 Catalogue Skills Rating (0 to 5)",
+      "module": "Skill Profile",
+      "purpose": "Allow users to self-rate proficiency across 19 standard skills categorized as Transferable, Digital, or Technical.",
+      "entry_point": "/profile -> Skill Category panels (Transferable, Digital, Technical)",
+      "user_actions": ["Drag or click sliders from 0 to 5 for any of the 19 catalogue skills"],
+      "behavior": "Updating a slider updates the draft skill list. If rating is 0, the skill is removed from the active list. If rating > 0, the skill level is updated. Changed skills are highlighted in primary accent.",
+      "inputs": ["Slider value (integer 0-5) for each skill"],
+      "outputs": ["Updated skill draft", "Proficiency counter in category header (e.g. '3 of 5 rated')"],
+      "business_rules": ["Catalogue skills: communication, excel, organization, analysis, python, sql, ai, ml, ethics, automation, maintenance, iot, cloud, sustainability, design, security, teaching, health, agriculture", "Proficiency scale: 0 (none) to 5 (expert)", "Duplicate skills are rejected on submission"],
+      "states": ["Unrated (level 0)", "Rated (level 1-5)"],
+      "dependencies": ["F-005"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Each of the 19 skills displays a slider with discrete steps 0 to 5",
+        "Setting a slider to 0 removes it from the saved profile skills array",
+        "Rated skills display level/5 badge and highlight changes against previously saved state"
+      ]
+    },
+    {
+      "id": "F-007",
+      "name": "Career Interests Tag Management",
+      "module": "Skill Profile",
+      "purpose": "Allow users to specify industry and sectoral interests that feed into the interest alignment scoring component.",
+      "entry_point": "/profile -> Details panel -> Interests",
+      "user_actions": ["Type interest tag in input and press Enter", "Click 'X' icon on interest badge to remove tag"],
+      "behavior": "New tag is trimmed and appended if non-duplicate. Removing removes the tag from the draft list. Interest tags provide 100% interestScore match when matching role industry or title.",
+      "inputs": ["Text string (trimmed)"],
+      "outputs": ["Updated badge list of interests"],
+      "business_rules": ["No duplicate interest tags allowed", "Blank tags ignored"],
+      "states": ["Empty interests", "Populated interests"],
+      "dependencies": ["F-005"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Submitting a new interest tag adds a badge",
+        "Clicking the remove icon immediately removes the badge",
+        "Adding an interest matching a role industry boosts that role's interestScore to 100"
+      ]
+    },
+    {
+      "id": "F-008",
+      "name": "Additional Non-Catalogue Skills Management",
+      "module": "Skill Profile",
+      "purpose": "Store custom or specialized user skills that fall outside the 19 standard matching catalogue skills.",
+      "entry_point": "/profile -> Additional skills panel (visible when additionalSkills exist)",
+      "user_actions": ["Edit custom skill name", "Edit custom skill level (0-5)", "Remove custom skill by clicking 'X' icon"],
+      "behavior": "Additional skills are preserved as part of the profile JSON. They do not invent artificial requirements or affect deterministic career match scores.",
+      "inputs": ["Skill name (max 100 chars)", "Skill level (0-5)"],
+      "outputs": ["List of additional skills with inputs and remove controls"],
+      "business_rules": ["Max 60 additional skills", "Name max 100 chars", "Level must be 0-5", "Does not contribute to career match scoring"],
+      "states": ["Hidden (no additional skills)", "Visible (one or more additional skills)"],
+      "dependencies": ["F-005"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Panel only appears when profile contains additionalSkills",
+        "User can edit name and level or delete individual entries",
+        "Career match scores remain strictly determined by catalogue skills only"
+      ]
+    },
+    {
+      "id": "F-009",
+      "name": "Consented Gemini PDF CV Analysis",
+      "module": "Skill Profile",
+      "purpose": "Extract structured career information and skill suggestions from a fictional PDF CV using Google Gemini AI.",
+      "entry_point": "/profile -> CV analysis panel -> File upload",
+      "user_actions": ["Select PDF file (up to 10 MB, up to 30 pages)", "Check external AI processing consent checkbox", "Check synthetic document declaration checkbox", "Click 'Analyze CV' button"],
+      "behavior": "The browser uploads the PDF with consent flags. The server enforces rate limiting (6 req/15min) and concurrency limits (max 2), verifies PDF magic headers and page counts, and invokes Gemini with a strict system instruction. Returned structured output is parsed, validated against strict schemas, and presented for user review. No raw CV or full prompt output is stored.",
+      "inputs": ["PDF file (binary)", "consent='true'", "synthetic='true'"],
+      "outputs": ["Structured CV analysis result: currentRole, education, experienceYears, technicalSkills, softSkills, experience, certifications, projects, careerInterests, analysisNotes"],
+      "business_rules": ["PDF only, max 10 MB, 1-30 pages", "Both consent and synthetic declaration checkboxes must be checked", "Skills with empty evidence are forced to 'Unknown' proficiency", "Unknown proficiency is unrated (level 0) and never produces positive score contribution", "Server buffer is zeroed out immediately after processing"],
+      "states": ["Upload idle", "Uploading/Processing (spinner, status message)", "Success (review panel)", "Error (alert message)"],
+      "dependencies": ["F-001"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "'Analyze CV' is disabled until file, consent, and synthetic boxes are checked",
+        "Uploading non-PDF or file >10 MB triggers client/server error",
+        "Successful extraction displays the review panel with model attribution badge",
+        "Evidence quotes are displayed for every extracted skill"
+      ]
+    },
+    {
+      "id": "F-010",
+      "name": "Offline Synthetic Demo CV Extraction",
+      "module": "Skill Profile",
+      "purpose": "Provide a deterministic, offline sample extraction demonstration without making external AI API calls.",
+      "entry_point": "/profile -> CV analysis panel -> Fictional sample CV section",
+      "user_actions": ["Select sample from dropdown ('Computer Science Graduate', 'Administrative Assistant', 'Manufacturing Technician')", "Click 'Try a Sample CV' button"],
+      "behavior": "Sends request to /api/cv/demo with selected sampleId. The server returns a pre-configured synthetic analysis result clearly labelled as 'Synthetic demo response · No Gemini call'.",
+      "inputs": ["sampleId ('graduate' | 'admin' | 'technician')"],
+      "outputs": ["Structured review panel with sample profile data"],
+      "business_rules": ["Never calls Gemini API", "Must clearly disclose synthetic origin", "Allows testing review workflow when Gemini is unconfigured or offline"],
+      "states": ["Idle", "Loading", "Review displayed"],
+      "dependencies": ["F-001"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Clicking 'Try a Sample CV' immediately populates the review panel",
+        "Attribution reads 'Synthetic demo response · No Gemini call'",
+        "No network calls to Google are made"
+      ]
+    },
+    {
+      "id": "F-011",
+      "name": "Fictional Sample CV PDF Download",
+      "module": "Skill Profile",
+      "purpose": "Allow users to download real, pre-generated fictional PDF CV documents to test live file uploads.",
+      "entry_point": "/profile -> CV analysis panel -> 'Download sample PDF' link",
+      "user_actions": ["Click 'Download sample PDF' link next to sample selector"],
+      "behavior": "Downloads an authentic PDF document generated in-memory with standard fonts (e.g. 'skillax-fictional-graduate.pdf') corresponding to the selected sample.",
+      "inputs": ["sampleId in URL path"],
+      "outputs": ["PDF file download stream"],
+      "business_rules": ["Generates clean, compliant PDF bytes with %PDF- header and %%EOF trailer", "Clearly marked as fictional in document title"],
+      "states": ["Ready"],
+      "dependencies": ["F-001"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Clicking link downloads a valid PDF matching selected sample role",
+        "Downloaded PDF can be immediately re-uploaded into F-009 for live analysis"
+      ]
+    },
+    {
+      "id": "F-012",
+      "name": "CV Extraction Review & Merge to Draft",
+      "module": "Skill Profile",
+      "purpose": "Require human verification and editing of AI-suggested CV fields before applying them to the profile draft.",
+      "entry_point": "/profile -> CV review panel (after analysis or demo)",
+      "user_actions": ["Edit extracted occupation, education, experience years, interests", "Edit professional summary and experience textareas", "Check/uncheck skills to include", "Change skill proficiencies (Unknown to Level 5)", "Click 'Add missing skill'", "Click 'Apply reviewed information to draft' or 'Dismiss'"],
+      "behavior": "User edits the proposed fields. Clicking 'Apply reviewed information to draft' merges approved values into the active draft profile: catalogue skills map to matching catalogue IDs, non-catalogue skills are added to additionalSkills, and other fields update the draft. Nothing is written to the database until the user explicitly clicks 'Save profile'.",
+      "inputs": ["Reviewed field values", "Selected skill checkboxes", "Proficiency dropdown selections"],
+      "outputs": ["Merged profile draft", "Notification toast instructing user to save profile"],
+      "business_rules": ["Unknown proficiency maps to 0 and does not invent positive score contribution", "Applying to draft is NOT a database write", "Dismissing discards suggestions without saving"],
+      "states": ["Review active", "Merged into draft", "Dismissed"],
+      "dependencies": ["F-005", "F-009"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Unchecking a skill excludes it from draft",
+        "Applying to draft updates profile form fields and marks draft as dirty",
+        "Database is not modified until user clicks 'Save profile'"
+      ]
+    },
+    {
+      "id": "F-013",
+      "name": "Deterministic Keyword Text Intake",
+      "module": "Skill Profile",
+      "purpose": "Provide a simple fallback text extraction method using local keyword pattern matching without language models.",
+      "entry_point": "/profile -> Expandable section 'Optional keyword text intake (no Gemini)'",
+      "user_actions": ["Upload text/PDF file or paste synthetic CV text", "Click 'Use sample' to populate example text", "Click 'Extract skills'", "Review proposed skill checkboxes", "Click 'Apply to draft' or 'Dismiss'"],
+      "behavior": "Extracts skills by searching text against documented alias keywords for 19 catalogue skills. Detected skills are suggested at Level 1. Raw text is never persisted. Clicking 'Apply to draft' merges selected suggestions into the draft profile.",
+      "inputs": ["Raw text (max 30,000 characters)"],
+      "outputs": ["Proposed skill change list", "Explanation disclosing deterministic keyword extraction"],
+      "business_rules": ["Suggested skills default to unverified level 1", "Raw text is discarded immediately after extraction", "No LLM is active in this feature"],
+      "states": ["Collapsed", "Input empty", "Extracted proposal", "Applied"],
+      "dependencies": ["F-005"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Pasting text containing 'Python and Excel' suggests python and excel at Level 1",
+        "Explanation discloses deterministic keyword rules",
+        "Applying merges skills to draft with toast confirmation"
+      ]
+    },
+    {
+      "id": "F-014",
+      "name": "Career Assessment Wizard",
+      "module": "Assessment",
+      "purpose": "Guide users through a structured multi-step survey to rate skills and constraints in conversational language.",
+      "entry_point": "/assessment",
+      "user_actions": ["Step 1: Click industry sector badges", "Step 2: Enter hours/week and budget", "Step 3+: Rate skills using descriptive 6-point scale ('Never done it' to 'I teach it')", "Navigate with Back / Next buttons or step indicators", "Click 'Update my profile' on final step"],
+      "behavior": "Tracks answers across multiple category steps. On submit, validates values, executes 'saveProfile' action, recalculates matches, and automatically navigates to /careers.",
+      "inputs": ["Selected industry sectors", "Weekly hours (1-80)", "Budget (>= 0)", "Proficiency scale choices (0-5) per skill"],
+      "outputs": ["Saved profile", "Redirection to /careers with toast notification"],
+      "business_rules": ["Total steps = 2 + number of skill categories (5 steps total)", "Descriptive scale: 0='Never done it', 1='Seen it done', 2='Done with help', 3='Do it on my own', 4='Others ask me', 5='I teach it'", "Submitting commits profile directly to server"],
+      "states": ["Step 0 to Step 4", "Submitting (spinner)", "Completed"],
+      "dependencies": ["F-001", "F-005"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Step progress bar visually indicates current step",
+        "Selecting descriptive options updates numeric skill level",
+        "Submitting updates profile and redirects user to /careers"
+      ]
+    },
+    {
+      "id": "F-015",
+      "name": "Personal Intelligence Briefing & Top Match Card",
+      "module": "Dashboard",
+      "purpose": "Provide an executive summary of the user's skill profile and highlight their highest-scoring career match.",
+      "entry_point": "Dashboard root page ('/')",
+      "user_actions": ["Click 'Explore top match' button", "Click 'Refine skills' button", "Click top match card"],
+      "behavior": "Displays user's first name, occupation, industry, years experience, mapped skill count, and a prominent score ring for the #1 ranked role with gap count, carry-over skills, and estimated learning hours. Clicking routes to career detail.",
+      "inputs": ["Current session workspace state"],
+      "outputs": ["Hero briefing", "Score ring (0-100)", "Role metadata card"],
+      "business_rules": ["If profile is uninitialized, user is gated by F-002", "Top role is the first item in ranked matches array"],
+      "states": ["Matches available", "No matches empty state"],
+      "dependencies": ["F-001", "F-005", "F-032"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Displays correct profile name and highest match score",
+        "Top match card displays score ring, role title, industry, estimated hours, and gaps",
+        "Clicking card navigates to /careers/:topRoleId"
+      ]
+    },
+    {
+      "id": "F-016",
+      "name": "Skill Shape vs. Target Pathway Radar Visualization",
+      "module": "Dashboard",
+      "purpose": "Visually compare the user's category-level capabilities against the requirements of their top match.",
+      "entry_point": "Dashboard root page ('/') -> 'Skill shape vs strongest pathway' panel",
+      "user_actions": ["Hover over radar chart vertices to view tooltip breakdown"],
+      "behavior": "Computes average proficiency (0-5) across skill categories (Transferable, Digital, Technical) for the user (cyan area) and top role requirements (dashed violet outline). Tooltip displays category scores.",
+      "inputs": ["User skill levels", "Top match role requirements"],
+      "outputs": ["Interactive SVG radar chart"],
+      "business_rules": ["Category average = sum of levels in category / count of skills in category", "Target requirements average = sum of requirement levels in category / count"],
+      "states": ["Rendered chart", "Interactive hover tooltip"],
+      "dependencies": ["F-015"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Radar chart displays polygon for user skills and dashed line for target role",
+        "Axes correspond to skill categories",
+        "Hovering vertices shows exact numeric values"
+      ]
+    },
+    {
+      "id": "F-017",
+      "name": "Ranked Roles Score Decomposition Stacked Chart",
+      "module": "Dashboard",
+      "purpose": "Demonstrate the mathematical composition of match scores across the top 6 careers.",
+      "entry_point": "Dashboard root page ('/') -> 'Why these roles rank' panel",
+      "user_actions": ["Hover over horizontal bar segments", "Click 'All matches' link"],
+      "behavior": "Displays horizontal stacked bars for top 6 roles. Each bar is divided into weighted point contributions: Direct skills, Transferable, Interest fit, Research activity, and Workforce indicator (if present). Tooltip reveals exact points.",
+      "inputs": ["Top 6 ranked matches"],
+      "outputs": ["Horizontal stacked bar chart", "Color-coded component legend"],
+      "business_rules": ["Components scaled by (1 - workforceWeight) when workforceScore is present", "X-axis fixed at 0 to 100 points"],
+      "states": ["4-component mode (no workforce evidence)", "5-component mode (with workforce evidence)"],
+      "dependencies": ["F-032"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Shows top 6 roles on Y-axis and 0-100 score on X-axis",
+        "Bars accurately represent sum of weighted points",
+        "Clicking 'All matches' navigates to /careers"
+      ]
+    },
+    {
+      "id": "F-018",
+      "name": "Next Move Active Milestone Card",
+      "module": "Dashboard",
+      "purpose": "Provide immediate visibility and progress for the user's next uncompleted roadmap milestone.",
+      "entry_point": "Dashboard root page ('/') -> 'Next move' panel",
+      "user_actions": ["Click 'Open roadmap' button", "Click 'Choose a target' button (if no roadmap)"],
+      "behavior": "If a roadmap exists, finds the first uncompleted milestone by phase and displays its title, objective, hours, provider, and progress bar. If all complete, congratulates user. If no roadmap, shows empty state with CTA.",
+      "inputs": ["Current roadmap milestones"],
+      "outputs": ["Active milestone details or EmptyState"],
+      "business_rules": ["Finds lowest phase uncompleted milestone", "Progress bar = (completed count / total count) * 100"],
+      "states": ["Milestone pending", "All milestones complete", "No roadmap generated"],
+      "dependencies": ["F-042"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Displays next pending milestone title, provider, and hours",
+        "Shows overall roadmap progress percentage bar",
+        "Clicking 'Open roadmap' navigates to /roadmap"
+      ]
+    },
+    {
+      "id": "F-019",
+      "name": "Fresh Research Evidence Digest",
+      "module": "Dashboard",
+      "purpose": "Display the latest public research observations affecting the skill ecosystem.",
+      "entry_point": "Dashboard root page ('/') -> 'Fresh evidence' panel",
+      "user_actions": ["Read recent signals", "Click 'Radar' link to view all signals"],
+      "behavior": "Lists the 4 most recently published research signals with directional trend icon, title, source name, and publication date.",
+      "inputs": ["Cached research signals"],
+      "outputs": ["List of 4 signal items"],
+      "business_rules": ["Sorted descending by publishedAt", "Signals represent technical research activity, not job vacancies"],
+      "states": ["Signals populated", "No signals loaded empty state"],
+      "dependencies": ["F-023"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Renders top 4 research signals sorted by date",
+        "Shows source name and formatted publication date",
+        "Clicking 'Radar' navigates to /radar"
+      ]
+    },
+    {
+      "id": "F-020",
+      "name": "SDG Impact Footprint Card",
+      "module": "Dashboard",
+      "purpose": "Highlight the UN Sustainable Development Goals most closely aligned with the user's skills and top pathways.",
+      "entry_point": "Dashboard root page ('/') -> 'Impact footprint' panel",
+      "user_actions": ["Click 'All 17' link to explore SDGs"],
+      "behavior": "Calculates link frequency across user's active skills (weight 1) and top 3 career matches (weight 2). Displays the top 6 linked SDGs with official color badges and link counts.",
+      "inputs": ["Active user skills", "Top 3 career matches"],
+      "outputs": ["List of top 6 linked SDGs with badges and counts"],
+      "business_rules": ["Top 3 roles contribute 2 links per SDG; user skills contribute 1 link per SDG", "Displays up to 6 highest frequency goals"],
+      "states": ["Populated footprint"],
+      "dependencies": ["F-048"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Calculates and ranks top 6 linked SDGs",
+        "Each item renders official SDG number badge and name",
+        "Clicking 'All 17' navigates to /sdgs"
+      ]
+    },
+    {
+      "id": "F-021",
+      "name": "Workspace Activity Audit Log",
+      "module": "Dashboard",
+      "purpose": "Provide a chronological audit trail of all major actions taken in the current session.",
+      "entry_point": "Dashboard root page ('/') -> 'Recent activity' panel",
+      "user_actions": ["Review historical action timeline"],
+      "behavior": "Displays a vertical timeline showing the last 6 actions recorded in the session (e.g. profile saved, roadmap generated, milestone completed, research refreshed) with formatted timestamps.",
+      "inputs": ["Session activity array"],
+      "outputs": ["Timeline list of up to 6 events with title and timestamp"],
+      "business_rules": ["Activity array capped at 30 items on server", "Chronological descending order"],
+      "states": ["Populated activity", "Empty activity"],
+      "dependencies": ["F-001"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Displays newest action at top with dot marker and date",
+        "Actions reflect actual user operations performed in session"
+      ]
+    },
+    {
+      "id": "F-022",
+      "name": "Replanning Banner & Header Alert Chip",
+      "module": "Navigation & Notifications",
+      "purpose": "Alert the user whenever underlying data or scenario changes cause a proposed update to their learning roadmap.",
+      "entry_point": "AppShell header and Dashboard page",
+      "user_actions": ["Click 'Plan update awaiting review' header chip or dashboard banner"],
+      "behavior": "When ws.replanningPending is true, displays a pulsing banner on the dashboard and an alert chip in the header linking directly to /updates. Sidebar navigation item 'Replanning' also displays a 'REVIEW' badge.",
+      "inputs": ["replanningPending boolean state"],
+      "outputs": ["Visible banner, chip, and badge linking to /updates"],
+      "business_rules": ["replanningPending is true when rank order shifts, a score changes by >=1 point, or milestone priorities change, AND a roadmap is present"],
+      "states": ["No pending review (hidden)", "Pending review (visible)"],
+      "dependencies": ["F-046"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Alert chip and dashboard banner appear when replanningPending is true",
+        "Clicking either banner or chip navigates to /updates",
+        "Disappears once the update is approved or rejected"
+      ]
+    },
+    {
+      "id": "F-023",
+      "name": "Public Research Feeds Retrieval & Refresh",
+      "module": "Trend Radar",
+      "purpose": "Fetch and ingest real-world engineering and research RSS feeds (Hugging Face and MIT AI News) to update technical activity signals.",
+      "entry_point": "/radar -> Header 'Refresh public research' button",
+      "user_actions": ["Click 'Refresh public research' button"],
+      "behavior": "Triggers backend fetch of RSS feeds. Server parses items, extracts skill keywords, caches items in database, and returns fresh signals. A rate limiter restricts requests to once per minute. If network fails, cached observations remain available with an error banner.",
+      "inputs": ["User trigger"],
+      "outputs": ["Refreshed signals array", "Updated lastRefresh timestamp", "Error banner if refresh fails"],
+      "business_rules": ["Sources: Hugging Face Research & MIT AI News", "Rate limited to 1 call per 60 seconds", "Observations tagged with mode='live' or mode='cached'", "Keyword matches are research activity proxies, NOT job vacancies"],
+      "states": ["Idle", "Refreshing (spinner)", "Success", "Rate limited / Error"],
+      "dependencies": ["F-001"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Clicking button initiates fetch with spinner feedback",
+        "Refreshed timestamp updates to current time",
+        "Rapid consecutive clicks show rate-limit message and retain latest data"
+      ]
+    },
+    {
+      "id": "F-024",
+      "name": "Research Activity Signals Filtering & Search",
+      "module": "Trend Radar",
+      "purpose": "Allow users to filter and search public research signals by direction, retrieval mode, skill, and text.",
+      "entry_point": "/radar -> Research Activity tab -> Filter bar",
+      "user_actions": ["Type search keyword in search box", "Select Direction filter dropdown", "Select Mode filter dropdown", "Select Skill filter dropdown"],
+      "behavior": "Filters the signals array in real time across title, source, observation, direction, mode, and tagged skill IDs. If no match, displays EmptyState.",
+      "inputs": ["Search query string", "Direction ('all' or specific)", "Mode ('all', 'live', 'cached', 'synthetic')", "Skill ('all' or specific)"],
+      "outputs": ["Filtered grid of signal cards"],
+      "business_rules": ["Case-insensitive search across title, source, and observation text", "Multi-condition AND filtering"],
+      "states": ["All signals shown", "Filtered subset shown", "Zero matches empty state"],
+      "dependencies": ["F-023"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Typing a search term filters signal cards immediately",
+        "Selecting a skill shows only signals tagged with that skill",
+        "Empty match displays 'No signals match' with prompt to loosen filters"
+      ]
+    },
+    {
+      "id": "F-025",
+      "name": "Research Provenance & Transparency Display",
+      "module": "Trend Radar",
+      "purpose": "Provide complete auditability and attribution for every public research signal.",
+      "entry_point": "/radar -> Research Activity tab -> Signal cards",
+      "user_actions": ["Inspect signal card metadata", "Click external link icon to open original research article"],
+      "behavior": "Each signal card displays its title, observation text, tagged skill badges, publisher name, publication date, retrieval date, retrieval mode tag, and an HTTPS external link opening the original source article in a new tab.",
+      "inputs": ["Signal record"],
+      "outputs": ["Attributed card with external source link"],
+      "business_rules": ["External links must open in new tab with rel='noreferrer'", "Retrieval mode (live/cached/synthetic) must be explicitly disclosed"],
+      "states": ["Displayed card"],
+      "dependencies": ["F-023"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Card shows source, published date, retrieved date, and mode",
+        "Clicking external link opens original publication URL"
+      ]
+    },
+    {
+      "id": "F-026",
+      "name": "Evidence Article Count per Skill Visualization",
+      "module": "Trend Radar",
+      "purpose": "Show the volume of research literature tagged to each skill across the evidence pool.",
+      "entry_point": "/radar -> Research Activity tab -> Bar chart panel",
+      "user_actions": ["Hover over bars to view article count"],
+      "behavior": "Aggregates signal occurrences per skill and displays the top 10 skills in a vertical bar chart. Subtitle explicitly notes that article counts indicate research volume, not labour demand.",
+      "inputs": ["Current signals array"],
+      "outputs": ["Bar chart of top 10 tagged skills"],
+      "business_rules": ["Sorted descending by article count", "Displays top 10 skills"],
+      "states": ["Rendered chart"],
+      "dependencies": ["F-023"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Top 10 skills rendered with correct article frequencies",
+        "Disclaimer clearly states 'Counts of articles, not demand'"
+      ]
+    },
+    {
+      "id": "F-027",
+      "name": "Workforce Demand Trend Analytics & Filtering",
+      "module": "Trend Radar",
+      "purpose": "Explore time-series workforce indicators and trends derived from imported workforce datasets.",
+      "entry_point": "/radar -> Workforce Demand tab",
+      "user_actions": ["Select Skill filter dropdown", "Select Industry filter dropdown", "Select Country/region dropdown", "Select Source dropdown", "Select Comparable series dropdown", "Select Period window (All, Last 2, Last 4)"],
+      "behavior": "Filters imported workforce trends. When a series is selected, displays its trend badge (Rising/Declining/Stable/Insufficient Data), source provenance, and details. If no workforce data exists, displays EmptyState prompting user to 'Manage Data'.",
+      "inputs": ["Filter selections", "Series selection", "Period window selection"],
+      "outputs": ["Interactive trend panel with metrics and metadata"],
+      "business_rules": ["Filter dropdowns hidden if only one option exists", "Never averages across independent series or geographies"],
+      "states": ["No workforce data empty state", "Filtered series displayed", "Zero matches empty state"],
+      "dependencies": ["F-028", "F-030"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Empty state directs user to 'Manage Data' when no datasets are imported",
+        "Filtering by skill updates available series",
+        "Shows source name, geography, unit, and methodology limitations"
+      ]
+    },
+    {
+      "id": "F-028",
+      "name": "Workforce Trend Chronological Line Chart & Comparability Engine",
+      "module": "Trend Radar",
+      "purpose": "Enforce rigorous statistical comparability rules before rendering historical workforce trends.",
+      "entry_point": "/radar -> Workforce Demand tab -> Series panel",
+      "user_actions": ["View line chart of observation values over time", "Expand 'Sources, measurement periods and limitations' details"],
+      "behavior": "Evaluates whether observations within a series are comparable (same source, definition, method, unit, frequency class, and non-overlapping periods). If comparable, renders a line chart and displays absolute and relative percentage change. If non-comparable, suppresses the chart and displays an explanatory comparability limitation message.",
+      "inputs": ["Workforce series observations"],
+      "outputs": ["Line chart OR comparability explanation box", "Detailed observation breakdown list"],
+      "business_rules": ["Requires >= 2 non-overlapping observations of matching periodClass", "Relative change > +5% is 'Rising', < -5% is 'Declining', else 'Stable'", "If previous value is 0, percentage change is null and label is 'Insufficient Data'"],
+      "states": ["Comparable series (line chart rendered)", "Incomparable series (explanation rendered)"],
+      "dependencies": ["F-027"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Compatible periods render smooth line chart with data points",
+        "Incompatible periods render warning box with exact failure reason",
+        "Displays absolute change and percentage change between last two compatible periods"
+      ]
+    },
+    {
+      "id": "F-029",
+      "name": "Synthetic Workforce Baseline & Update Loading",
+      "module": "Trend Radar",
+      "purpose": "Allow one-click loading of pre-packaged synthetic workforce datasets to demonstrate scoring and replanning flows.",
+      "entry_point": "/radar -> 'Manage Data' modal -> Sample buttons",
+      "user_actions": ["Click 'Load synthetic baseline'", "Click 'Load synthetic update'"],
+      "behavior": "Fetches pre-packaged demonstration JSON from public assets, loads it into the dataset textarea, sets format to JSON, and prepares it for validation. Baseline loads Q1/Q2 stable records; Update loads Q3 shifted records.",
+      "inputs": ["Sample button click"],
+      "outputs": ["Populated textarea with formatted JSON dataset"],
+      "business_rules": ["Synthetic datasets must have synthetic: true and evidenceType: 'synthetic'", "Baseline should be validated and confirmed before update"],
+      "states": ["Idle", "Sample loaded in textarea"],
+      "dependencies": ["F-030"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Clicking 'Load synthetic baseline' fills textarea with valid baseline JSON",
+        "Clicking 'Load synthetic update' fills textarea with valid Q3 update JSON"
+      ]
+    },
+    {
+      "id": "F-030",
+      "name": "Custom Workforce Dataset Ingestion & Validation",
+      "module": "Trend Radar",
+      "purpose": "Validate and atomically ingest user-supplied CSV or JSON workforce datasets into the active session.",
+      "entry_point": "/radar -> 'Manage Data' modal",
+      "user_actions": ["Select file format (JSON/CSV)", "Upload file or paste dataset content", "Click 'Validate & preview'", "Review preview table (first 20 rows)", "Click 'Confirm import'"],
+      "behavior": "Validation mode parses and validates rows against strict schema constraints (dates, units, supported skills, HTTPS URLs, value bounds) without saving anything. It generates a SHA-256 checksum and returns a 20-row preview. Confirm mode checks that checksum matches preview; on match, atomically inserts observations into session, updates session workforce trends, recalculates matches, and triggers replanning snapshot if scores change.",
+      "inputs": ["format ('csv' | 'json')", "content (string, max 1 MB)", "confirm (boolean)", "previewChecksum (string)"],
+      "outputs": ["Preview table (recordsAccepted count, checksum)", "Committed import and updated workspace"],
+      "business_rules": ["File size <= 1 MB", "1 to 500 records per import", "Max 5000 records per session", "Duplicate observation keys or IDs strictly rejected", "Non-synthetic records require HTTPS sourceUrl, definition, and method", "Supported units: count, job_postings, percent, percentage, index, synthetic_index"],
+      "states": ["Input empty", "Validating", "Validated preview displayed", "Importing", "Imported"],
+      "dependencies": ["F-001"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Preview mode does not store any rows in the database",
+        "Confirming with mismatched checksum is rejected with HTTP 400",
+        "Duplicate records trigger immediate rejection and roll back transaction",
+        "Successfully imported rows immediately update workforce indicator scores"
+      ]
+    },
+    {
+      "id": "F-031",
+      "name": "Session Workforce Evidence Reset",
+      "module": "Trend Radar",
+      "purpose": "Clear all imported workforce observations in the current session while preserving the user profile, roadmap, and milestone progress.",
+      "entry_point": "/radar -> 'Manage Data' modal -> 'Reset workforce demo data' button",
+      "user_actions": ["Click 'Reset workforce demo data' button", "Confirm in the destructive alert dialog"],
+      "behavior": "Deletes all workforce import records belonging to the active session. Recalculates career matches back to the 4-component baseline, logs a recalculation snapshot, and retains the user profile, milestones, and progress.",
+      "inputs": ["Modal confirmation"],
+      "outputs": ["Cleared workforce observations", "Recalculated 4-component match scores", "Toast confirmation"],
+      "business_rules": ["Deletes only workforceImports for the active session", "Preserves user profile, milestones, completion, and history"],
+      "states": ["Idle", "Confirmation modal", "Reset completed"],
+      "dependencies": ["F-030"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Clearing workforce imports resets workforce trends to empty",
+        "Career matches revert to 4-component scoring",
+        "Profile fields and completed roadmap milestones remain completely intact"
+      ]
+    },
+    {
+      "id": "F-032",
+      "name": "Deterministic Career Matching & Ranking Engine",
+      "module": "Career Matches",
+      "purpose": "Compute suitability scores and skill gaps for all catalogued occupations using transparent, explainable formulas.",
+      "entry_point": "All pages consuming matches (/careers, /, /scenarios, etc.)",
+      "user_actions": ["None (automatic deterministic calculation upon profile, scenario, or evidence change)"],
+      "behavior": "Evaluates the 10 catalogued roles. Computes skillsScore (50%), transferableScore (20%), interestScore (15%), and marketScore (15%). If a compatible workforce indicator exists, integrates workforceScore (10%) and scales baseline (90%). Ranks roles descending by score.",
+      "inputs": ["Profile skills & interests", "Scenario setting", "Simulation boost", "Research signals", "Workforce observations"],
+      "outputs": ["Ranked Match array with component scores, missing skills, relevant skills, hours, and explanations"],
+      "business_rules": ["Deterministic: identical inputs guarantee identical rankings", "Direct skills alignment averages min(current/required, 1)", "Hours = sum(ceil(resource_hours * (1 - current/required))) + 16", "Tie-breaker sorts alphabetically by roleId"],
+      "states": ["Calculated"],
+      "dependencies": ["F-005"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Score strictly satisfies formula bounds (0 to 100)",
+        "Missing skills accurately lists requirements where current < required",
+        "Estimated hours accurately reflects skill gaps plus 16 base project hours"
+      ]
+    },
+    {
+      "id": "F-033",
+      "name": "Career Matches Directory & Search",
+      "module": "Career Matches",
+      "purpose": "Browse, filter, and inspect all ranked career opportunities.",
+      "entry_point": "/careers",
+      "user_actions": ["Type role name in search input", "Select industry filter dropdown", "Click any role card"],
+      "behavior": "Displays ranked career cards with rank number, score ring, role name, industry, missing gap count, learning hours, SDG badges, and component bars. Card is highlighted if it is the current target. Clicking navigates to /careers/:id.",
+      "inputs": ["Search query", "Industry filter"],
+      "outputs": ["Filtered list of career cards"],
+      "business_rules": ["Filters apply concurrently", "Target role card receives 'TARGET' badge and glow styling"],
+      "states": ["Populated list", "No roles found empty state"],
+      "dependencies": ["F-032"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Searching 'analyst' displays Business Intelligence Analyst, Data Analyst, Sustainability Analyst, Information Security Analyst",
+        "Industry dropdown isolates roles in selected sector",
+        "Clicking card navigates to /careers/:id"
+      ]
+    },
+    {
+      "id": "F-034",
+      "name": "Score Decomposition & Mathematical Audit View",
+      "module": "Career Matches",
+      "purpose": "Allow users to deconstruct and audit every point contributing to a career match score.",
+      "entry_point": "/careers/:id -> 'Score decomposition' panel",
+      "user_actions": ["Hover over horizontal bar chart components", "Read natural-language mathematical explanation"],
+      "behavior": "Renders a score ring, sum equation (e.g. '28.3 + 16.0 + 15.0 + 9.8'), a horizontal bar chart showing raw score vs. weighted points for each component, and an audit paragraph stating the exact formula, signals, and occupational sources.",
+      "inputs": ["Role match object"],
+      "outputs": ["Score ring", "Decomposition bar chart", "Formula audit explanation box"],
+      "business_rules": ["Sum of weighted points equals final match score within 0.1 rounding", "Displays explicit workforce indicator and research proxies disclosures"],
+      "states": ["Rendered"],
+      "dependencies": ["F-032"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Decomposition bars accurately reflect raw and weighted component points",
+        "Explanation paragraph details exact calculation and source attribution"
+      ]
+    },
+    {
+      "id": "F-035",
+      "name": "Proficiency Gap Analysis & Level Comparison",
+      "module": "Career Matches",
+      "purpose": "Compare user's current proficiency against required levels for every skill in a role.",
+      "entry_point": "/careers/:id -> 'Proficiency gaps' panel",
+      "user_actions": ["Inspect comparative bar chart (Current vs. Required)", "Review gap list with level dots and shortfall indicators"],
+      "behavior": "Displays a dual-bar chart showing Current level (cyan) vs. Required level (violet) from 0 to 5 for every required skill. Below the chart, lists each skill with LevelDots visualizer and shortfall badge ('met' or '-X').",
+      "inputs": ["User skill ratings", "Role requirements"],
+      "outputs": ["Comparative bar chart", "Skill gap breakdown list"],
+      "business_rules": ["Shortfall = Required level - Current level (if current < required)", "Status is 'met' if current >= required"],
+      "states": ["Rendered"],
+      "dependencies": ["F-032"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Dual-bar chart displays current vs required levels (0-5) for each requirement",
+        "LevelDots accurately represents current rating and required ring",
+        "Negative shortfall numbers match required minus current level"
+      ]
+    },
+    {
+      "id": "F-036",
+      "name": "Target Role Designation",
+      "module": "Career Matches",
+      "purpose": "Set a specific career as the primary target for learning roadmap generation and tracking.",
+      "entry_point": "/careers/:id -> 'Set as target' button",
+      "user_actions": ["Click 'Set as target' button"],
+      "behavior": "Sends action 'selectRole' with role ID. The server updates selectedRoleId. The button changes to 'Current target' (disabled), and the role receives the TARGET badge across the application.",
+      "inputs": ["role.id"],
+      "outputs": ["Updated selectedRoleId in workspace", "Toast notification 'Target role set'"],
+      "business_rules": ["Button disabled if role is already the current target", "Target role selection persists in session"],
+      "states": ["Not target ('Set as target' button)", "Current target ('Current target' disabled button)"],
+      "dependencies": ["F-001"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Clicking 'Set as target' marks the role as selectedRoleId",
+        "Button label changes to 'Current target' and is disabled",
+        "Role card on /careers displays TARGET badge"
+      ]
+    },
+    {
+      "id": "F-037",
+      "name": "Role SDG Impact & Rationale",
+      "module": "Career Matches",
+      "purpose": "Explain how a specific career path contributes to global sustainable development targets.",
+      "entry_point": "/careers/:id -> 'Sustainable Development Goals' panel",
+      "user_actions": ["Inspect SDG badges", "Read SDG rationale text", "Inspect transferable strengths and missing skills pills"],
+      "behavior": "Renders official SDG badges linked to the role, displays the specific SDG contribution rationale paragraph, and shows pills for transferable strengths carried over versus missing skills to acquire.",
+      "inputs": ["Role sdgs array", "Role sdgRationale text"],
+      "outputs": ["SDG badges with names", "Rationale paragraph", "Skill badges"],
+      "business_rules": ["Discloses that connections are documented contribution pathways, not verified impact or UN endorsements"],
+      "states": ["Rendered"],
+      "dependencies": ["F-048"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Displays correct SDG badges matching role's SDG IDs",
+        "Displays full SDG rationale text and transferable/missing skill pills"
+      ]
+    },
+    {
+      "id": "F-038",
+      "name": "O*NET Occupational Reference Linkage",
+      "module": "Career Matches",
+      "purpose": "Provide verifiable external reference standards for career definitions.",
+      "entry_point": "/careers/:id -> 'Occupational reference' external link",
+      "user_actions": ["Click 'Occupational reference' link"],
+      "behavior": "Opens the corresponding O*NET OnLine summary report page in a new browser tab (e.g. https://www.onetonline.org/link/summary/15-2051.01).",
+      "inputs": ["Role sourceUrl"],
+      "outputs": ["New browser tab with O*NET occupational data"],
+      "business_rules": ["Must open in new tab with target='_blank' and rel='noreferrer'", "Discloses that curated proficiencies are SKILLAX modelling choices, not official O*NET measurements"],
+      "states": ["Ready"],
+      "dependencies": [],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Clicking link opens valid O*NET summary URL in new tab"
+      ]
+    },
+    {
+      "id": "F-039",
+      "name": "AI Adoption Scenario Switching",
+      "module": "Scenario Lab",
+      "purpose": "Compare occupational stability and requirements under Slower, Moderate, and Rapid AI adoption pathways.",
+      "entry_point": "/scenarios -> Scenario panels",
+      "user_actions": ["Click 'Apply' button on Slower, Moderate, or Rapid adoption card"],
+      "behavior": "Sends action 'setScenario'. Updates active scenario in session, alters role requirements (Rapid increases AI literacy level by 1 or adds Level 3; Slower decreases by 1, min 1), recalculates career matches, and triggers replanning proposal if roadmap exists.",
+      "inputs": ["scenario ('slower' | 'moderate' | 'rapid')"],
+      "outputs": ["Updated workspace scenario", "Recalculated scores", "Top 5 preview under selected scenario", "Toast notification"],
+      "business_rules": ["Slower: AI literacy requirement reduced by 1 (min 1); market effect = -10 * techShare + 0.05 * exposure", "Moderate: standard requirements; market effect = 0", "Rapid: AI literacy requirement increased by 1 (max 5) or added at level 3; market effect = 20 * techShare - 0.1 * exposure", "Scenarios are modelling assumptions, not measured forecasts"],
+      "states": ["Active scenario (glowing card with 'Active' button)", "Inactive scenario ('Apply' button)"],
+      "dependencies": ["F-001", "F-032"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Clicking 'Apply' switches active scenario across app and header tag",
+        "Rapid scenario increases AI requirements on roles and modifies scores",
+        "Slower scenario decreases AI requirements and adjusts scores"
+      ]
+    },
+    {
+      "id": "F-040",
+      "name": "Cross-Scenario Score Comparison Chart",
+      "module": "Scenario Lab",
+      "purpose": "Compare career match scores across all three adoption pathways side-by-side.",
+      "entry_point": "/scenarios -> 'Side by side' panel",
+      "user_actions": ["Hover over chart bars to view score comparison across Slower, Moderate, and Rapid"],
+      "behavior": "Renders a grouped bar chart for the top 8 roles displaying three bars per role: Slower (green), Moderate (cyan), and Rapid (violet). Tooltip shows exact scores.",
+      "inputs": ["slowerMatches", "moderateMatches", "rapidMatches"],
+      "outputs": ["Grouped bar chart for top 8 roles"],
+      "business_rules": ["Sorted descending by Rapid match score", "Shows top 8 roles"],
+      "states": ["Rendered chart"],
+      "dependencies": ["F-039"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Renders 3 distinct colored bars per role for Slower, Moderate, and Rapid",
+        "Hovering bar shows tooltip with scores for all three scenarios"
+      ]
+    },
+    {
+      "id": "F-041",
+      "name": "Hypothetical Simulation Boost Slider",
+      "module": "Scenario Lab",
+      "purpose": "Test sensitivity of career rankings to hypothetical shifts in technical market demand.",
+      "entry_point": "/scenarios -> 'Hypothetical simulation boost' panel",
+      "user_actions": ["Drag slider from -100 to +100 in steps of 5", "Click 'Clear' button to reset boost to 0"],
+      "behavior": "On slider release, sends action 'simulate' with the numeric value. Adjusts the market component of roles proportional to their technical skill share. An active simulation badge is displayed whenever boost != 0.",
+      "inputs": ["value (number -100 to +100, step 5)"],
+      "outputs": ["Updated match scores", "Simulation value badge", "Toast notification"],
+      "business_rules": ["Market adjustment = boost * technicalShare * 0.4", "Technical skills: ai, ml, automation, iot, cloud, security, python", "Labelled what-if only; explicitly disclosed as non-empirical"],
+      "states": ["Simulation inactive (boost = 0, Clear disabled)", "Simulation active (boost != 0, Clear active, warning label shown)"],
+      "dependencies": ["F-001", "F-032"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Moving slider modifies role scores in real time upon commit",
+        "Active simulation displays warning: 'SIMULATION ACTIVE (+X)'",
+        "Clicking 'Clear' resets slider to 0 and restores empirical scores"
+      ]
+    },
+    {
+      "id": "F-042",
+      "name": "Gap-Based 4-Phase Learning Pathway Generation",
+      "module": "Roadmap",
+      "purpose": "Generate an ordered sequence of learning milestones to close skill gaps for a selected target role.",
+      "entry_point": "/roadmap or /careers/:id -> 'Generate roadmap' button",
+      "user_actions": ["Select target role from dropdown (on /roadmap)", "Click 'Generate roadmap' or 'Regenerate'"],
+      "behavior": "Analyzes skill gaps between user profile and target role requirements. Generates Phase 1 (foundational) and Phase 2 (applied) milestones for skill gaps, followed by Phase 3 (portfolio project, 10h) and Phase 4 (transition plan, 6h). Preserves completion status of previously completed milestones. Clears any pending replanning flags.",
+      "inputs": ["target roleId", "current user skills", "scenario", "workforce trends"],
+      "outputs": ["Ordered Milestone array", "Updated roadmap view", "Toast confirmation"],
+      "business_rules": ["Phase 1 if current level < 2; Phase 2 if current level >= 2", "Phases 3 and 4 are fixed capstone milestones", "Urgency prioritizes AI/ML/automation in Rapid and deprioritizes in Slower", "Workforce indicators prioritize high-demand gaps", "Completed milestones from previous plan are preserved"],
+      "states": ["Empty roadmap", "Generated roadmap", "Regenerating in progress"],
+      "dependencies": ["F-005", "F-036"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Generates ordered milestones grouped by Phase 1 through Phase 4",
+        "Each milestone links to free public learning hub (OpenLearn, Microsoft Learn, freeCodeCamp, Google)",
+        "Regenerating preserves completion checkmarks of already completed milestones"
+      ]
+    },
+    {
+      "id": "F-043",
+      "name": "Milestone Self-Reported Completion Tracking",
+      "module": "Roadmap",
+      "purpose": "Allow users to toggle completion status on individual roadmap milestones and track progress.",
+      "entry_point": "/roadmap -> Checkbox circle on milestone item",
+      "user_actions": ["Click milestone checkmark circle to mark complete or incomplete"],
+      "behavior": "Sends action 'completeMilestone' with milestone ID and toggled completed boolean. Updates milestone status, recalculates overall progress percentage, logs an activity entry, and persists state in session.",
+      "inputs": ["milestone.id", "completed (boolean)"],
+      "outputs": ["Updated milestone appearance (line-through title, filled badge)", "Progress bar update", "Toast notification"],
+      "business_rules": ["Completion is self-reported", "Persisted in session JSON and survives page reloads"],
+      "states": ["Incomplete", "Complete"],
+      "dependencies": ["F-042"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Clicking circle marks milestone complete with checkmark and strike-through title",
+        "Clicking again reopens milestone",
+        "Progress bar on /roadmap and /progress updates immediately"
+      ]
+    },
+    {
+      "id": "F-044",
+      "name": "Roadmap Export (JSON & Print/Save as PDF)",
+      "module": "Roadmap",
+      "purpose": "Allow users to export their personalized learning roadmap as structured portable JSON or print-ready PDF.",
+      "entry_point": "/roadmap -> Header 'Export Plan' button",
+      "user_actions": ["Click 'Export Plan' button", "In modal, click 'Download JSON'", "In modal, click 'Print / Save as PDF'"],
+      "behavior": "Fetches validated export payload from /api/skillax/roadmap/export. 'Download JSON' triggers browser file download of 'skillax-learning-roadmap.json'. 'Print / Save as PDF' invokes window.print() targeting a portal element formatted specifically with CSS print styles.",
+      "inputs": ["User trigger"],
+      "outputs": ["JSON file download", "Browser print dialog formatted for A4 page"],
+      "business_rules": ["Disabled if no roadmap is generated", "Print CSS hides background UI and formats clean black/white document with milestones, URLs, and disclaimers"],
+      "states": ["Disabled (no milestones)", "Modal open", "Downloading", "Printing"],
+      "dependencies": ["F-042"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "'Export Plan' button disabled when roadmap is empty",
+        "Clicking 'Download JSON' saves formatted JSON file containing milestones, skills, and SDGs",
+        "Clicking 'Print / Save as PDF' opens system print dialog with clean document formatting"
+      ]
+    },
+    {
+      "id": "F-045",
+      "name": "Learning Progress & Phase Effort Analytics",
+      "module": "Progress",
+      "purpose": "Provide comprehensive tracking of completed versus remaining hours and pace toward career readiness.",
+      "entry_point": "/progress",
+      "user_actions": ["Inspect progress ring", "Review stats (Milestones, Hours logged, Remaining, At your pace)", "Inspect 'Hours by phase' stacked bar chart"],
+      "behavior": "Calculates completed hours vs. estimated remaining hours. Compares remaining hours against user's weekly learning availability to compute estimated weeks to completion. Renders stacked bar chart of completed vs. remaining hours per phase.",
+      "inputs": ["Current roadmap milestones", "Profile weeklyHours"],
+      "outputs": ["Progress score ring", "Summary stats", "Phase stacked bar chart", "List of completed milestones"],
+      "business_rules": ["Pace weeks = ceil((hoursTotal - hoursDone) / max(1, weeklyHours))", "Progress percentage = round((doneCount / totalCount) * 100)"],
+      "states": ["Empty state (no milestones)", "Active tracking"],
+      "dependencies": ["F-042", "F-043"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Displays accurate completion percentage in central score ring",
+        "Stacked bar chart breaks down completed vs remaining hours per phase",
+        "Estimated weeks updates accurately based on profile weekly hours"
+      ]
+    },
+    {
+      "id": "F-046",
+      "name": "Human-in-the-Loop Replanning Review",
+      "module": "Replanning",
+      "purpose": "Allow users to inspect proposed ranking changes and explicitly approve or reject updates to their saved learning plan.",
+      "entry_point": "/updates",
+      "user_actions": ["Inspect ranking comparison table (Rank, Role, Previous, Now, Delta)", "Click 'Approve update' button", "Click 'Keep current plan' (reject) button"],
+      "behavior": "When evidence shifts, the system stores a recalculation snapshot. /updates compares previous matches to current matches with green/red rank and score deltas. Clicking 'Approve update' regenerates the roadmap incorporating the new priorities while preserving all completed work. Clicking 'Keep current plan' rejects the proposal and keeps the current roadmap untouched. Clears replanningPending flag.",
+      "inputs": ["Action approval or rejection"],
+      "outputs": ["Updated roadmap (on approve) OR retained roadmap (on reject)", "Cleared pending alert", "Toast notification"],
+      "business_rules": ["Roadmap NEVER changes automatically without user approval", "Approving regenerates against current completion state; completed milestones are preserved", "Rejecting marks snapshot status as 'Rejected' and retains existing plan"],
+      "states": ["No pending update empty state", "Pending review (action buttons active)", "Decided"],
+      "dependencies": ["F-042", "F-047"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Comparison table displays previous vs current rank and score with delta arrows",
+        "Clicking 'Approve update' updates roadmap milestones and clears review alert",
+        "Clicking 'Keep current plan' retains existing roadmap and clears review alert",
+        "Completed milestones are never erased during replanning"
+      ]
+    },
+    {
+      "id": "F-047",
+      "name": "Recommendation History Audit Trail",
+      "module": "Replanning",
+      "purpose": "Maintain an immutable, chronological audit trail of all recommendation recalculations and user review decisions.",
+      "entry_point": "/updates -> 'View Previous Changes' expandable panel",
+      "user_actions": ["Expand 'View Previous Changes' details", "Inspect historical snapshots", "Expand individual snapshot details", "Click 'Load older changes' button"],
+      "behavior": "Lists chronological snapshots (newest first) recording timestamp, reason, scenario, review status (Pending Review, Approved, Rejected, No Change), explanation, affected skills, dataset versions, role rank changes, evidence references, and proposed skill orders. Paginated via offset query.",
+      "inputs": ["Pagination offset (0, 50, etc.)"],
+      "outputs": ["Chronological list of recalculation snapshots with expandable details"],
+      "business_rules": ["History is append-only", "Records exact before/after score arrays and evidence IDs", "New evidence supersedes unreviewed pending proposals, marking them 'Rejected' with explicit reason"],
+      "states": ["Collapsed", "Expanded", "Loading older changes"],
+      "dependencies": ["F-001"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Shows count of recorded recalculations in summary header",
+        "Expanding item details shows before/after rank shifts and evidence citations",
+        "Clicking 'Load older changes' fetches next 50 items"
+      ]
+    },
+    {
+      "id": "F-048",
+      "name": "17 UN Sustainable Development Goals Directory",
+      "module": "SDG Impact",
+      "purpose": "Provide an interactive exploration of all 17 UN SDGs and their connections to skills and occupations.",
+      "entry_point": "/sdgs",
+      "user_actions": ["Click any of the 17 SDG grid buttons", "Inspect SDG description and UN reference link", "Inspect linked roles list", "Inspect linked skills list"],
+      "behavior": "Displays a grid of all 17 official UN SDGs with official colors, numbers, names, and link counts. Clicking a goal displays its description, external UN reference link, catalogued roles contributing to the goal, and skills contributing to the goal (with user-acquired skills highlighted).",
+      "inputs": ["Selected SDG ID (1 to 17)"],
+      "outputs": ["SDG profile panel", "Linked roles list", "Linked skills badges"],
+      "business_rules": ["All 17 goals mapped in catalogue", "Swatch text color dynamically calculated for contrast", "Highlighted skills reflect skills where user level > 0"],
+      "states": ["SDG 1 selected (default)", "Any SDG 1-17 selected"],
+      "dependencies": ["F-001"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Grid displays all 17 goals with correct official colors and high-contrast text",
+        "Selecting a goal updates role list and skill badges",
+        "Skills held by user are highlighted with proficiency level"
+      ]
+    },
+    {
+      "id": "F-049",
+      "name": "Employer Workforce Cohort Analytics",
+      "module": "Employer View",
+      "purpose": "Provide aggregated capability analysis and training shortfall analytics across a synthetic workforce cohort.",
+      "entry_point": "/employer",
+      "user_actions": ["Review cohort stats (Cohort size, Avg experience, Avg learning time, Roles assessed)", "Inspect 'Capability by category' grouped bar chart", "Inspect 'Most common training needs' shortfall ranking"],
+      "behavior": "Aggregates the 3 synthetic demo profiles (Aina, Daniel, Kumar). Renders capability averages per category per worker, ranks the most common skill shortfalls across the cohort against all catalogued roles, and displays summary statistics. Prominently disclaims that data is for training planning, never candidate screening.",
+      "inputs": ["Synthetic demo profiles", "Catalogue roles and skills"],
+      "outputs": ["Cohort stats", "Grouped bar chart", "Ranked training needs list"],
+      "business_rules": ["Explicitly synthetic cohort only", "Strictly prohibited from screening or ranking individuals for employment"],
+      "states": ["Rendered"],
+      "dependencies": [],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Displays 3 synthetic workers in grouped capability bar chart",
+        "Training needs ranking displays skills with greatest shortfalls across cohort",
+        "Header explicitly disclaims screening/selection use"
+      ]
+    },
+    {
+      "id": "F-050",
+      "name": "Workforce Requirement Coverage Matrix",
+      "module": "Employer View",
+      "purpose": "Provide a matrix overview of requirement coverage percentage for each worker across every catalogued occupation.",
+      "entry_point": "/employer -> 'Requirement coverage matrix' table",
+      "user_actions": ["Scroll table horizontally/vertically to inspect coverage percentages"],
+      "behavior": "Renders a matrix table with roles as rows and workers as columns. Each cell calculates: sum(min(1, worker_level / required_level)) / requirements_length * 100. Cells are styled with dynamic background opacity based on coverage percentage.",
+      "inputs": ["Cohort profiles", "Catalogue roles"],
+      "outputs": ["Matrix table with percentage badges"],
+      "business_rules": ["Coverage = average of min(1, current / required) across requirements * 100", "Simpler in-browser index than the full matching formula"],
+      "states": ["Rendered"],
+      "dependencies": ["F-049"],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Table displays all 10 roles against 3 synthetic workers",
+        "Percentages accurately reflect requirement coverage",
+        "Background color intensity scales with percentage"
+      ]
+    },
+    {
+      "id": "F-051",
+      "name": "Methodology & Algorithmic Transparency Documentation",
+      "module": "Methodology",
+      "purpose": "Provide complete public disclosure of all mathematical formulas, scenario parameters, assumptions, and algorithmic limitations.",
+      "entry_point": "/methodology",
+      "user_actions": ["Read match formula code block and component definitions", "Expand 'Workforce evidence, history and scenario methodology'", "Review 'Uncertainty and limits' bullet points"],
+      "behavior": "Documents the exact mathematical formulas for direct skills, transferable skills, interest alignment, research market index, and workforce indicator. Details scenario adjustment constants, simulation formulas, O*NET mappings, and limitations.",
+      "inputs": ["None (static documentation view)"],
+      "outputs": ["Full methodology specification text"],
+      "business_rules": ["Complete open transparency without proprietary black-boxes"],
+      "states": ["Rendered"],
+      "dependencies": [],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Displays complete formula: 0.50*skills + 0.20*transferable + 0.15*interest + 0.15*market",
+        "Documents workforce indicator weighting (10%) and comparability rules",
+        "Details Rapid and Slower scenario mathematical adjustments"
+      ]
+    },
+    {
+      "id": "F-052",
+      "name": "Source & Provider Catalogues Disclosure",
+      "module": "Methodology",
+      "purpose": "Provide full transparency of external signal feeds, occupational reference links, and learning resource providers.",
+      "entry_point": "/methodology -> Lower panels",
+      "user_actions": ["Inspect Signal source catalogue", "Click occupational reference links", "Click learning provider links"],
+      "behavior": "Lists active research signal sources with retrieval modes, links to O*NET references for all 10 roles, and links to free public learning providers (OpenLearn, Microsoft Learn, freeCodeCamp, Google).",
+      "inputs": ["Active signal sources", "Catalogue roles", "Milestone providers"],
+      "outputs": ["Lists of external sources and providers with hyperlinks"],
+      "business_rules": ["All learning links point to free public resources", "No paid certification or HRD Corp eligibility claimed"],
+      "states": ["Rendered"],
+      "dependencies": [],
+      "evidence_status": "Verified",
+      "acceptance_criteria": [
+        "Lists Hugging Face and MIT AI News sources",
+        "Lists all 10 O*NET links opening in new tabs",
+        "Lists free public learning hubs"
+      ]
+    }
+  ]
+}
