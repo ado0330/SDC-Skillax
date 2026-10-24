@@ -164,7 +164,7 @@ export function CvUploadModal({
               <p className="text-xs text-muted-foreground mt-0.5">
                 {stagedProposal
                   ? "Human-in-the-Loop review: Inspect and adjust extracted details before updating your profile."
-                  : "Google Gemini 2.5 Flash scans your CV to extract your experience, skills, and industry background."}
+                  : "Google Gemini 3.5 Flash Lite scans your CV to extract your experience, skills, and industry background."}
               </p>
             </div>
           </div>

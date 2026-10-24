@@ -93,8 +93,10 @@ export async function extractCvData(input: CvExtractionInput): Promise<CvExtract
       });
     }
 
+    const modelName = process.env.GEMINI_MODEL || "gemini-3.5-flash-lite";
+
     const response = await gemini.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: modelName,
       contents: [
         {
           role: "user",

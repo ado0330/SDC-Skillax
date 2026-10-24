@@ -417,8 +417,25 @@ This document is an append-only journal of all completed development tasks, veri
   - `lsof -i :3000` (Clean, now listening by PID for SCD-prototype2 Next dev)
   - `curl -I "http://localhost:3000/_next/static/css/app/layout.css?v=..."` (HTTP 200 OK)
   - `curl -s http://localhost:3000/api/research` (HTTP 200 OK with research signals)
-- **Git Commit:** Pending.
+- **Git Commit:** 648d247 ("docs: record maintenance entry 023 for port 3000 collision and CSS restoration")
 - **Next Recommended Task:** Ready for user review and live hackathon demonstration.
+
+---
+
+### Entry 024 | 2026-10-24 11:34:00 +08:00
+- **Task ID:** MAINTENANCE (Gemini Model Configuration to gemini-3.5-flash-lite)
+- **Status:** COMPLETED
+- **Description:** Switched the multimodal CV extraction model to `gemini-3.5-flash-lite` with fallback to `process.env.GEMINI_MODEL`.
+- **What changed:**
+  - Updated `lib/ai/cvExtractor.ts` to use `gemini-3.5-flash-lite` (with `process.env.GEMINI_MODEL` override).
+  - Updated `components/CvUploadModal.tsx` modal header copy to display "Google Gemini 3.5 Flash Lite".
+  - Configured `GEMINI_MODEL=gemini-3.5-flash-lite` in `.env.example` and `.env.local`.
+  - Verified Next.js dev server auto-reloaded `.env.local` and recompiled modules.
+- **Commands & Verification:**
+  - `npm test` (8/8 domain tests passing in 14.6ms)
+  - `npm run build` (19/19 routes generated with 0 errors)
+- **Git Commit:** Pending.
+- **Next Recommended Task:** Ready for live testing of CV extraction with `gemini-3.5-flash-lite`.
 
 
 
