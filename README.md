@@ -80,6 +80,8 @@ The Radar fetches the [Hugging Face Blog RSS](https://huggingface.co/blog/feed.x
 
 Titles and short feed summaries are displayed with source links; no full article is republished. Related skills are conservative deterministic keyword matches. Article direction is always uncertain and cannot change career scores. MIT News describes its RSS as being for syndication and sets republication conditions in its [terms of use](https://news.mit.edu/terms-of-use); Hugging Face's [terms of service](https://huggingface.co/terms-of-service) govern use of its service content. This prototype links to original pages and uses only compact metadata/snippets. Feed providers may change formats or access terms.
 
+The Scenario Lab compares Moderate and Rapid assumptions using the same profile, existing career ranking and roadmap functions. It shows changed role skill requirements/gaps and links relevant external research by matching the feeds' deterministic skill tags to the selected role's catalogued requirements. Those links are context only: research items do not change scores, role demand, or roadmap priorities.
+
 ---
 
 ## 5. Getting Started & Local Development

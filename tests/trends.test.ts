@@ -1,6 +1,6 @@
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
-import { deduplicateSignals, isSignalSetStale, mapSkillsFromEvidence, parseRssFeed } from "../lib/domain/trends";
+import { deduplicateSignals, findResearchSignalsForSkills, isSignalSetStale, mapSkillsFromEvidence, parseRssFeed } from "../lib/domain/trends";
 import { GET } from "../app/api/research/route";
 import { resetResearchCacheForTests, writeResearchCache } from "../lib/server/researchCache";
 import { ResearchSignal } from "../lib/domain/types";
@@ -53,6 +53,16 @@ describe("Trend evidence normalization", () => {
     } satisfies ResearchSignal;
     assert.deepEqual(mapSkillsFromEvidence("Unrelated news", "Nothing technical."), []);
     assert.equal(deduplicateSignals([common, { ...common, id: "two", sourceUrl: "https://source.example/a#second" }]).length, 1);
+  });
+
+  test("matches role skill context to cited external evidence without admitting synthetic items", () => {
+    const external = parseRssFeed(
+      `<rss><channel><item><title>Python skills in practice</title><link>https://source.example/python</link><pubDate>Mon, 05 Oct 2026 12:00:00 GMT</pubDate><description>Python research.</description></item></channel></rss>`,
+      "Example", "2026-10-24T00:00:00.000Z"
+    );
+    const synthetic: ResearchSignal = { ...external[0], id: "synthetic", evidenceType: "synthetic", sourceUrl: "https://source.example/demo" };
+    assert.deepEqual(findResearchSignalsForSkills(["python"], [...external, synthetic]).map((signal) => signal.id), [external[0].id]);
+    assert.deepEqual(findResearchSignalsForSkills(["unrelated"], external), []);
   });
 
   test("detects stale, invalid, and fresh retrieval timestamps", () => {

@@ -541,3 +541,10 @@ This document is an append-only journal of all completed development tasks, veri
 - **Description:** Rechecked the live Hugging Face and MIT RSS payload formats against the Radar evidence criteria.
 - **Changes:** Capped feed display at four items per source to retain the existing compact feed density. Hugging Face Blog currently supplies headlines/links without excerpts, so the normalized item now labels that absence instead of leaving an empty summary or inventing one.
 - **Verification:** RSS parser tests cover missing excerpt and per-source item cap. `npx tsc --noEmit`, 18/18 tests, and 18-route production build passed.
+
+### Entry 033 | 2026-10-24 (Simulator Evidence and Skill Difference Context)
+- **Task ID:** TASK-028 follow-up
+- **Status:** COMPLETED
+- **Description:** Extended the existing Scenario Lab comparison to make role-specific skill changes and suitable Radar evidence visible together.
+- **Changes:** The selected-role comparison now lists all scenario-changed requirements/gaps and next roadmap steps. It links up to three external research items whose deterministic skill tags overlap that role's requirements, and states those items are context only. Existing career scores are unchanged by research.
+- **Verification:** `npx tsc --noEmit` and 19/19 tests passed. Build pending after this refinement.

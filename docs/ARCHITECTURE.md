@@ -128,7 +128,7 @@ The server fetches Hugging Face Blog and MIT News AI RSS only on explicit refres
 MIT News RSS is offered for syndication; its [terms of use](https://news.mit.edu/terms-of-use) specify conditions for republishing stories. Hugging Face content is subject to its [terms of service](https://huggingface.co/terms-of-service). The UI shows compact metadata and a short feed summary with attribution and a link to the source, not full articles or images. Review each provider's terms if reuse expands beyond this prototype.
 
 ### 4.3 Scenario comparison
-The simulator compares Moderate and Rapid using the same profile, deterministic `rankCareerRoles` scores, skill gaps, and `generateLearningRoadmap` outputs. Rapid changes the AI literacy requirement by +1 (maximum level 5), or adds level 3 where absent, and applies the existing technical-share/exposure market adjustment. Research RSS items do not affect either score or roadmap. These outputs are scenario estimates, not forecasts.
+The simulator compares Moderate and Rapid using the same profile, deterministic `rankCareerRoles` scores, skill gaps, and `generateLearningRoadmap` outputs. Rapid changes the AI literacy requirement by +1 (maximum level 5), or adds level 3 where absent, and applies the existing technical-share/exposure market adjustment. The selected role comparison reports changed requirement/gap levels and next roadmap steps. Research context links are limited to external feed items whose deterministic skill tags overlap that role's catalogued requirements; this matching is descriptive only and does not affect scores, demand, or roadmap priorities. These outputs are scenario estimates, not forecasts.
 
 ### 4.4 Consented CV Extraction Flow
 ```

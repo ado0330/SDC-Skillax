@@ -27,6 +27,22 @@ export function mapSkillsFromEvidence(title: string, summary: string): string[] 
     .map(([id]) => id);
 }
 
+/** Returns external research items that overlap a role's catalogued skills.
+ * This is contextual evidence only; callers must not feed it into career scores.
+ */
+export function findResearchSignalsForSkills(skillIds: string[], signals: ResearchSignal[]): ResearchSignal[] {
+  const relevantSkills = new Set(skillIds);
+  return signals
+    .filter((signal) => signal.evidenceType === "external" && /^https?:\/\//i.test(signal.sourceUrl))
+    .map((signal) => ({
+      signal,
+      overlap: signal.skillIds.filter((skillId) => relevantSkills.has(skillId)).length,
+    }))
+    .filter(({ overlap }) => overlap > 0)
+    .sort((a, b) => b.overlap - a.overlap || (Date.parse(b.signal.publishedAt ?? "") || 0) - (Date.parse(a.signal.publishedAt ?? "") || 0))
+    .map(({ signal }) => signal);
+}
+
 function decodeXml(value: string): string {
   const decodeCodePoint = (value: string, radix: number) => {
     const codePoint = parseInt(value, radix);

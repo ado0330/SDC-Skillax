@@ -11,6 +11,8 @@ import { ROLES_CATALOG } from "@/lib/data/roles";
 import { rankCareerRoles } from "@/lib/domain/scoring";
 import { generateLearningRoadmap } from "@/lib/domain/roadmap";
 import { AIScenario } from "@/lib/domain/types";
+import { findResearchSignalsForSkills } from "@/lib/domain/trends";
+import { formatDisplayDate } from "@/lib/utils";
 import {
   Sliders,
   Sparkles,
@@ -66,14 +68,23 @@ export default function ScenariosPage() {
   const comparisonRoleId = profile.targetRoleId || moderateMatches[0]?.role.id;
   const moderateRoleMatch = moderateMatches.find((match) => match.role.id === comparisonRoleId);
   const rapidRoleMatch = rapidMatches.find((match) => match.role.id === comparisonRoleId);
-  const moderateAiGap = moderateRoleMatch?.gaps.find((gap) => gap.skillId === "ai");
-  const rapidAiGap = rapidRoleMatch?.gaps.find((gap) => gap.skillId === "ai");
   const moderateNextStep = moderateRoleMatch
     ? generateLearningRoadmap(moderateRoleMatch.role, profile.skills, "moderate", new Set(completedMilestoneIds)).find((step) => !step.completed)
     : undefined;
   const rapidNextStep = rapidRoleMatch
     ? generateLearningRoadmap(rapidRoleMatch.role, profile.skills, "rapid", new Set(completedMilestoneIds)).find((step) => !step.completed)
     : undefined;
+  const changedSkillGaps = moderateRoleMatch && rapidRoleMatch
+    ? [...new Set([...moderateRoleMatch.gaps, ...rapidRoleMatch.gaps].map((gap) => gap.skillId))]
+        .map((skillId) => ({
+          moderate: moderateRoleMatch.gaps.find((gap) => gap.skillId === skillId),
+          rapid: rapidRoleMatch.gaps.find((gap) => gap.skillId === skillId),
+        }))
+        .filter(({ moderate, rapid }) => moderate?.requiredLevel !== rapid?.requiredLevel || moderate?.gap !== rapid?.gap)
+    : [];
+  const roleResearch = moderateRoleMatch
+    ? findResearchSignalsForSkills(moderateRoleMatch.role.requirements.map((requirement) => requirement.skillId), researchSignals).slice(0, 3)
+    : [];
 
   const scenariosMeta = [
     {
@@ -242,20 +253,32 @@ export default function ScenariosPage() {
           icon={<Sliders className="h-4 w-4" />}
         >
           {moderateRoleMatch && rapidRoleMatch && (
-            <div className="mb-4 grid gap-3 border-b border-card-border/60 pb-4 text-sm sm:grid-cols-2">
+            <div className="mb-4 grid gap-4 border-b border-card-border/60 pb-4 text-sm sm:grid-cols-2">
               <div>
                 <p className="font-semibold text-foreground">{moderateRoleMatch.role.name}{profile.targetRoleId ? " · selected role" : " · current top match"}</p>
-                <p className="mt-1 text-muted-foreground">
-                  AI literacy requirement: Level {moderateAiGap?.requiredLevel ?? "not set"} → {rapidAiGap?.requiredLevel ?? "not set"}.
-                  {moderateAiGap && rapidAiGap ? ` Your level ${moderateAiGap.currentLevel}; gap ${moderateAiGap.gap} → ${rapidAiGap.gap}.` : " The role has no comparable AI literacy gap."}
-                </p>
+                <p className="mt-1 text-muted-foreground">Changed skill priorities: {changedSkillGaps.length
+                  ? changedSkillGaps.map(({ moderate, rapid }) => {
+                    const skillName = rapid?.skillName ?? moderate?.skillName ?? "Skill";
+                    const before = moderate ? `Level ${moderate.requiredLevel} (gap ${moderate.gap})` : "not required";
+                    const after = rapid ? `Level ${rapid.requiredLevel} (gap ${rapid.gap})` : "not required";
+                    return `${skillName}: ${before} → ${after}`;
+                  }).join("; ")
+                  : "No role skill requirement changes for this profile."}</p>
                 <p className="mt-1 text-muted-foreground">
                   Next roadmap step: Moderate {moderateNextStep?.title ?? "none"} · Rapid {rapidNextStep?.title ?? "none"}.
                 </p>
               </div>
-              <p className="text-muted-foreground">
-                The Rapid scenario raises the AI literacy requirement by one level (or adds Level 3 where absent), and applies the existing technical-share and role-exposure market adjustment. Research articles do not alter scores.
-              </p>
+              <div>
+                <p className="text-muted-foreground">Rapid raises an existing AI requirement by one level (up to 5), or adds Level 3 if absent. It also applies the existing technical-share and role-exposure adjustment. These are explicit stress-test assumptions.</p>
+                <p className="mt-2 font-semibold text-foreground">Related research context</p>
+                {roleResearch.length ? <ul className="mt-1 space-y-1">
+                  {roleResearch.map((signal) => <li key={signal.id} className="text-muted-foreground">
+                    <a className="text-primary hover:underline" href={signal.sourceUrl} target="_blank" rel="noreferrer">{signal.title}</a>
+                    <span> · {signal.source} · {signal.publishedAt ? formatDisplayDate(signal.publishedAt) : "date unavailable"}</span>
+                  </li>)}
+                </ul> : <p className="mt-1 text-muted-foreground">No current research items match this role&apos;s catalogued skills.</p>}
+                <p className="mt-1 text-xs text-muted-foreground">Research provides context only; it does not change scenario scores or imply hiring demand.</p>
+              </div>
             </div>
           )}
           <div className="overflow-x-auto">

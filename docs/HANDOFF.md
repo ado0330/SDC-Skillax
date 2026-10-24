@@ -8,7 +8,7 @@ Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI
 - **Overall Completion:** Core prototype tasks and TASK-028 completed on `codex/live-trend-simulator`.
 
 ## 3. Latest Completed Tasks
-- **TASK-028**: Added live RSS normalization, attribution, and stale/error handling to Radar; decoupled research articles from career scores; added Moderate vs Rapid simulator comparison using existing ranking/gap/roadmap logic. Follow-up verified live RSS summaries and capped feed volume. TypeScript, 18/18 tests, and 18-route production build passed.
+- **TASK-028**: Added live RSS normalization, attribution, stale/error handling, role-linked contextual evidence, and Moderate vs Rapid comparison with changed skill gaps and roadmap steps. Research evidence remains outside scoring. TypeScript and 19/19 tests passed; production build had passed before the latest UI refinement.
 - **TASK-021**: Executed full end-to-end automated verification; 19/19 routes generated with zero errors, 8/8 domain tests passing in 13.8ms.
 - **TASK-022**: Configured `.replit` deployment manifest and authored comprehensive, publication-grade `README.md`.
 
@@ -29,8 +29,8 @@ Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI
 - Status: Clean working tree after TASK-028 commit; verification passed.
 
 ## 9. Last Successful Build or Test Results
-- `npm run build`: Compiled successfully (18/18 routes; isolated copy used to protect running dev server output).
-- `npm test`: 18/18 unit tests passed; `npx tsc --noEmit` passed.
+- `npm run build`: Compiled successfully (18/18 routes; isolated copy used to protect running dev server output, before the latest UI refinement).
+- `npm test`: 19/19 unit tests passed; `npx tsc --noEmit` passed.
 
 ## 10. Known Bugs & Unresolved Blockers
 - None.
