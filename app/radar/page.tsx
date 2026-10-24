@@ -5,6 +5,7 @@ import { useWorkspace } from "@/lib/workspace/useWorkspace";
 import { PageHeader } from "@/components/PageHeader";
 import { Panel } from "@/components/Panel";
 import { ManageDataModal } from "@/components/ManageDataModal";
+import { formatDisplayDate } from "@/lib/utils";
 import { SKILLS_CATALOG } from "@/lib/data/skills";
 import {
   analyzeWorkforceSeries,
@@ -301,13 +302,9 @@ export default function RadarPage() {
                       <span className="rounded-full bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 text-[10px] font-semibold text-cyan-400">
                         {sig.source}
                       </span>
-                      <span className="text-[11px] text-muted-foreground flex items-center gap-1 font-mono">
+                      <span className="text-[11px] text-muted-foreground flex items-center gap-1 font-mono" suppressHydrationWarning>
                         <Calendar className="h-3 w-3" />
-                        {new Date(sig.publishedAt).toLocaleDateString("en-MY", {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                        })}
+                        {formatDisplayDate(sig.publishedAt)}
                       </span>
                       <span className="rounded bg-muted px-1.5 py-0.2 text-[10px] uppercase font-mono text-muted-foreground">
                         {sig.mode}
