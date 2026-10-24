@@ -548,3 +548,10 @@ This document is an append-only journal of all completed development tasks, veri
 - **Description:** Extended the existing Scenario Lab comparison to make role-specific skill changes and suitable Radar evidence visible together.
 - **Changes:** The selected-role comparison now lists all scenario-changed requirements/gaps and next roadmap steps. It links up to three external research items whose deterministic skill tags overlap that role's requirements, and states those items are context only. Existing career scores are unchanged by research.
 - **Verification:** `npx tsc --noEmit`, 19/19 tests, and isolated `npm run build` (18/18 routes) passed.
+
+### Entry 034 | 2026-10-24 (Restore Complete RSS Feed Counts)
+- **Task ID:** TASK-028 follow-up
+- **Status:** COMPLETED
+- **Description:** Removed the four-item-per-feed cap that reduced the Radar's Research Activity count to at most eight.
+- **Changes:** RSS normalization again retains every valid, deduplicated feed item. Radar paginates results 20 at a time and reports the matching count and full total, keeping rendering compact without hiding source items.
+- **Verification:** `npx tsc --noEmit`, `npm test` (19/19), `git diff --check`, and isolated `npm run build` (18/18 routes) passed.

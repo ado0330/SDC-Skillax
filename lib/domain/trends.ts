@@ -64,8 +64,8 @@ function xmlValue(block: string, tag: string): string | null {
   return match ? decodeXml(match[1]) : null;
 }
 
-export function parseRssFeed(xml: string, source: string, retrievedAt: string, maxItems = 4): ResearchSignal[] {
-  const entries = [...xml.matchAll(/<(item|entry)\b[^>]*>([\s\S]*?)<\/\1>/gi)].slice(0, maxItems);
+export function parseRssFeed(xml: string, source: string, retrievedAt: string): ResearchSignal[] {
+  const entries = [...xml.matchAll(/<(item|entry)\b[^>]*>([\s\S]*?)<\/\1>/gi)];
   const signals: ResearchSignal[] = [];
   for (const [, , block] of entries) {
     const title = xmlValue(block, "title");

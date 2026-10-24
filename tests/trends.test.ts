@@ -34,12 +34,12 @@ describe("Trend evidence normalization", () => {
     assert.match(signal.observation, /without an excerpt/);
   });
 
-  test("limits each source feed to the configured compact item count", () => {
+  test("normalizes every valid item in a feed so the activity count reflects its source", () => {
     const items = Array.from({ length: 7 }, (_, index) =>
       `<item><title>Item ${index}</title><link>https://source.example/${index}</link></item>`
     ).join("");
-    const results = parseRssFeed(`<rss><channel>${items}</channel></rss>`, "Example", "2026-10-24T00:00:00.000Z", 4);
-    assert.equal(results.length, 4);
+    const results = parseRssFeed(`<rss><channel>${items}</channel></rss>`, "Example", "2026-10-24T00:00:00.000Z");
+    assert.equal(results.length, 7);
   });
 
   test("deduplicates canonical URLs and refuses to map unrelated text to AI", () => {

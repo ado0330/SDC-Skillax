@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useWorkspace } from "@/lib/workspace/useWorkspace";
 import { PageHeader } from "@/components/PageHeader";
 import { Panel } from "@/components/Panel";
@@ -44,6 +44,7 @@ export default function RadarPage() {
   const [activeTab, setActiveTab] = useState<"research" | "workforce">("research");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSkillFilter, setSelectedSkillFilter] = useState<string>("all");
+  const [signalPage, setSignalPage] = useState(0);
   const [directionFilter, setDirectionFilter] = useState<string>("all");
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [refreshNotice, setRefreshNotice] = useState<string | null>(null);
@@ -75,6 +76,13 @@ export default function RadarPage() {
       return matchesSearch && matchesSkill;
     });
   }, [researchSignals, searchQuery, selectedSkillFilter]);
+  const SIGNALS_PER_PAGE = 20;
+  const pageCount = Math.max(1, Math.ceil(filteredSignals.length / SIGNALS_PER_PAGE));
+  const visibleSignals = filteredSignals.slice(signalPage * SIGNALS_PER_PAGE, (signalPage + 1) * SIGNALS_PER_PAGE);
+
+  useEffect(() => {
+    setSignalPage(0);
+  }, [searchQuery, selectedSkillFilter]);
 
   // 3. Article counts per skill (F-026)
   const skillArticleCounts = useMemo(() => {
@@ -107,6 +115,7 @@ export default function RadarPage() {
       const data = await res.json();
       if (Array.isArray(data.signals) && ["live", "cached", "stale"].includes(data.status)) {
         setResearchSignals(data.signals);
+        setSignalPage(0);
       }
       if (data.status === "live") {
         setRefreshNotice(`Updated from public feeds${data.failedSources?.length ? `; ${data.failedSources.length} source unavailable` : ""}.`);
@@ -311,12 +320,20 @@ export default function RadarPage() {
 
           {/* Signal Cards Feed */}
           <div className="space-y-4">
+            {filteredSignals.length > 0 && <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
+              <span>Showing {signalPage * SIGNALS_PER_PAGE + 1}–{Math.min((signalPage + 1) * SIGNALS_PER_PAGE, filteredSignals.length)} of {filteredSignals.length} matching items ({researchSignals.length} total)</span>
+              {pageCount > 1 && <div className="flex items-center gap-2">
+                <button className="ui-button ui-button-secondary rounded-md px-3 py-1 text-xs" disabled={signalPage === 0} onClick={() => setSignalPage((page) => Math.max(0, page - 1))}>Previous</button>
+                <span>Page {signalPage + 1} of {pageCount}</span>
+                <button className="ui-button ui-button-secondary rounded-md px-3 py-1 text-xs" disabled={signalPage + 1 >= pageCount} onClick={() => setSignalPage((page) => Math.min(pageCount - 1, page + 1))}>Next</button>
+              </div>}
+            </div>}
             {filteredSignals.length === 0 && (
               <Panel className="text-sm text-muted-foreground">
                 No public research items are available. Refresh to try the feeds again.
               </Panel>
             )}
-            {filteredSignals.map((sig) => (
+            {visibleSignals.map((sig) => (
               <Panel key={sig.id} className="hover:border-card-border transition-colors">
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                   <div className="space-y-1.5 flex-1">
