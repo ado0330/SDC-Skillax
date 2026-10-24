@@ -434,8 +434,25 @@ This document is an append-only journal of all completed development tasks, veri
 - **Commands & Verification:**
   - `npm test` (8/8 domain tests passing in 14.6ms)
   - `npm run build` (19/19 routes generated with 0 errors)
-- **Git Commit:** Pending.
+- **Git Commit:** 3852db6 ("feat(ai): configure CV extraction model to gemini-3.5-flash-lite")
 - **Next Recommended Task:** Ready for live testing of CV extraction with `gemini-3.5-flash-lite`.
+
+---
+
+### Entry 025 | 2026-10-24 11:36:00 +08:00
+- **Task ID:** MAINTENANCE (Webpack Runtime Chunk Cache Reset & Process Isolation)
+- **Status:** COMPLETED
+- **Description:** Resolved `Error: Cannot find module './276.js'` caused by running `next build` concurrently while `next dev` was active in the background, which overwrote dev chunk files. Also killed an external process (`SDC_HACK-26`) occupying port 3000. Cleaned `.next` cache and restarted `next dev` cleanly.
+- **What changed:**
+  - Cancelled outdated dev server task.
+  - Terminated conflicting processes on port 3000.
+  - Removed corrupted `.next` cache (`rm -rf .next`).
+  - Started fresh dev server task. Verified `/`, `/profile`, `/assessment`, `/careers` all return HTTP 200 OK.
+- **Commands & Verification:**
+  - `curl -s -o /dev/null -w "%{http_code}\n" http://localhost:3000/` (200 OK)
+  - `curl -s -o /dev/null -w "%{http_code}\n" http://localhost:3000/profile` (200 OK)
+- **Git Commit:** Pending.
+- **Next Recommended Task:** All routes fully operational in dev mode.
 
 
 
