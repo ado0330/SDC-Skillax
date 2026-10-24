@@ -154,14 +154,14 @@ export default function EmployerWorkforcePage() {
       />
 
       {/* Mandatory Statutory Screening Disclaimer */}
-      <div className="rounded-2xl border-2 border-amber-500/40 bg-amber-500/10 p-5 text-amber-200">
+      <div className="rounded-2xl border-2 border-[#FCD34D] bg-[#FFFBEB] p-5 dark:border-[#B45309] dark:bg-[#292415]">
         <div className="flex items-start gap-3">
-          <ShieldAlert className="h-6 w-6 text-warning shrink-0 mt-0.5" />
+          <ShieldAlert className="h-6 w-6 text-[#92400E] dark:text-[#FBBF24] shrink-0 mt-0.5" />
           <div className="space-y-1">
-            <h3 className="text-sm font-semibold text-warning uppercase tracking-wider">
+            <h3 className="text-sm font-semibold text-[#92400E] dark:text-[#FDE68A] uppercase tracking-wider">
               Statutory Disclaimer: Aggregate Capability Planning View Only
             </h3>
-            <p className="text-sm text-amber-200/90 leading-relaxed">
+            <p className="text-sm text-[#78350F] dark:text-[#E5E7EB] leading-relaxed">
               This module is designed strictly for organizational capability mapping, collective training needs analysis, and curriculum planning. In compliance with fair labor practices, this platform is <strong>explicitly NOT intended or certified</strong> for automated hiring screening, adverse employment decisions, promotion filtering, or individual performance appraisal. All data shown uses synthetic benchmark personas.
             </p>
           </div>

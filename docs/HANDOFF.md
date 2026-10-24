@@ -9,3 +9,5 @@ No required implementation task remains. Live Gemini/file-upload, external feed 
 For future UI edits, update the shared tokens and controls first; retain the application structure and deterministic business logic. On this host, use port 4317 because port 3000 has unrelated listeners. Stop the production preview before rebuilding, then restart with `node node_modules/next/dist/bin/next start -H 127.0.0.1 -p 4317`.
 
 Latest update: TASK-024 replaces the SX sidebar mark with the user's supplied logo (`public/skillax-logo.png`) through Next Image in `components/AppShell.tsx`. Shared desktop/mobile branding uses the original image unchanged. TypeScript passed.
+
+Latest update: TASK-025 fixes only Employer disclaimer colors with exact light/dark Tailwind variants. Both themes visually verified and all requested colors checked against computed styles. TypeScript passed. Preview is now a development server at `http://127.0.0.1:4317`; stop it before a production build.

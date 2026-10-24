@@ -494,3 +494,8 @@ This document is an append-only journal of all completed development tasks, veri
 - **Task:** TASK-024 — User-supplied logo replacement.
 - **Changes:** Added `public/skillax-logo.png`; used Next Image in the shared AppShell branding with accessible alt text and a 44px square display. Navigation and wordmark preserved.
 - **Verification:** `npx tsc --noEmit` passed.
+
+### Entry 029 | 2026-10-24 +08:00
+- **Task:** TASK-025 — Employer disclaimer contrast.
+- **Changes:** Four presentation class strings in `app/employer/page.tsx`; exact user-specified hex colors through Tailwind dark variants. Copy, compact typography, icon and layout unchanged.
+- **Verification:** Visually inspected both themes and checked computed background, border, heading, paragraph and icon colors against all ten requested values. TypeScript and diff checks passed.
