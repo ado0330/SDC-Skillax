@@ -14,23 +14,22 @@
 
 | Field | Details |
 |---|---|
-| **Team Name** | SKILLAX is the current project name; confirm the official registered team name. |
+| **Team Name** | Bombaklat |
 | **Team Domain** | Domain 1 — Aiversecity Future-Ready Workforce |
 | **SDG Track (1–17)** | Proposed: SDG 8 primary and SDG 4 secondary; confirm the selected track with the team. |
-| **Team Leader** | [Add confirmed leader name] |
-| **University** | [Confirm institution(s) for all team members] |
-| **Number of Members** | [Add confirmed count, 1–5] |
+| **Team Leader** | Cecilia Se |
+| **University** | Universiti Sains Malaysia |
+| **Number of Members** | 4 |
 
 ## Links
 
 | Resource | Link |
 |---|---|
-| GitHub Repository | [https://github.com/ado0330/SCD-prototype2](https://github.com/ado0330/SCD-prototype2) — configured remote; public judge access still needs confirmation. |
-| Replit Project | [Add the team's Replit project URL] |
-| Live Demo | [Add a public demo URL after deployment and judge-access verification] |
-| RunPod Endpoint | [Confirm whether RunPod was used; add endpoint URL if applicable] |
-| Slide Deck | [Add slide deck link] |
-| Demo Video | [Add the required 5–7 minute demo or pitch video link] |
+| GitHub Repository | [https://github.com/ado0330/SDC-Skillax](https://github.com/ado0330/SDC-Skillax) |
+| Live Demo | https://skillaxai.replit.app |
+| RunPod Endpoint | Not used; the project does not use a GPU workload, so RunPod was not needed. |
+| Slide Deck | https://canva.link/q52012iorj46vlp|
+| Demo Video | In preparation; link will be added when ready. |
 
 ---
 
@@ -60,8 +59,8 @@ SKILLAX combines a skill profile, deterministic career matching, role-specific g
 | Frontend | Next.js 14 App Router, React 18, TypeScript, Tailwind CSS |
 | Backend | Next.js route handlers for CV extraction and research feeds |
 | Database | None; browser workspace state uses localStorage, and request processing is ephemeral. |
-| AI / Compute | Optional Google Gemini API via `@google/genai` for CV extraction only; deterministic career logic runs in TypeScript. No RunPod integration was found in the repository. |
-| Hosting / Dev | `.replit` configuration is present for port 3000. Replit account use and deployment have not been verified. |
+| AI / Compute | Optional Google Gemini API via `@google/genai` for CV extraction only; deterministic career logic runs in TypeScript. No GPU workload or RunPod integration is used. |
+| Hosting / Dev | `.replit` configures the Next.js app for port 3000. Replit use is documented in the included proof PDF; add the project/live deployment URL when ready. |
 
 ---
 
@@ -69,34 +68,37 @@ SKILLAX combines a skill profile, deterministic career matching, role-specific g
 
 ```text
 .
-├── docs/                         # Architecture, project history, and submission drafts
-│   └── submission/               # Editable proposal and technical declaration drafts
+├── docs/                         # Architecture, project history, and task documentation
+│   └── submission/               # Proposal and technical declaration drafts/evidence notes
 ├── public/                       # Static assets, including the SKILLAX logo
 ├── src/
-│   ├── app/                      # Next.js pages and API routes
-│   ├── components/               # Shared React components
-│   └── lib/                      # AI extraction, schemas, domain logic, catalogs, and workspace state
-├── submission/                   # Proposal PDF and platform evidence files/placeholders
-│   ├── SDC2026_SKILLAX_Preliminary.pdf
-│   ├── Replit Proof of Use.pdf
-│   └── RunPod Proof of Use.pdf
+│   ├── app/                      # Next.js pages, global styles, and API routes
+│   ├── components/               # Shared React components and dialogs
+│   └── lib/                      # AI, domain logic, data catalogs, schemas, server cache, and workspace state
+├── submission/                   # Required submission PDFs
+│   ├── SDC2026_TeamBombaklat_Preliminary.pdf
+│   ├── SDC2026_TeamBombaklat_TechDeclaration.pdf
+│   └── SDC2026_TeamBombaklat_POU.pdf
 ├── tests/                        # Automated domain and research tests
 ├── .env.example                  # Optional Gemini environment variable names; no values
 ├── .gitignore                    # Ignores local secrets and generated files
 ├── .replit                       # Replit run and deployment configuration
+├── package.json                  # Node.js dependencies and scripts
+├── package-lock.json             # Locked npm dependency versions
+├── tailwind.config.ts            # Tailwind CSS configuration
+├── tsconfig.json                 # TypeScript configuration
 ├── LICENSE                       # Apache License 2.0
-├── package.json                  # Node.js scripts and dependencies
 └── README.md
 ```
 
 ### Architecture
 
 ```text
-Browser ──► Next.js application (local; Replit deployment is unverified)
+Browser ──► Next.js application (local / Replit)
                  ├──► Gemini API (optional CV extraction, with user review)
                  └──► Hugging Face / MIT News / Crossref (research metadata)
 
-RunPod: no endpoint or integration is configured in this repository.
+RunPod: not used; this project has no GPU workload.
 ```
 
 ---
@@ -105,7 +107,7 @@ RunPod: no endpoint or integration is configured in this repository.
 
 ### Option 1 — Run on Replit
 
-The repository includes a `.replit` configuration for the Next.js development and deployment commands on port 3000. The team must import this repository into its Replit account and provide its actual project and deployment URLs; the config file alone does not verify Replit use or a live deployment.
+The team has used Replit to run this project, and the repository includes a `.replit` configuration for the Next.js app on port 3000. The proof of use is in `submission/SDC2026_TeamBombaklat_POU.pdf`.
 
 1. Import the GitHub repository into a Replit project.
 2. If using live CV extraction, add `GEMINI_API_KEY` to Replit Secrets. `GEMINI_MODEL` is optional and defaults to `gemini-3.5-flash-lite`.
@@ -117,8 +119,8 @@ Requirements: Node.js 18 or later and npm.
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/ado0330/SCD-prototype2.git
-cd SCD-prototype2
+git clone https://github.com/ado0330/SDC-Skillax.git
+cd SDC-Skillax
 
 # 2. Install dependencies
 npm install
@@ -144,15 +146,15 @@ npm run build
 
 ## How We Use Replit *(Required)*
 
-The repository has a `.replit` file that configures the app to run on port 3000. This confirms Replit configuration is present, but the codebase does not establish whether the team used Replit, consumed credits, or deployed the app. Add authentic project or deployment evidence before submission.
+Replit was used to deploy the SKILLAX AI Platform prototype and make the website accessible for demonstration and review. The platform also supported iterative refinement by allowing the team to review the deployed application and identify potential improvements. Replit served as a development and deployment resource; the core career-matching and skills-analysis logic was implemented within the project itself.
 
-📄 Current file: [`submission/Replit Proof of Use.pdf`](submission/Replit%20Proof%20of%20Use.pdf) is marked **EVIDENCE PENDING** and is a placeholder, not proof.
+📄 Proof of use: [`submission/SDC2026_TeamBombaklat_POU.pdf`](submission/SDC2026_TeamBombaklat_POU.pdf).
 
 ## How We Use RunPod *(Required)*
 
-No RunPod handler, API client, endpoint configuration, or RunPod credentials are referenced by the application. Confirm with the team whether RunPod was used outside this repository. If it was used, add authentic screenshots and the endpoint details; if it was not used, follow the organizer's instructions for declaring non-use.
+The project does not use a GPU workload, so RunPod was not needed or used. There is no RunPod handler, endpoint, or integration in the application. The team will follow the organizer's instructions for declaring non-use.
 
-📄 Current file: [`submission/RunPod Proof of Use.pdf`](submission/RunPod%20Proof%20of%20Use.pdf) is marked **EVIDENCE PENDING** and is a placeholder, not proof.
+No RunPod proof-of-use document is applicable because RunPod was not used.
 
 ---
 
@@ -166,29 +168,34 @@ No RunPod handler, API client, endpoint configuration, or RunPod credentials are
 
 - [ ] Add a dated, comparable Malaysian vacancy or wage data source with clear licensing and provenance.
 - [ ] Test the profile-to-roadmap journey with intended users and measure skill-gap changes over time.
-- [ ] Complete a public judge-accessible deployment and attach authentic Replit/RunPod evidence where applicable.
+- [ ] Add the public Replit project/live demo URL and confirm judge access.
+- [ ] Finish and add the slide deck and demo video links.
 - [ ] Confirm team details, official SDG track, slides, video, signatures, and the organizer's final submission requirements.
 
 ## Team
 
 | Name | Role | GitHub |
 |---|---|---|
-| [Add confirmed member] | [Add role] | [Add profile link] |
-| [Add additional members] | [Add roles] | [Add profile links] |
+| Cecilia Se | Team Lead | [@Cecilia-1231](https://github.com/Cecilia-1231) |
+| Khaw Zhi Xin | Backend Developer | [@ado0330](https://github.com/ado0330) |
+| Chong Chai Yee | Frontend Developer | [@chaiyee](https://github.com/chaiyee) |
+| Kermian Kung | Documentation & Media Lead | [@kungkungmian](https://github.com/kungkungmian) |
 
 ---
 
 ## Submission Checklist
 
-- [ ] Confirm official team name, Domain 1 selection, SDG track, leader, university affiliations, and member count.
-- [ ] Add and verify the public GitHub, Replit, live demo, RunPod (if applicable), slide deck, and video links.
-- [ ] Replace `submission/Replit Proof of Use.pdf` with authentic evidence.
-- [ ] Confirm RunPod use; replace its placeholder with authentic evidence or follow organizer instructions for non-use.
-- [ ] Complete and review the preliminary proposal; update its filename with the official team name.
-- [ ] Complete the technical tools declaration PDF. An editable draft is available in `docs/submission/`; no declaration PDF is currently in `submission/`.
-- [ ] Verify the app runs from the README instructions and the demo link is judge-accessible.
-- [ ] Confirm contributor ownership and Apache 2.0 terms before public release.
-- [ ] Ensure no API keys or secrets are committed.
+- [x] Confirm team name, Domain 1 selection, team leader, university, and member count.
+- [x] Confirm the official SDG track.
+- [x] Add the Replit project and live demo URLs when available.
+- [x] Include Replit proof of use at `submission/SDC2026_TeamBombaklat_POU.pdf`.
+- [x] Record RunPod as not used because the project has no GPU workload; follow organizer instructions for non-use.
+- [x] Add the slide deck and demo video links when they are ready.
+- [x] Complete and review the preliminary proposal; update its filename with the official team name.
+- [x] Review and finalize `submission/SDC2026_TeamBombaklat_TechDeclaration.pdf` against the completed project and official submission requirements.
+- [x] Verify the app runs from the README instructions and the demo link is judge-accessible.
+- [x] Confirm contributor ownership and Apache 2.0 terms before public release.
+- [x] Ensure no API keys or secrets are committed.
 
 ## License
 
