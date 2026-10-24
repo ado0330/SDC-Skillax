@@ -230,4 +230,26 @@ describe("Domain Intelligence Tests — SKILLAX AI", () => {
     assert.equal(analyzedValid[0].direction, "Rising");
     assert.equal(analyzedValid[0].percentageChange, 12.5);
   });
+
+  test("CV Extraction: Deterministic keyword parsing and schema compliance", async () => {
+    const { extractSkillsByKeywords } = await import("../lib/ai/keywordExtractor");
+    const { CvExtractionOutputSchema } = await import("../lib/schemas/cv");
+
+    const sampleCvText = `
+    Aina binti Abdullah
+    Operations Coordinator with 7 years of experience.
+    Proficient in Microsoft Excel pivot tables, agile project coordination, sprint delivery, and data analysis.
+    `;
+
+    const extracted = extractSkillsByKeywords(sampleCvText);
+    assert.ok(extracted.skills["excel"] >= 2, "Excel keyword should be extracted");
+    assert.ok(extracted.skills["organization"] >= 2, "Project coordination should be extracted");
+    assert.ok(extracted.skills["analysis"] >= 2, "Data analysis should be extracted");
+    assert.equal(extracted.experience, 7, "Should extract 7 years experience");
+
+    // Verify Zod schema compliance
+    const validated = CvExtractionOutputSchema.parse(extracted);
+    assert.equal(validated.extractionMethod, "keyword_fallback");
+  });
 });
+

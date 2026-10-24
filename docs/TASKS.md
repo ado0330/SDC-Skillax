@@ -45,9 +45,9 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
   - *Files:* `app/profile/page.tsx`, `components/LevelDots.tsx`, `components/ProfileGate.tsx`
   - *Acceptance:* User can edit and save name, occupation, 19 skills, interests; saving updates global workspace.
 
-- [ ] **TASK-008**: Implement Consented CV Extraction API & Review Modal (Gemini `@google/genai` integration + offline synthetic CV demo presets + keyword fallback).
-  - *Status:* TODO
-  - *Files:* `app/api/cv/analyze/route.ts`, `lib/ai/geminiClient.ts`, `lib/ai/cvExtractor.ts`, `lib/ai/keywordExtractor.ts`, `components/CvUploadModal.tsx`, `lib/data/sampleCvs.ts`
+- [x] **TASK-008**: Implement Consented CV Extraction API & Review Modal (Gemini `@google/genai` integration + offline synthetic CV demo presets + keyword fallback).
+  - *Status:* DONE
+  - *Files:* `app/api/cv/analyze/route.ts`, `lib/ai/geminiClient.ts`, `lib/ai/cvExtractor.ts`, `lib/ai/keywordExtractor.ts`, `components/CvUploadModal.tsx`, `lib/data/sampleCvs.ts`, `app/profile/page.tsx`
   - *Acceptance:* User can upload PDF or paste text, or click "Sample CV", view staged suggestions, and merge into draft with explicit approval. Zero disk persistence.
 
 - [ ] **TASK-009**: Implement Trend Radar (`/radar`) featuring Research Activity (live Hugging Face/MIT RSS signals + fallback) and Workforce Demand trend analytics.

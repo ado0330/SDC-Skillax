@@ -40,6 +40,9 @@ const INDUSTRIES = [
   "Education",
 ];
 
+import { CvUploadModal } from "@/components/CvUploadModal";
+import { CvExtractionOutput } from "@/lib/schemas/cv";
+
 export default function ProfilePage() {
   const {
     profile,
@@ -57,11 +60,35 @@ export default function ProfilePage() {
   const [customSkillLevel, setCustomSkillLevel] = useState(3);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isCvModalOpen, setIsCvModalOpen] = useState(false);
 
   // Sync draft whenever global profile changes
   useEffect(() => {
     setDraft(profile);
   }, [profile]);
+
+  const handleApplyCvProposal = (proposal: CvExtractionOutput) => {
+    setDraft((prev) => ({
+      ...prev,
+      name: proposal.name || prev.name,
+      occupation: proposal.occupation || prev.occupation,
+      industry: proposal.industry || prev.industry,
+      education: proposal.education || prev.education,
+      experience: proposal.experience || prev.experience,
+      professionalSummary: proposal.professionalSummary || prev.professionalSummary,
+      skills: {
+        ...prev.skills,
+        ...proposal.skills,
+      },
+      interests: Array.from(new Set([...prev.interests, ...proposal.interests])),
+      additionalSkills: [
+        ...prev.additionalSkills,
+        ...proposal.additionalSkills,
+      ],
+    }));
+    setSaveSuccess(true);
+    setTimeout(() => setSaveSuccess(false), 4000);
+  };
 
   // Group skills by category
   const transferableSkills = SKILLS_CATALOG.filter((s) => s.category === "Transferable");
@@ -150,6 +177,14 @@ export default function ProfilePage() {
         title="Skills Profile & Background"
         description="Map your capability levels (0–5) across 19 standard skills, specify career interests, and record your background to unlock deterministic role matching."
       >
+        <button
+          type="button"
+          onClick={() => setIsCvModalOpen(true)}
+          className="inline-flex items-center gap-2 rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-3.5 py-2 text-xs font-semibold text-cyan-400 hover:bg-cyan-500/20 transition-colors"
+        >
+          <Sparkles className="h-4 w-4" />
+          <span>Import CV / Resume</span>
+        </button>
         <button
           onClick={handleSave}
           className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors"
@@ -591,6 +626,12 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
+
+      <CvUploadModal
+        isOpen={isCvModalOpen}
+        onClose={() => setIsCvModalOpen(false)}
+        onApplyProposal={handleApplyCvProposal}
+      />
     </div>
   );
 }

@@ -136,5 +136,25 @@ This document is an append-only journal of all completed development tasks, veri
 - **Commands & Verification:**
   - `npm run build` (Clean compile of 5/5 static pages)
   - `npm test` (7/7 domain tests passed)
-- **Git Commit:** Pending commit.
+- **Git Commit:** fc9c6a7 ("feat(profile): implement Skills Profile editor with 19 sliders, interests, and profile routing guard")
 - **Next Recommended Task:** TASK-008: Implement Consented CV Extraction API & Review Modal (Gemini `@google/genai` integration + offline synthetic CV demo presets + keyword fallback).
+
+---
+
+### Entry 008 | 2026-10-24 10:51:00 +08:00
+- **Task ID:** TASK-008 (Consented CV Extraction API & Staged Review Modal)
+- **Status:** COMPLETED
+- **Description:** Implemented the stateless server-side CV extraction endpoint with Gemini `@google/genai` integration, Zod schema validation, deterministic keyword rule fallback, synthetic sample presets, privacy/synthetic consent gates, and human-in-the-loop review modal with zero disk persistence.
+- **What changed:**
+  - Created `lib/schemas/cv.ts` with Zod extraction schema.
+  - Implemented `lib/ai/keywordExtractor.ts` for offline deterministic keyword extraction across all 19 skills.
+  - Implemented `lib/ai/geminiClient.ts` for secure server-side SDK instantiation.
+  - Implemented `lib/ai/cvExtractor.ts` prompting Gemini 2.5 Flash for structured JSON extraction with keyword fallback.
+  - Created stateless route `app/api/cv/analyze/route.ts` enforcing double consent checks, synthetic preset shortcuts, and ephemeral memory buffer zeroing.
+  - Created `components/CvUploadModal.tsx` supporting offline presets, text paste, consent checks, and stage-2 human-in-the-loop review with level adjustment controls before merging into draft.
+  - Added unit test in `tests/scoring.test.ts` verifying keyword parsing and schema compliance.
+- **Commands & Verification:**
+  - `npm run build` (Clean compile of 6 pages including dynamic API route `/api/cv/analyze`)
+  - `npm test` (8/8 unit tests passed in 15.5ms)
+- **Git Commit:** Pending commit.
+- **Next Recommended Task:** TASK-009: Implement Trend Radar (`/radar`) featuring Research Activity (live Hugging Face/MIT RSS signals + fallback) and Workforce Demand trend analytics.

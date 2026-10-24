@@ -8,21 +8,19 @@ Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI
 - **Overall Completion:** ~10% (Project Memory & Architecture established; moving to Next.js project shell initialization).
 
 ## 3. Latest Completed Task
-- **TASK-007**: Implemented Profile Editor (`/profile`) with 19 skill sliders (0–5), category counters, interest tags, demographic details, and profile routing guard (F-002).
+- **TASK-008**: Implemented Consented CV Extraction API (`/api/cv/analyze`) & Review Modal (`CvUploadModal.tsx`) with Gemini `@google/genai` integration, offline synthetic presets, keyword fallback, and human-in-the-loop review.
 
 ## 4. Task Currently in Progress
-- None (TASK-007 completed; ready for TASK-008).
+- None (TASK-008 completed; ready for TASK-009).
 
 ## 5. Next Exact Task to Execute
-- **TASK-008**: Implement Consented CV Extraction API & Review Modal (Gemini `@google/genai` integration + offline synthetic CV demo presets + keyword fallback).
+- **TASK-009**: Implement Trend Radar (`/radar`) featuring Research Activity (live Hugging Face/MIT RSS signals + fallback) and Workforce Demand trend analytics.
 
 ## 6. Files & Modules Relevant to That Task
-- `app/api/cv/analyze/route.ts`
-- `lib/ai/geminiClient.ts`
-- `lib/ai/cvExtractor.ts`
-- `lib/ai/keywordExtractor.ts`
-- `components/CvUploadModal.tsx`
-- `app/profile/page.tsx`
+- `app/radar/page.tsx`
+- `app/api/research/route.ts`
+- `lib/domain/workforce.ts`
+- `components/ManageDataModal.tsx`
 
 ## 7. Last Verified Git Commit
 - `0ed7e40` (Staging TASK-002 commit next).
