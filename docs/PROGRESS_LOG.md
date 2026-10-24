@@ -277,8 +277,28 @@ This document is an append-only journal of all completed development tasks, veri
 - **Commands & Verification:**
   - `npm run build` (Clean build of 13/13 pages)
   - `npm test` (8/8 domain tests passed)
-- **Git Commit:** Pending commit.
+- **Git Commit:** 903431f ("feat(assessment): implement 5-scenario conversational wizard with staged human review")
 - **Next Recommended Task:** TASK-016: Implement Progress Tracking (`/progress`) with completion score ring, weekly pace projection, and phase-level effort charts.
+
+---
+
+### Entry 016 | 2026-10-24 11:08:00 +08:00
+- **Task ID:** TASK-016 (Progress Tracking & Reskilling Velocity)
+- **Status:** COMPLETED
+- **Description:** Implemented the Lifelong Learning Progress dashboard (`/progress`) providing study analytics, weekly pace projections, phase-level progression tracking, velocity badges, and an interactive milestone checklist.
+- **What changed:**
+  - Implemented `app/progress/page.tsx`:
+    - Summary metrics: overall pathway completion `ScoreRing`, completed study hours, remaining study hours, and dynamic weeks-to-target projection.
+    - Weekly study pace simulator slider (2 to 30 hrs/wk) dynamically recalculating completion timeline and updating profile preferences.
+    - 4-Phase progress breakdown bars (Phase 1 Foundational, Phase 2 Applied, Phase 3 Capstone, Phase 4 Portfolio).
+    - Gamified reskilling velocity badges (First Milestone, Momentum Builder, Foundation Master, Job-Ready Certified) that unlock dynamically.
+    - Interactive milestone activity list with status filter (All, Completed, Pending), course external links, and in-place completion checkoffs.
+- **Commands & Verification:**
+  - `npm run build` (Clean build of 14/14 pages)
+  - `npm test` (8/8 domain tests passed)
+- **Git Commit:** Pending commit.
+- **Next Recommended Task:** TASK-017: Implement Replanning & Audit Trail (`/updates`) with proposal review (Approve/Reject) and immutable recalculation log.
+
 
 
 

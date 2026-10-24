@@ -5,33 +5,32 @@ Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI
 
 ## 2. Current Phase & Overall Completion Status
 - **Current Phase:** Phase 2 (Supporting Workflows & Full Experience)
-- **Overall Completion:** ~70% (13/13 routes building cleanly, 8/8 unit tests passing).
+- **Overall Completion:** ~75% (14/14 routes building cleanly, 8/8 unit tests passing).
 
 ## 3. Latest Completed Task
-- **TASK-015**: Implemented Conversational Assessment Wizard (`/assessment`) translating 5 everyday workplace scenarios into standardized 0–5 skill ratings with human-in-the-loop review.
+- **TASK-016**: Implemented Progress Tracking (`/progress`) with completion ScoreRing, weekly pace projection slider, 4-phase progression bars, velocity badges, and milestone checklist.
 
 ## 4. Task Currently in Progress
-- None (TASK-015 completed; ready for TASK-016).
+- None (TASK-016 completed; ready for TASK-017).
 
 ## 5. Next Exact Task to Execute
-- **TASK-016**: Implement Progress Tracking (`/progress`) with completion score ring, weekly pace projection, and phase-level effort charts.
+- **TASK-017**: Implement Replanning & Audit Trail (`/updates`) with proposal review (Approve/Reject) and immutable recalculation log.
 
 ## 6. Files & Modules Relevant to That Task
-- `app/progress/page.tsx`
-- `components/ScoreRing.tsx`
+- `app/updates/page.tsx`
+- `lib/workspace/WorkspaceContext.tsx`
 - `lib/workspace/useWorkspace.ts`
-- `lib/domain/roadmap.ts`
 
 ## 7. Last Verified Git Commit
-- `7fb2b79` (TASK-014 commit; staging TASK-015 commit next).
+- `903431f` (TASK-015 commit; staging TASK-016 commit next).
 
 ## 8. Current Git Branch & Working-Tree Status
 - Branch: `main`
-- Status: Clean build of 13 pages, 8/8 tests passing.
+- Status: Clean build of 14 pages, 8/8 tests passing.
 
 ## 9. Last Successful Build or Test Results
-- `npm run build`: Compiled successfully (13/13 static pages generated, 0 type errors).
-- `npm test`: 8/8 unit tests passed in 14.1ms.
+- `npm run build`: Compiled successfully (14/14 static pages generated, 0 type errors).
+- `npm test`: 8/8 unit tests passed in 14.3ms.
 
 ## 10. Known Bugs & Unresolved Blockers
 - None.
@@ -46,5 +45,5 @@ Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI
 
 ## Ready-to-Copy Instruction for Next Agent
 ```text
-Continue SKILLAX AI prototype development by executing TASK-016 in docs/TASKS.md: Implement Progress Tracking (app/progress/page.tsx) with animated completion ScoreRing, weekly study pace projections based on user weeklyHours, phase-level effort bar charts, and milestone activity log. Verify build, update docs/PROGRESS_LOG.md, and commit changes to git.
+Continue SKILLAX AI prototype development by executing TASK-017 in docs/TASKS.md: Implement Replanning & Audit Trail (app/updates/page.tsx) with human-in-the-loop review interface comparing before vs. after match rankings and roadmap revisions, providing Approve and Reject actions, and viewing historical proposals with timestamps. Verify build, update docs/PROGRESS_LOG.md, and commit changes to git.
 ```

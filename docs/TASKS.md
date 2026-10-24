@@ -89,8 +89,8 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
   - *Files:* `app/assessment/page.tsx`
   - *Acceptance:* 5-question multi-step wizard maps answers into 0–5 skill ratings.
 
-- [ ] **TASK-016**: Implement Progress Tracking (`/progress`) with completion score ring, weekly pace projection, and phase-level effort charts.
-  - *Status:* TODO
+- [x] **TASK-016**: Implement Progress Tracking (`/progress`) with completion score ring, weekly pace projection, and phase-level effort charts.
+  - *Status:* DONE
   - *Files:* `app/progress/page.tsx`
   - *Acceptance:* Visualizes completed hours, remaining hours, and milestones.
 
