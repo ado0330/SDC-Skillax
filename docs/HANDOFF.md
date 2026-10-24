@@ -8,18 +8,21 @@ Build a functional, maintainable, deployment-ready prototype of the **SKILLAX AI
 - **Overall Completion:** ~10% (Project Memory & Architecture established; moving to Next.js project shell initialization).
 
 ## 3. Latest Completed Task
-- **TASK-006**: Built AppShell global navigation layout (desktop sidebar, mobile drawer, topbar with live scenario badge, sync indicator, replanning chip, theme toggle, Panel, PageHeader). Verified with clean build.
+- **TASK-007**: Implemented Profile Editor (`/profile`) with 19 skill sliders (0–5), category counters, interest tags, demographic details, and profile routing guard (F-002).
 
 ## 4. Task Currently in Progress
-- None (TASK-006 completed; ready for TASK-007).
+- None (TASK-007 completed; ready for TASK-008).
 
 ## 5. Next Exact Task to Execute
-- **TASK-007**: Implement Profile Editor (`/profile`) with 19 skill sliders (0–5), category counters, interest tags, demographic details, and profile routing guard (F-002).
+- **TASK-008**: Implement Consented CV Extraction API & Review Modal (Gemini `@google/genai` integration + offline synthetic CV demo presets + keyword fallback).
 
 ## 6. Files & Modules Relevant to That Task
+- `app/api/cv/analyze/route.ts`
+- `lib/ai/geminiClient.ts`
+- `lib/ai/cvExtractor.ts`
+- `lib/ai/keywordExtractor.ts`
+- `components/CvUploadModal.tsx`
 - `app/profile/page.tsx`
-- `components/LevelDots.tsx`
-- `components/ProfileGate.tsx`
 
 ## 7. Last Verified Git Commit
 - `0ed7e40` (Staging TASK-002 commit next).

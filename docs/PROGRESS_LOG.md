@@ -120,5 +120,21 @@ This document is an append-only journal of all completed development tasks, veri
   - Integrated `AppShell` into `app/layout.tsx`.
 - **Commands & Verification:**
   - `npm run build` (Static page build succeeded with zero errors)
-- **Git Commit:** Pending commit.
+- **Git Commit:** 134cfcc ("feat(ui): implement AppShell navigation, Panel, PageHeader, and responsive layout")
 - **Next Recommended Task:** TASK-007: Implement Profile Editor (`/profile`) with 19 skill sliders (0–5), category counters, interest tags, demographic details, and profile routing guard (F-002).
+
+---
+
+### Entry 007 | 2026-10-24 10:48:00 +08:00
+- **Task ID:** TASK-007 (Skills Profile Editor & Profile Routing Guard)
+- **Status:** COMPLETED
+- **Description:** Implemented the full Skills Profile editor at `/profile` (F-005, F-006, F-007, F-008) with 19 skill sliders, category rated counters, interactive interest tag management, custom skills, one-click demo presets, and the ProfileGate routing guard (F-002).
+- **What changed:**
+  - Implemented `components/LevelDots.tsx` for discrete 0–5 proficiency indicators.
+  - Implemented `components/ProfileGate.tsx` to gate personalized routes when uninitialized while providing fast-track synthetic presets (Aina, Daniel, Kumar).
+  - Implemented `app/profile/page.tsx` featuring personal demographic inputs, interactive career interest tags with Enter/X management, 19 standard skill sliders grouped into Transferable, Digital, and Technical panels with rated counters, and custom non-catalogue skills.
+- **Commands & Verification:**
+  - `npm run build` (Clean compile of 5/5 static pages)
+  - `npm test` (7/7 domain tests passed)
+- **Git Commit:** Pending commit.
+- **Next Recommended Task:** TASK-008: Implement Consented CV Extraction API & Review Modal (Gemini `@google/genai` integration + offline synthetic CV demo presets + keyword fallback).

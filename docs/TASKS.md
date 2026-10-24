@@ -40,9 +40,9 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
   - *Files:* `components/AppShell.tsx`, `components/PageHeader.tsx`, `components/Panel.tsx`, `app/layout.tsx`
   - *Acceptance:* Responsive layout adheres to "Career OS" theme tokens, smoothly renders on desktop & mobile.
 
-- [ ] **TASK-007**: Implement Profile Editor (`/profile`) with 19 skill sliders (0–5), category counters, interest tags, demographic details, and profile routing guard (F-002).
-  - *Status:* TODO
-  - *Files:* `app/profile/page.tsx`, `components/LevelDots.tsx`
+- [x] **TASK-007**: Implement Profile Editor (`/profile`) with 19 skill sliders (0–5), category counters, interest tags, demographic details, and profile routing guard (F-002).
+  - *Status:* DONE
+  - *Files:* `app/profile/page.tsx`, `components/LevelDots.tsx`, `components/ProfileGate.tsx`
   - *Acceptance:* User can edit and save name, occupation, 19 skills, interests; saving updates global workspace.
 
 - [ ] **TASK-008**: Implement Consented CV Extraction API & Review Modal (Gemini `@google/genai` integration + offline synthetic CV demo presets + keyword fallback).
