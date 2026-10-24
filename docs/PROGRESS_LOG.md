@@ -470,6 +470,26 @@ This document is an append-only journal of all completed development tasks, veri
 - **Git Commit:** 7684ac5 ("fix(radar): eliminate date hydration mismatch with deterministic formatDisplayDate")
 - **Next Recommended Task:** Ready for live demo and testing.
 
+---
+
+### Entry 027 | 2026-10-24 (Submission Draft Preparation)
+- **Task ID:** TASK-023 (SDC Hackathon Submission Drafts)
+- **Status:** Draft package completed; team confirmations and official submission blockers remain.
+- **Description:** Audited the current repository, supplied SDC handbooks/domain brief, and public source material. Prepared proposal and technical-tools declaration drafts plus evidence checklist, architecture diagram, and handoff.
+- **Key findings:** Code uses Next.js 14/React 18, browser `localStorage` (no database), deterministic scoring, optional Gemini CV extraction, Hugging Face/MIT research RSS, and synthetic default workforce observations. Replit configuration exists but deployment/use evidence is unverified. No public live URL or root `LICENSE` was identified in the reviewed workspace listing. The synthetic workforce source metadata contains an unsupported provider label.
+- **Changed files:** `docs/submission/*` (required package files), `docs/TASKS.md`, `docs/PROGRESS_LOG.md`, `docs/HANDOFF.md`.
+- **Verification:** Limited-response word counts checked with a local script; source claims cross-checked against repository files and cited official sources. No application tests/build were run because this task changed documentation only.
+- **Git Commit:** Not created (user instruction: do not commit or push).
+- **Outstanding:** Complete team details, ownership/prior-work and workshop disclosures; confirm Replit usage/proof, deployment and judge access, repository visibility, Apache 2.0 license, sponsor resources, Gemini billing/data terms, O*NET attribution, synthetic-source metadata, and final word counts after edits.
+
+### Entry 028 | 2026-10-24 (Official SDC Template Fill)
+- **Task ID:** TASK-023 (SDC Hackathon Submission Drafts)
+- **Status:** DOCX drafts completed and visually reviewed; team confirmations and submission blockers remain.
+- **Description:** Filled both official DOCX templates supplied by the user, retaining the template structure and formatting, and rendered the resulting files for visual inspection.
+- **Changed files:** `docs/submission/SDC2026_SKILLAX_Preliminary_Proposal_DRAFT.docx`, `docs/submission/SDC2026_SKILLAX_Technical_Tools_Declaration_DRAFT.docx`, `docs/TASKS.md`, `docs/HANDOFF.md`, `docs/submission/submission-handoff.md`, `docs/PROGRESS_LOG.md`.
+- **Verification:** Compared DOCX package contents; only `word/document.xml` differs from each supplied template. Confirmed the two source template SHA-256 hashes match their pre-edit values. Rendered both outputs and inspected pagination/layout. Limited responses remain within their stated template caps. No application tests/build were run.
+- **Outstanding:** Team must resolve placeholders and confirm declarations, proposed SDG/target, ownership and tool-use statements, privacy/vendor terms, and deployment evidence. Produce signed PDFs only after those confirmations.
+
 
 
 

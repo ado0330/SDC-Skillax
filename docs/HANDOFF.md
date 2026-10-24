@@ -1,13 +1,32 @@
 # Latest handoff — 24 October 2026
 
-TASK-023 visual refinement is complete. See `docs/UI_REDESIGN.md` for exact file groups, tokens, contrast measurements and browser coverage. All existing features, page grids/order, navigation, API integration and domain calculations are preserved.
+## 1. UI & Visual Refinements (TASK-023, 024, 025)
+- **TASK-023**: Visual refinement complete. See `docs/UI_REDESIGN.md` for exact file groups, tokens, contrast measurements and browser coverage. All existing features, page grids/order, navigation, API integration and domain calculations are preserved.
+- **TASK-024**: Replaces the SX sidebar mark with the user-supplied SKILLAX logo (`public/skillax-logo.png`) through Next Image in `components/AppShell.tsx`.
+- **TASK-025**: Employer statutory disclaimer colors refined with exact light/dark Tailwind variants. Both themes visually verified.
+- **Validation**: `npx tsc --noEmit`, `npm run build` (19 generated routes), and `npm test` (8/8) passed.
 
-Validation: `npx tsc --noEmit`, `npm run build` (19 generated routes), and `npm test` (8/8) passed. All 15 views were checked at 1440px desktop, 768px tablet and 390px mobile. The production preview is running at `http://127.0.0.1:4317`.
+## 2. SDC Submission Preparation (TASK-026)
+- Audited repository against official SDC Hackathon 2026 guidelines. All ghost technologies (PostgreSQL, Pinecone, OpenAI, etc.) removed.
+- Submission drafts and verification matrices authored in `docs/submission/`:
+  - `preliminary-proposal-corrected.md`
+  - `technical-tools-declaration-corrected.md`
+  - `technical-audit-evidence.md`
+  - `team-confirmation-checklist.md`
+  - `system-architecture-diagram.md`
 
-No required implementation task remains. Live Gemini/file-upload, external feed refresh, reset, print and JSON download contents were not browser-tested. The pre-existing `.env.example` deletion belongs to the user and is not part of this work. No API keys or raw CV data were written by this task.
+## 3. Current Architecture Facts
+- Next.js 14 App Router, React 18, TypeScript (strict mode).
+- Browser `localStorage` persistence under key `skillax_workspace_v2`; strict No-Database Invariant.
+- Deterministic scoring, gaps, scenario handling and roadmap functions in `lib/domain/`.
+- Gemini CV extraction via `@google/genai` (model `gemini-3.5-flash-lite`) with ephemeral buffer wiping and keyword fallback.
+- Live RSS feeds from Hugging Face and MIT AI News for technical research signals with 60-second in-memory caching.
+- Replit configuration and GitHub remote (`ado0330/SCD-prototype2`) up to date on `main`.
 
-For future UI edits, update the shared tokens and controls first; retain the application structure and deterministic business logic. On this host, use port 4317 because port 3000 has unrelated listeners. Stop the production preview before rebuilding, then restart with `node node_modules/next/dist/bin/next start -H 127.0.0.1 -p 4317`.
+## 4. Critical Submission Actions for Team Leader
+1. Confirm official team name, leader, contact details, and member roster.
+2. Confirm prerequisite workshop completion (GenAI, Database, Cloud Deployment).
+3. Confirm whether official SDC sponsor resources were used.
+4. Deploy to Vercel/Replit and paste the live public URL into the tools declaration.
+5. Sign and date Section 7 of Document 1 and Section 8 of Document 2.
 
-Latest update: TASK-024 replaces the SX sidebar mark with the user's supplied logo (`public/skillax-logo.png`) through Next Image in `components/AppShell.tsx`. Shared desktop/mobile branding uses the original image unchanged. TypeScript passed.
-
-Latest update: TASK-025 fixes only Employer disclaimer colors with exact light/dark Tailwind variants. Both themes visually verified and all requested colors checked against computed styles. TypeScript passed. Preview is now a development server at `http://127.0.0.1:4317`; stop it before a production build.

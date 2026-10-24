@@ -135,5 +135,17 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
   - *Verification:* TypeScript, production build, 8/8 existing tests; all 15 views reviewed at desktop/mobile/tablet widths. See `docs/UI_REDESIGN.md`.
 
 - [x] **TASK-024**: Replace the sidebar SX mark with the user-supplied SKILLAX logo, shared by desktop and mobile navigation. TypeScript passed; supplied raster retained unchanged in `public/skillax-logo.png`.
+  - *Status:* DONE
 
 - [x] **TASK-025**: Apply the user's exact light/dark colors only to the Employer statutory disclaimer. Preserve copy, typography, icon and box geometry. Verified both themes in browser; TypeScript and diff checks passed.
+  - *Status:* DONE
+
+---
+
+## Phase 4 — SDC Submission Preparation
+
+- [x] **TASK-026**: Audit the SKILLAX repository and prepare evidence-based drafts for the Phase 1 proposal and technical tools declaration.
+  - *Status:* DONE (drafting complete; team confirmation and submission blockers remain)
+  - *Files:* `docs/submission/preliminary-proposal-draft.md`, `technical-tools-declaration-draft.md`, `evidence-and-verification-checklist.md`, `system-architecture-diagram.md`, `submission-handoff.md`
+  - *Acceptance:* Required fields are populated with verified facts or clear placeholders; bounded responses are counted; official handbook requirements, source evidence, privacy/licensing gaps, and deployment limitations are recorded. Supplied official DOCX templates were filled and visually reviewed; team confirmation and final submission blockers remain. No production code changed.
+
