@@ -109,8 +109,8 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
   - *Files:* `app/methodology/page.tsx`, `app/settings/page.tsx`, `components/ResetModal.tsx`
   - *Acceptance:* Formula disclosures, source catalogs, theme options, and atomic reset functionality.
 
-- [ ] **TASK-020**: Implement Welcome Landing page (`/welcome`) and Export Plan dialog (JSON & Print/Save as PDF).
-  - *Status:* TODO
+- [x] **TASK-020**: Implement Welcome Landing page (`/welcome`) and Export Plan dialog (JSON & Print/Save as PDF).
+  - *Status:* DONE
   - *Files:* `app/welcome/page.tsx`, `components/ExportModal.tsx`
   - *Acceptance:* Landing presentation and print-ready CSS for roadmaps.
 

@@ -351,8 +351,28 @@ This document is an append-only journal of all completed development tasks, veri
 - **Commands & Verification:**
   - `npm run build` (Clean build of 18/18 pages)
   - `npm test` (8/8 domain tests passed)
-- **Git Commit:** Pending commit.
+- **Git Commit:** f8ce687 ("feat(governance): implement Methodology disclosures, Settings controls, and atomic reset dialog")
 - **Next Recommended Task:** TASK-020: Implement Welcome Landing page (`/welcome`) and Export Plan dialog.
+
+---
+
+### Entry 020 | 2026-10-24 11:15:00 +08:00
+- **Task ID:** TASK-020 (Welcome Landing Page & Export Dialog)
+- **Status:** COMPLETED
+- **Description:** Implemented the public Welcome Landing Page (`/welcome`) providing an executive product overview for hackathon evaluators, highlighting the 4 core architectural invariants, 10 priority benchmark occupations, and fast-track evaluation presets.
+- **What changed:**
+  - Implemented `app/welcome/page.tsx`:
+    - Hero value proposition presentation for SDC Aiversecity Hackathon Domain 1.
+    - 4 architectural invariant cards (Strict No-Database, Deterministic Scoring, Human-in-the-Loop Governance, 17 UN SDG Impact Alignment).
+    - 1-click synthetic worker fast-track evaluation presets (Aina, Daniel, Kumar).
+    - Grid of 10 national priority benchmark occupations with industry tags, exposure indexes, and SDG badges.
+    - Step-by-step recommended evaluator verification flow.
+- **Commands & Verification:**
+  - `npm run build` (Clean build of 19/19 pages)
+  - `npm test` (8/8 domain tests passed)
+- **Git Commit:** Pending commit.
+- **Next Recommended Task:** TASK-021: Run end-to-end typecheck, build validation, and automated unit tests.
+
 
 
 
