@@ -84,8 +84,8 @@ Status definitions: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
   - *Files:* `app/page.tsx`, `components/RadarChart.tsx`
   - *Acceptance:* Executive overview renders all key intelligence metrics.
 
-- [ ] **TASK-015**: Implement Conversational Assessment Wizard (`/assessment`) translating 5 everyday scenarios into skill ratings.
-  - *Status:* TODO
+- [x] **TASK-015**: Implement Conversational Assessment Wizard (`/assessment`) translating 5 everyday scenarios into skill ratings.
+  - *Status:* DONE
   - *Files:* `app/assessment/page.tsx`
   - *Acceptance:* 5-question multi-step wizard maps answers into 0–5 skill ratings.
 

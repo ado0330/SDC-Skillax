@@ -258,8 +258,28 @@ This document is an append-only journal of all completed development tasks, veri
 - **Commands & Verification:**
   - `npm run build` (Clean build of 12/12 pages)
   - `npm test` (8/8 domain tests passed)
-- **Git Commit:** Pending commit.
+- **Git Commit:** 7fb2b79 ("feat(dashboard): implement Intelligence Dashboard with 19-skill polygonal radar and top match summary")
 - **Next Recommended Task:** TASK-015: Implement Conversational Assessment Wizard (`/assessment`) translating 5 everyday scenarios into skill ratings.
+
+---
+
+### Entry 015 | 2026-10-24 11:06:00 +08:00
+- **Task ID:** TASK-015 (Conversational Assessment Wizard)
+- **Status:** COMPLETED
+- **Description:** Implemented the 5-Scenario Conversational Assessment Wizard (`/assessment`) providing jargon-free diagnostic mapping of practical workplace behaviors into standardized 0–5 skill ratings.
+- **What changed:**
+  - Implemented `app/assessment/page.tsx`:
+    - 5 multi-choice scenario questions across Data Literacy, Process Automation, Generative AI Usage, Cross-Functional Communication, and Cloud/Security Infrastructure.
+    - Real-time impact tags showing mapped competencies and target levels.
+    - Stage 2 Human-in-the-Loop review screen displaying previous levels, proposed levels, delta badges (+/-), and interactive level adjustment buttons (1-5).
+    - Fast-track sample button for instant evaluator inspection.
+    - Single-click profile merge and redirect to career recommendations.
+- **Commands & Verification:**
+  - `npm run build` (Clean build of 13/13 pages)
+  - `npm test` (8/8 domain tests passed)
+- **Git Commit:** Pending commit.
+- **Next Recommended Task:** TASK-016: Implement Progress Tracking (`/progress`) with completion score ring, weekly pace projection, and phase-level effort charts.
+
 
 
 
